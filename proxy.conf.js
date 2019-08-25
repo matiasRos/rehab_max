@@ -1,9 +1,9 @@
 const PROXY_CONFIG = [
     {
       context: [
-        "/stock-pwfe/",
+        "/interfisa/cuenta-digital-web/api/",
       ],
-      "target": "https://gy7228.myfoscam.org:8443",
+      "target": "https://desa02.konecta.com.py:",
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true,

@@ -1,14 +1,14 @@
 import {environment} from '../../environments/environment';
 
 
-const url = '/stock-pwfe/';
+const url = '/interfisa/cuenta-digital-web/api/';
 
 
 
 
 
 const Servers = {
-  RehaMax: {
+  RehabMax: {
     baseUrl: `${url}`
   }
 };

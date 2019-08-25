@@ -17,15 +17,12 @@
 */
 
 // Core
-
 @import "custom/functions";
 @import "custom/variables";
 @import "custom/mixins";
-
 // Bootstrap (4.3.0) components
-
 // @import "~bootstrap/scss/bootstrap";
-@import "~bootstrap/scss/root";
+//@import "~bootstrap/scss/root";
 @import "~bootstrap/scss/reboot";
 @import "~bootstrap/scss/type";
 @import "~bootstrap/scss/images";
@@ -57,16 +54,11 @@
 @import "~bootstrap/scss/carousel";
 @import "~bootstrap/scss/utilities";
 @import "~bootstrap/scss/print";
-
 // Argon utilities and components
-
 @import "custom/reboot";
 @import "custom/utilities";
 @import "custom/components";
-
 // Vendor (Plugins)
-
 @import "custom/vendors";
-
 // Angular Differences
-@import "angular-differences/angular-differences"
+@import "angular-differences/angular-differences";

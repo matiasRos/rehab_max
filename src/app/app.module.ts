@@ -12,7 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
-
+import { HeaderBgComponent } from './components/common/header-bg/header-bg.component';
 
 @NgModule({
   imports: [
@@ -20,14 +20,16 @@ import { ComponentsModule } from './components/components.module';
     FormsModule,
     HttpClientModule,
     ComponentsModule,
-    NgbModule,
+    NgbModule, 
     RouterModule,
     AppRoutingModule
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    HeaderBgComponent
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
