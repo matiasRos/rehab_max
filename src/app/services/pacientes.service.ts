@@ -14,6 +14,8 @@ export class PacientesService {
   listarPacientes(): Observable<any> {
     return this.http
       .get<any[]>(
+        /* TRAEMOS DE A 50*/
+
         this.url + "?inicio=0&cantidad=50&orderBy=apellido&orderDir=desc"
       )
       .pipe(catchError(handleError("codigoMensaje", {})));

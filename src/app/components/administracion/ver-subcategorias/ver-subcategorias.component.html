@@ -6,6 +6,9 @@
             <div class="botonera">
                 <button (click)="crearModal(crear)" type="button" class="btn btn-primary mb-3">Crear</button>
             </div>
+            <h3 ng-cloak style="margin-top: 5px; color: white" *ngIf="existenSub">
+                SUBCATEGORIAS
+            </h3>
             <div class="card shadow">
                 <h3 ng-cloak style="margin: 50px" *ngIf="existenSub == false">
                     {{noSubs}}
