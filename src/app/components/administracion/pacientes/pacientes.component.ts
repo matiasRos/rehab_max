@@ -16,6 +16,14 @@ export class PacientesComponent implements OnInit {
   totalItems: any = 10;
   descripcion: string = "";
   closeResult: string;
+  nombre: string = "";
+  apellido: string = "";
+  email: string = "";
+  telefono: string = "";
+  ruc: string = "";
+  cedula: string = "";
+  tipoPersona: string = "";
+  fechaNacimiento: Date;
   constructor(
     private pacienteService: PacientesService,
     private modalService: NgbModal,
@@ -36,5 +44,44 @@ export class PacientesComponent implements OnInit {
         this.pacientes.push(new Paciente(a));
       });
     });
+  }
+
+  crearPaciente() {
+    var data = {
+      nombre: this.nombre,
+      apellido: this.apellido,
+      email: this.email,
+      telefono: this.telefono,
+      ruc: this.ruc,
+      cedula: this.cedula,
+      tipoPersona: this.tipoPersona,
+      fechaNacimiento: this.fechaNacimiento
+    };
+    this.pacienteService.crearPaciente(data).subscribe(result => {
+      this.pacientes = "";
+      this.listarPacientes();
+    });
+  }
+
+  crearModal(content) {
+    this.modalService
+      .open(content, { ariaLabelledBy: "modal-basic-title" })
+      .result.then(
+        result => {
+          this.crearPaciente();
+        },
+        reason => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return "by pressing ESC";
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return "by clicking on a backdrop";
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }

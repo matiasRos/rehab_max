@@ -6,7 +6,7 @@ export class Paciente {
   email: string;
   ruc: string;
   cedula: string;
-  fechaNacimiento: string;
+  fechaNacimiento: Date;
   tipoPersona: string;
 
   constructor(data) {
