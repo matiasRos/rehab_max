@@ -16,6 +16,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { CategoriasComponent } from "src/app/components/administracion/categorias/categorias.component";
 import { SubcategoriasComponent } from "src/app/components/administracion/subcategorias/subcategorias.component";
 import { VerSubcategoriasComponent } from "src/app/components/administracion/ver-subcategorias/ver-subcategorias.component";
+import { PacientesComponent } from "src/app/components/administracion/pacientes/pacientes.component";
 import { CardsComponent } from "src/app/pages/cards/cards.component";
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -37,6 +38,7 @@ import { CardsComponent } from "src/app/pages/cards/cards.component";
     CategoriasComponent,
     SubcategoriasComponent,
     VerSubcategoriasComponent,
+    PacientesComponent,
     CardsComponent
   ]
 })

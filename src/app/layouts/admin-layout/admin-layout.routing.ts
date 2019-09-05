@@ -8,6 +8,7 @@ import { TablesComponent } from "../../pages/tables/tables.component";
 import { CategoriasComponent } from "src/app/components/administracion/categorias/categorias.component";
 import { SubcategoriasComponent } from "src/app/components/administracion/subcategorias/subcategorias.component";
 import { VerSubcategoriasComponent } from "src/app/components/administracion/ver-subcategorias/ver-subcategorias.component";
+import { PacientesComponent } from "src/app/components/administracion/pacientes/pacientes.component";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
@@ -16,6 +17,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: "icons", component: IconsComponent },
   { path: "maps", component: MapsComponent },
   { path: "categorias", component: CategoriasComponent },
+  { path: "pacientes", component: PacientesComponent },
   { path: "subcategorias", component: SubcategoriasComponent },
   { path: "subcategorias/:id/ver", component: VerSubcategoriasComponent }
 ];

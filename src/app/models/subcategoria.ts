@@ -1,6 +1,7 @@
 export class Subcategoria {
   id: number;
   descripcion: string;
+  idCategoria: number;
 
   constructor(data) {
     this.id = data.idTipoProducto;

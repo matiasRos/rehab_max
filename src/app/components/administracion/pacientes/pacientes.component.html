@@ -12,23 +12,37 @@
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col">Nro</th>
-                                <th scope="col">Descripción</th>
-                                <th scope="col"></th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nombre y Apellido</th>
+                                <th scope="col">Cedula</th>
+                                <th scope="col">Ruc</th>
+                                <th scope="col">Fecha Nacimiento</th>
+                                <th scope="col">Tipo Persona</th>
+                                <th scope="col">Telefono</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let ctg of categorias;let i = index;">
+                            <tr *ngFor="let pac of pacientes;let i = index;">
                                 <td>
-                                    {{ctg.id}}
+                                    {{pac.idPersona}}
                                 </td>
                                 <td>
-                                    {{ctg.descripcion}}
+                                    {{pac.nombre}} {{pac.apellido}}
                                 </td>
                                 <td>
-                                    <a style="cursor: pointer" (click)="verSubcategorias(ctg)" class="nav-link">
-                                        Ver detalles <i class="ni ni-bold-right"></i> 
-                                    </a>
+                                    {{pac.cedula}}
+                                </td>
+                                <td>
+                                    {{pac.ruc}}
+                                </td>
+                                <td>
+                                    {{pac.fechaNacimiento}}
+                                </td>
+                                <td>
+                                    {{pac.tipoPersona}}
+                                </td>
+                                <td>
+                                    {{pac.telefono}}
                                 </td>
                             </tr>
                             <td colspan="2" style="    height: 200px;" *ngIf="loading">
