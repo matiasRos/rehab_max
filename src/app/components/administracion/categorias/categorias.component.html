@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col">
       <div class="botonera"> 
-          <button [routerLink]="['/']" type="button" class="btn btn-primary mb-3">Crear</button>
+          <button (click)="crearModal(crear)" type="button" class="btn btn-primary mb-3">Crear</button>
       </div>
       <div class="card shadow">
        
@@ -63,4 +63,26 @@
       </div>
     </div>
   </div>
+  <ng-template #crear let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Agregar categoría</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group" style="margin: 0px 15px 15px 15px;">
+          <label for="descripcion" class="col-form-label">Descripción</label>
+          <textarea name="descripcion" id="id_descripcion" cols="30" class="form-control" rows="4" [(ngModel)]="descripcion"></textarea>
+          </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn  btn-primary" (click)="modal.close('Save click')"><i class="fas fa-save"></i>
+        guardar</button>
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')"><i class="fas fa-times"></i>
+        cancelar</button>
+    </div>
+  </ng-template>
 </div>

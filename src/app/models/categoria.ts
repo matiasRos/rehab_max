@@ -4,7 +4,7 @@ export class Categoria{
    
     constructor(data){
       this.id = data.id;
-      this.descripcion = data.correo;
+      this.descripcion = data.descripcion;
     }
   }
   

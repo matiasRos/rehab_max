@@ -9,12 +9,22 @@ import {handleError} from '../util/error-handler';
 })
 export class CategoriasServices {
 
-  private url = Servers.RehabMax.baseUrl + '/usuario';
+  private url = Servers.RehabMax.baseUrl + '/categoria';
 
   constructor(private http: HttpClient) { }
  
   listarCategorias(): Observable<any> { 
     return this.http.get<any[]>(this.url  )
+      .pipe(
+        catchError(handleError('codigoMensaje', {}))
+      );
+  }
+
+  crearCategoria(data): Observable<any> { 
+    var body = {
+      "descripcion":data.descripcion
+    }
+    return this.http.post<any[]>(this.url,body)
       .pipe(
         catchError(handleError('codigoMensaje', {}))
       );
