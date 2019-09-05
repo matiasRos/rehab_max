@@ -7,28 +7,25 @@
                 <button (click)="crearModal(crear)" type="button" class="btn btn-primary mb-3">Crear</button>
             </div>
             <div class="card shadow">
+                <h3 ng-cloak style="margin: 50px" *ngIf="existenSub == false">
+                    {{noSubs}}
+                </h3>
+                <div *ngIf="existenSub" class="table-responsive">
 
-                <div class="table-responsive">
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Nro</th>
                                 <th scope="col">Descripción</th>
-                                <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let ctg of categorias;let i = index;">
+                            <tr *ngFor="let sctg of subcategorias;let i = index;">
                                 <td>
-                                    {{ctg.id}}
+                                    {{sctg.id}}
                                 </td>
                                 <td>
-                                    {{ctg.descripcion}}
-                                </td>
-                                <td>
-                                    <a (click)="verSubcategorias(ctg)" class="nav-link">
-                                        Ver detalles <i class="ni ni-bold-right"></i> 
-                                    </a>
+                                    {{sctg.descripcion}}
                                 </td>
                             </tr>
                             <td colspan="2" style="    height: 200px;" *ngIf="loading">
@@ -43,7 +40,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer py-4">
+                <div *ngIf="existenSub" class="card-footer py-4">
                     <nav aria-label="...">
 
                         <ul class="pagination justify-content-end mb-0">
@@ -71,7 +68,7 @@
     </div>
     <ng-template #crear let-modal>
         <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Agregar categoría</h4>
+            <h4 class="modal-title" id="modal-basic-title">Agregar subategoría</h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
