@@ -1,0 +1,71 @@
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Dia</th>
+                                <th scope="col">Hora Apertura</th>
+                                <th scope="col">Hora Cierre</th>
+                                <th scope="col">Intervalo Minutos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let hor of horarios;let i = index;">
+                                <td>
+                                    {{hor.dia}}
+                                </td>
+                                <td>
+                                    {{hor.horaAperturaCadena}}
+                                </td>
+                                <td>
+                                    {{hor.horaCierreCadena}}
+                                </td>
+                                <td>
+                                    {{hor.intervaloMinutos}}
+                                </td>
+                            </tr>
+                            <td colspan="2" style="    height: 200px;" *ngIf="loading">
+                                <div class="container--box">
+
+                                    <div class="box">
+                                        <div class="spinner spinner--2"></div>
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer py-4">
+                    <nav aria-label="...">
+
+                        <ul class="pagination justify-content-end mb-0">
+                            <li class="itemsTotal">
+                                {{itemsTotalPagina}} de {{totalItems}} items
+                            </li>
+                            <li class="page-item disabled">
+                                <a class="page-link" tabindex="-1">
+                                    <i class="fas fa-angle-left"></i>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+
+                            <li class="page-item">
+                                <a class="page-link">
+                                    <i class="fas fa-angle-right"></i>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
