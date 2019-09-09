@@ -7,7 +7,38 @@
                 <button (click)="crearModal(crear)" type="button" class="btn btn-primary mb-3">Agregar Paciente</button>
             </div>
             <div class="card shadow">
-
+                <div _ngcontent-c9="" novalidate="" class="ng-untouched ng-pristine ng-valid">
+                    <h6 _ngcontent-c9="" class="heading-small text-muted mb-4 ml-lg-4 mt-4">Filtrar</h6>
+                    <div _ngcontent-c9="" class="pl-lg-4 mr-3">
+                        <div _ngcontent-c9="" class="row">
+                            <div _ngcontent-c9="" class="col-lg-6">
+                                <div _ngcontent-c9="" class="form-group">
+                                    <label _ngcontent-c9="" class="form-control-label" for="input-username">Nombre</label>
+                                    <input _ngcontent-c9="" (change)="filtroLike()" [(ngModel)]="filtro_nombre" class="form-control form-control-alternative" id="input-username" placeholder="Nombre" type="text">
+                                </div>
+                            </div>
+                            <div _ngcontent-c9="" class="col-lg-6">
+                                <div _ngcontent-c9="" class="form-group">
+                                    <label _ngcontent-c9="" class="form-control-label" for="input-username">Apellido</label>
+                                    <input _ngcontent-c9="" [(ngModel)]="filtro_apellido" class="form-control form-control-alternative" id="input-username" placeholder="Apellido" type="text" value="lucky.jesse">
+                                </div>
+                            </div>
+                        </div>
+                        <div _ngcontent-c9="" class="row">
+                            <div _ngcontent-c9="" class="col-lg-6">
+                                <div _ngcontent-c9="" class="form-group">
+                                    <label _ngcontent-c9="" class="form-control-label" for="input-username">Usuario del sistema</label>
+                                    <input _ngcontent-c9="" [(ngModel)]="filtro_usuarioSistema" class="ml-2 mt-1" id="input-username" placeholder="Username" type="checkbox">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="botonera">
+                        <button (click)="limpiar()" type="button" class="btn btn-light mb-3 mr-3">Limpiar</button>
+                        <button (click)="filtrar()" type="button" class="btn btn-primary mb-3 mr-3">Filtrar</button>
+                    </div>
+                    <hr _ngcontent-c9="" class="my-4">
+                </div>
                 <div class="table-responsive">
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">

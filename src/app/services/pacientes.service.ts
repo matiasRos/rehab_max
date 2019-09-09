@@ -21,6 +21,34 @@ export class PacientesService {
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
 
+  filtrarPacientes(data): Observable<any> {
+    let body = {
+      nombre: data.nombre,
+      apellido: data.apellido,
+      soloUsuariosDelSistema: data.soloUsuariosDelSistema
+    };
+
+    let datos = JSON.stringify(body);
+    console.log(datos);
+
+    return this.http
+      .get<any[]>(this.url + "?ejemplo=" + datos)
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
+
+  filtrarLike(data): Observable<any> {
+    let body = {
+      nombre: data.nombre
+    };
+
+    let datos = JSON.stringify(body);
+    console.log(datos);
+
+    return this.http
+      .get<any[]>(this.url + "?like=S&ejemplo=" + datos)
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
+
   crearPaciente(data): Observable<any> {
     var body = {
       nombre: data.nombre,

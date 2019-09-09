@@ -24,6 +24,9 @@ export class PacientesComponent implements OnInit {
   cedula: string = "";
   tipoPersona: string = "";
   fechaNacimiento: Date;
+  filtro_nombre: any;
+  filtro_apellido: any;
+  filtro_usuarioSistema: any = false;
   constructor(
     private pacienteService: PacientesService,
     private modalService: NgbModal,
@@ -61,6 +64,44 @@ export class PacientesComponent implements OnInit {
       this.pacientes = "";
       this.listarPacientes();
     });
+  }
+
+  filtrar() {
+    var data = {
+      nombre: this.filtro_nombre,
+      apellido: this.filtro_apellido,
+      soloUsuariosDelSistema: this.filtro_usuarioSistema
+    };
+    this.pacienteService.filtrarPacientes(data).subscribe(result => {
+      this.loading = false;
+      console.log(result.lista);
+      this.pacientes = [];
+      result.lista.forEach(a => {
+        this.pacientes.push(new Paciente(a));
+      });
+    });
+  }
+
+  filtroLike() {
+    console.log("filtro like", this.filtro_nombre);
+    var data = {
+      nombre: this.filtro_nombre
+    };
+    this.pacienteService.filtrarLike(data).subscribe(result => {
+      this.loading = false;
+      console.log(result.lista);
+      this.pacientes = [];
+      result.lista.forEach(a => {
+        this.pacientes.push(new Paciente(a));
+      });
+    });
+  }
+
+  limpiar() {
+    delete this.filtro_nombre;
+    delete this.filtro_apellido;
+    delete this.filtro_usuarioSistema;
+    this.listarPacientes();
   }
 
   crearModal(content) {
