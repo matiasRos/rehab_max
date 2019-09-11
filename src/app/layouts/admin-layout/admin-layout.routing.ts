@@ -11,6 +11,7 @@ import { VerSubcategoriasComponent } from "src/app/components/administracion/ver
 import { PacientesComponent } from "src/app/components/administracion/pacientes/pacientes.component";
 import { EmpleadosComponent } from "src/app/components/administracion/empleados/empleados.component";
 import { GestionEmpleadoComponent } from "src/app/components/administracion/gestion-empleado/gestion-empleado.component";
+import { ServiciosComponent } from "src/app/components/administracion/servicios/servicios.component";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
@@ -19,6 +20,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: "icons", component: IconsComponent },
   { path: "maps", component: MapsComponent },
   { path: "categorias", component: CategoriasComponent },
+  { path: "servicios", component: ServiciosComponent },
   { path: "pacientes", component: PacientesComponent },
   { path: "empleados", component: EmpleadosComponent },
   { path: "empleados/:id/gestionar", component: GestionEmpleadoComponent },

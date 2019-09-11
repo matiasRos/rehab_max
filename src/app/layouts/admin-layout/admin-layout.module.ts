@@ -20,6 +20,7 @@ import { PacientesComponent } from "src/app/components/administracion/pacientes/
 import { EmpleadosComponent } from "src/app/components/administracion/empleados/empleados.component";
 import { GestionEmpleadoComponent } from "src/app/components/administracion/gestion-empleado/gestion-empleado.component";
 import { CardsComponent } from "src/app/pages/cards/cards.component";
+import { ServiciosComponent } from "src/app/components/administracion/servicios/servicios.component";
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -43,7 +44,8 @@ import { CardsComponent } from "src/app/pages/cards/cards.component";
     PacientesComponent,
     EmpleadosComponent,
     GestionEmpleadoComponent,
-    CardsComponent
+    CardsComponent,
+    ServiciosComponent
   ]
 })
 export class AdminLayoutModule {}
