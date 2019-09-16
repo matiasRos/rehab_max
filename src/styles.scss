@@ -1,107 +1,120 @@
 /* You can add global styles to this file, and also import other style files */
-.box{
+
+.box {
     display: flex;
     justify-content: center;
 }
+
 .container {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	height: 400px;
-	width: 600px;
-	background: #2184e0;
-	box-shadow: 0 0 6px rgba(0, 0, 0, .5), 1px 2px 3px rgba(0, 0, 0, .3);
-	display: grid;
-	grid-template-rows: 50px 1fr;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 400px;
+    width: 600px;
+    background: #2184e0;
+    box-shadow: 0 0 6px rgba(0, 0, 0, .5), 1px 2px 3px rgba(0, 0, 0, .3);
+    display: grid;
+    grid-template-rows: 50px 1fr;
 }
+
 .container .text {
-	background: #fff;
-	display: grid;
-	justify-items: center;
-	align-items: center;
-	font-family: sans-serif;
-	letter-spacing: 10px;
-	text-transform: uppercase;
-	font-weight: 800;
-	position: relative;
+    background: #fff;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    font-family: sans-serif;
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    font-weight: 800;
+    position: relative;
 }
+
 .container .text::after {
-	content: 'Follow Me';
-	position: absolute;
-	height: 100%;
-	width: 15%;
-	right: 0;
-	top: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	letter-spacing: normal;
-	font-weight: 100;
-	color: #fff;
-	text-transform: none;
-	font-size: .8rem;
-	background: #222;
-	transform-origin: bottom left;
-	transition: all 200ms ease-in;
+    content: 'Follow Me';
+    position: absolute;
+    height: 100%;
+    width: 15%;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: normal;
+    font-weight: 100;
+    color: #fff;
+    text-transform: none;
+    font-size: .8rem;
+    background: #222;
+    transform-origin: bottom left;
+    transition: all 200ms ease-in;
 }
+
 .container .text:hover::after {
-	background: #e02121;
+    background: #e02121;
 }
+
 .container--box {
-	width: 100%;
+    width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content:center;
+    justify-content: center;
 }
 
 .container--box .box .spinner {
-	height: 40px;
-	width: 40px;
-	border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
 }
-
 
 
 /* Spinner 2 */
 
 .container--box .box .spinner--2 {
-	border: 2px solid rgb(62, 175, 213);
-	border-top-color: #fff;
-	animation: spinner2 600ms linear infinite;
+    border: 2px solid rgb(62, 175, 213);
+    border-top-color: #fff;
+    animation: spinner2 600ms linear infinite;
 }
+
 @keyframes spinner2 {
-	to {
-		transform: rotate(360deg);
-	}
+    to {
+        transform: rotate(360deg);
+    }
 }
 
-
-
-
-.itemsTotal{
+.itemsTotal {
     display: flex;
     color: #8897aa;
-	font-size: 14px;
-	margin: 0px 20px !important;
+    font-size: 14px;
+    margin: 0px 20px !important;
     align-items: center;
 }
 
-.botonera{
-	text-align: right;
+.botonera {
+    text-align: right;
 }
 
+
 /* modal animation */
-.modal-content{
-	animation-name: example;
-	animation-duration: 0.3s;
-  }
-  @keyframes example {
-	0%   {transform: scale(0.5)}
-	75%  {transform: scale(1.1)}
-	100% {transform: scale(1)}
-  }
-  textarea{
-	  resize: none !important;
-  }
+
+.modal-content {
+    animation-name: example;
+    animation-duration: 0.3s;
+}
+
+@keyframes example {
+    0% {
+        transform: scale(0.5)
+    }
+    75% {
+        transform: scale(1.1)
+    }
+    100% {
+        transform: scale(1)
+    }
+}
+
+textarea {
+    resize: none !important;
+}

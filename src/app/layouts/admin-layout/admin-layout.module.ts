@@ -13,6 +13,7 @@ import { MapsComponent } from "../../pages/maps/maps.component";
 import { UserProfileComponent } from "../../pages/user-profile/user-profile.component";
 import { TablesComponent } from "../../pages/tables/tables.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { CategoriasComponent } from "src/app/components/administracion/categorias/categorias.component";
 import { SubcategoriasComponent } from "src/app/components/administracion/subcategorias/subcategorias.component";
 import { VerSubcategoriasComponent } from "src/app/components/administracion/ver-subcategorias/ver-subcategorias.component";
@@ -29,7 +30,8 @@ import { CardsComponent } from "src/app/pages/cards/cards.component";
     FormsModule,
     HttpClientModule,
     NgbModule,
-    ClipboardModule
+    ClipboardModule,
+    NgxMaterialTimepickerModule
   ],
   declarations: [
     DashboardComponent,

@@ -9,6 +9,7 @@ import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.compon
 import { AuthLayoutComponent } from "./layouts/auth-layout/auth-layout.component";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 
 import { AppRoutingModule } from "./app.routing";
 import { ComponentsModule } from "./components/components.module";
@@ -22,7 +23,8 @@ import { HeaderBgComponent } from "./components/common/header-bg/header-bg.compo
     ComponentsModule,
     NgbModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgxMaterialTimepickerModule
   ],
   declarations: [
     AppComponent,

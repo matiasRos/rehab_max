@@ -36,4 +36,16 @@ export class EmpleadosService {
       .get<any[]>(this.urlHorario + "?ejemplo=" + datos)
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
+
+  nuevoHorario(data): Observable<any> {
+    console.log("data", data);
+    let body = data;
+    return this.http
+      .post<any[]>(this.urlHorario, body, {
+        headers: {
+          "Content-Type": "application/json;usuario:gustavo"
+        }
+      })
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
 }

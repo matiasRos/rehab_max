@@ -21,6 +21,7 @@ export class GestionEmpleadoComponent implements OnInit {
   noHorario: string = "";
   closeResult: string;
   descripcion: string;
+  nuevo: any = {};
   constructor(
     private pacienteService: PacientesService,
     private empleadoService: EmpleadosService,
@@ -31,10 +32,54 @@ export class GestionEmpleadoComponent implements OnInit {
 
   ngOnInit() {
     this.id_persona = this.route.snapshot.paramMap.get("id");
-    this.listarSubcategorias(this.id_persona);
+    this.listarHorario(this.id_persona);
   }
 
-  listarSubcategorias(id) {
+  crearModal(content) {
+    this.modalService
+      .open(content, { ariaLabelledBy: "modal-basic-title" })
+      .result.then(
+        result => {
+          this.nuevoHorario();
+        },
+        reason => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return "by pressing ESC";
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return "by clicking on a backdrop";
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  nuevoHorario() {
+    console.log(this.nuevo);
+    let data = this.nuevo;
+    data.horaAperturaCadena = data.horaAperturaCadena.replace(/:/g, "");
+    data.horaCierreCadena = data.horaCierreCadena.replace(/:/g, "");
+
+    let param = {
+      dia: data.dia,
+      horaAperturaCadena: data.horaAperturaCadena,
+      horaCierreCadena: data.horaCierreCadena,
+      intervaloMinutos: data.intervaloMinutos,
+      idEmpleado: {
+        idPersona: this.id_persona
+      }
+    };
+    console.log(param);
+    this.empleadoService.nuevoHorario(param).subscribe(result => {
+      this.horarios = "";
+      this.listarHorario(this.id_persona);
+    });
+  }
+
+  listarHorario(id) {
     this.existenHorarios = false;
     this.loading = true;
     this.horarios = [];
