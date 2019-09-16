@@ -1,18 +1,18 @@
 import { Component, OnInit } from "@angular/core";
-import { PacientesService } from "src/app/services/pacientes.service";
-import { Paciente } from "src/app/models/paciente";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { Router } from "@angular/router";
+import { ServiciosService } from "src/app/services/servicios.service";
 import * as $ from 'jquery';
+import { SubcategoriasService } from "src/app/services/subcategorias.service";
 
-@Component({
-  selector: "app-pacientes",
-  templateUrl: "./pacientes.component.html",
-  styleUrls: ["./pacientes.component.scss"]
+@Component({ 
+  selector: 'app-servicios',
+  templateUrl: './servicios.component.html',
+  styleUrls: ['./servicios.component.scss']
 })
-
-export class PacientesComponent implements OnInit {
-  pacientes: any = [];
+export class ServiciosComponent implements OnInit {
+  servicios: any = [];
+  subcategorias: any = [];
   loading: boolean;
   itemsTotalPagina: any = 5;
   totalItems: any = 0;
@@ -34,16 +34,19 @@ export class PacientesComponent implements OnInit {
   filter: any = {};
   index:number=0;
   inicio:number=0;
+
   constructor(
-    private pacienteService: PacientesService,
+    private serviciosService: ServiciosService,
     private modalService: NgbModal,
+    private subcategoriasService: SubcategoriasService,
     public router: Router
   ) {
   }
 
   ngOnInit() {
     this.urlParams="?orderBy="+this.orderBy+"&orderDir="+this.orderDir+"&cantidad="+this.cantPorPagina +"&inicio="+this.inicio;
-    this.listarPacientes();
+    this.listarServicios();
+    this.listarSubcategorias();
   }
   
   callPagination(pagina){
@@ -59,6 +62,7 @@ export class PacientesComponent implements OnInit {
       if(this.index<=0){
         $(".prev").addClass("disabled");
       }
+      console.log(this.inicio + (+this.cantPorPagina)+">="+this.totalItems)
       if(this.inicio + (+this.cantPorPagina)>=this.totalItems){
         $(".nxt").addClass("disabled");
       }
@@ -67,26 +71,40 @@ export class PacientesComponent implements OnInit {
     this.addFilter();
   }
 
-  listarPacientes() {
+  listarServicios() {
     this.loading = true;
-    this.pacientes = [];
-    this.pacienteService.listarPacientes(this.urlParams).subscribe(result => {
+    this.servicios = [];
+    this.serviciosService.listarServicios(this.urlParams).subscribe(result => {
       this.loading = false;
       if(result){
-        result.lista.forEach(a => {
-          this.pacientes.push(new Paciente(a));
-        });
+        this.servicios=result.lista;
         this.setCantPorPagina(result.totalDatos);
       }
     });
   }
 
+  listarSubcategorias() {
+    this.loading = true;
+    this.subcategorias = [];
+    this.subcategoriasService.listarAllSubcategorias().subscribe(result => {
+      this.loading = false;
+      if(result){
+        result.lista.forEach(a => {
+          this.subcategorias=result.lista;
+        });
+      }
+    });
+  }
+  
   setCantPorPagina(totalDatos){
     this.totalItems=totalDatos;
     if(totalDatos<this.cantPorPagina){
       this.itemsTotalPagina=totalDatos;
     }else{
-      this.itemsTotalPagina=this.pacientes.length;
+      if(this.servicios){
+        this.itemsTotalPagina=this.servicios.length;
+      }
+      
     }
   }
 
@@ -101,8 +119,8 @@ export class PacientesComponent implements OnInit {
       tipoPersona: this.tipoPersona,
       fechaNacimiento: this.fechaNacimiento
     };
-    this.pacienteService.crearPaciente(data).subscribe(result => {
-      this.pacientes = "";
+    this.serviciosService.crearServicio(data).subscribe(result => {
+      this.servicios = "";
       this.addFilter();
     });
   }
@@ -112,49 +130,31 @@ export class PacientesComponent implements OnInit {
     if (this.filter.nombre) {
       data["nombre"]=this.filter.nombre
     }
-    if (this.filter.apellido) {
-      data["apellido"]=this.filter.apellido
-    }
-    if (this.filter.usuarioSistema) {
-      data["soloUsuariosDelSistema"]=this.filter.usuarioSistema
+    if (this.filter.subcategoria && this.filter.subcategoria!=0) {
+      data["idProducto"]={"idTipoProducto":{"idTipoProducto":this.filter.subcategoria}}
     }
     this.urlFiltro = "&ejemplo=" + JSON.stringify(data);
     this.filtrar(this.urlParams+this.urlFiltro);
   }
 
   filtrar(urlFiltro) {
-    this.pacientes = [];
+    this.servicios = [];
     this.loading = true;
-    this.pacienteService.filtrarPacientes(urlFiltro).subscribe(result => {
+    this.serviciosService.filtrarServicios(urlFiltro).subscribe(result => {
       this.loading = false;
       console.log(result.lista);
-      this.pacientes = [];
+      this.servicios = [];
       if(result){
-        result.lista.forEach(a => {
-          this.pacientes.push(new Paciente(a));
-        });
+        this.servicios=result.lista;
         this.setCantPorPagina(result.totalDatos);
       }
     });
   }
-  //Por ahora no usamos
-  filtroLike() {
-      var data = {
-        nombre: ""
-      };
-      this.pacienteService.filtrarLike(data).subscribe(result => {
-        this.loading = false;
-        console.log(result.lista);
-        this.pacientes = [];
-        result.lista.forEach(a => {
-          this.pacientes.push(new Paciente(a));
-        });
-      });
-  }
+
 
   limpiar() {
     this.filter={};
-    this.listarPacientes();
+    this.listarServicios();
   }
 
   crearModal(content) {
