@@ -14,6 +14,7 @@ import { UserProfileComponent } from "../../pages/user-profile/user-profile.comp
 import { TablesComponent } from "../../pages/tables/tables.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
+import { NgxPaginationModule } from "ngx-pagination";
 import { CategoriasComponent } from "src/app/components/administracion/categorias/categorias.component";
 import { SubcategoriasComponent } from "src/app/components/administracion/subcategorias/subcategorias.component";
 import { VerSubcategoriasComponent } from "src/app/components/administracion/ver-subcategorias/ver-subcategorias.component";
@@ -32,7 +33,8 @@ import { ServiciosComponent } from "src/app/components/administracion/servicios/
     HttpClientModule,
     NgbModule,
     ClipboardModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    NgxPaginationModule
   ],
   declarations: [
     DashboardComponent,

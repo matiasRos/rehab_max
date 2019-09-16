@@ -24,6 +24,12 @@ export class EmpleadosComponent implements OnInit {
   cedula: string = "";
   tipoPersona: string = "";
   fechaNacimiento: Date;
+  config = {
+    itemsPerPage: 2,
+    currentPage: 1,
+    totalItems: this.empleados.count
+  };
+
   constructor(
     private empleadoService: EmpleadosService,
     private modalService: NgbModal,
@@ -32,6 +38,11 @@ export class EmpleadosComponent implements OnInit {
 
   ngOnInit() {
     this.listarEmpleados();
+  }
+
+  pageChanged(event) {
+    console.log(event);
+    this.config.currentPage = event;
   }
 
   listarEmpleados() {

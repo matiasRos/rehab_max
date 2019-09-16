@@ -10,6 +10,7 @@ import { AuthLayoutComponent } from "./layouts/auth-layout/auth-layout.component
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
+import { NgxPaginationModule } from "ngx-pagination";
 
 import { AppRoutingModule } from "./app.routing";
 import { ComponentsModule } from "./components/components.module";
@@ -24,7 +25,8 @@ import { HeaderBgComponent } from "./components/common/header-bg/header-bg.compo
     NgbModule,
     RouterModule,
     AppRoutingModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    NgxPaginationModule
   ],
   declarations: [
     AppComponent,

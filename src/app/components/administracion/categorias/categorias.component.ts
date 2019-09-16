@@ -16,11 +16,21 @@ export class CategoriasComponent implements OnInit {
   totalItems: any = 10;
   descripcion: string = "";
   closeResult: string;
+  config = {
+    itemsPerPage: 5,
+    currentPage: 1,
+    totalItems: this.categorias.count
+  };
   constructor(
     private categoriaService: CategoriasServices,
     private modalService: NgbModal,
     public router: Router
   ) {}
+
+  pageChanged(event) {
+    console.log(event);
+    this.config.currentPage = event;
+  }
 
   ngOnInit() {
     this.listarCategorias();

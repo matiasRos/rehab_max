@@ -5,6 +5,23 @@
     justify-content: center;
 }
 
+.pagination {
+    float: right !important;
+}
+
+.ngx-pagination .current {
+    border-radius: 50% !important;
+    padding: 0.2rem 0.8rem !important;
+}
+
+.ngx-pagination .disabled {
+    font-size: 0.9rem;
+}
+
+.ngx-pagination a {
+    font-size: 0.9rem;
+}
+
 .container {
     position: absolute;
     top: 50%;
