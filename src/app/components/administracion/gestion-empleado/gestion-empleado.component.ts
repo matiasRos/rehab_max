@@ -22,6 +22,11 @@ export class GestionEmpleadoComponent implements OnInit {
   closeResult: string;
   descripcion: string;
   nuevo: any = {};
+  config = {
+    itemsPerPage: 5,
+    currentPage: 1,
+    totalItems: this.horarios.count
+  };
   constructor(
     private pacienteService: PacientesService,
     private empleadoService: EmpleadosService,
@@ -33,6 +38,11 @@ export class GestionEmpleadoComponent implements OnInit {
   ngOnInit() {
     this.id_persona = this.route.snapshot.paramMap.get("id");
     this.listarHorario(this.id_persona);
+  }
+
+  pageChanged(event) {
+    console.log(event);
+    this.config.currentPage = event;
   }
 
   crearModal(content) {

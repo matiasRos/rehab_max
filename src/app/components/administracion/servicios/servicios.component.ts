@@ -2,13 +2,13 @@ import { Component, OnInit } from "@angular/core";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { Router } from "@angular/router";
 import { ServiciosService } from "src/app/services/servicios.service";
-import * as $ from 'jquery';
+import * as $ from "jquery";
 import { SubcategoriasService } from "src/app/services/subcategorias.service";
 
-@Component({ 
-  selector: 'app-servicios',
-  templateUrl: './servicios.component.html',
-  styleUrls: ['./servicios.component.scss']
+@Component({
+  selector: "app-servicios",
+  templateUrl: "./servicios.component.html",
+  styleUrls: ["./servicios.component.scss"]
 })
 export class ServiciosComponent implements OnInit {
   servicios: any = [];
@@ -25,50 +25,36 @@ export class ServiciosComponent implements OnInit {
   ruc: string = "";
   cedula: string = "";
   tipoPersona: string = "";
-  urlFiltro:String="";
-  urlParams:string="";
-  orderBy:string="nombre";
-  orderDir:string="desc";
-  cantPorPagina:number=5;
+  urlFiltro: String = "";
+  urlParams: string = "";
+  orderBy: string = "nombre";
+  orderDir: string = "desc";
+  cantPorPagina: number = 5;
   fechaNacimiento: Date;
   filter: any = {};
-  index:number=0;
-  inicio:number=0;
+  index: number = 0;
+  inicio: number = 0;
+  config = {
+    itemsPerPage: 5,
+    currentPage: 1,
+    totalItems: this.servicios.count
+  };
 
   constructor(
     private serviciosService: ServiciosService,
     private modalService: NgbModal,
     private subcategoriasService: SubcategoriasService,
     public router: Router
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
-    this.urlParams="?orderBy="+this.orderBy+"&orderDir="+this.orderDir+"&cantidad="+this.cantPorPagina +"&inicio="+this.inicio;
     this.listarServicios();
     this.listarSubcategorias();
   }
-  
-  callPagination(pagina){
-    if(pagina){
-      if(pagina==1){
-        this.inicio = this.inicio + (+this.cantPorPagina)
-      }else if(pagina==-1){
-        this.inicio = this.inicio - (+this.cantPorPagina)
-      }
-      this.index=this.index+pagina;
-      $(".prev").removeClass("disabled");
-      $(".nxt").removeClass("disabled");
-      if(this.index<=0){
-        $(".prev").addClass("disabled");
-      }
-      console.log(this.inicio + (+this.cantPorPagina)+">="+this.totalItems)
-      if(this.inicio + (+this.cantPorPagina)>=this.totalItems){
-        $(".nxt").addClass("disabled");
-      }
-    }
-    this.urlParams="?orderBy="+this.orderBy+"&orderDir="+this.orderDir+"&cantidad="+this.cantPorPagina +"&inicio="+this.inicio;
-    this.addFilter();
+
+  pageChanged(event) {
+    console.log(event);
+    this.config.currentPage = event;
   }
 
   listarServicios() {
@@ -76,9 +62,8 @@ export class ServiciosComponent implements OnInit {
     this.servicios = [];
     this.serviciosService.listarServicios(this.urlParams).subscribe(result => {
       this.loading = false;
-      if(result){
-        this.servicios=result.lista;
-        this.setCantPorPagina(result.totalDatos);
+      if (result) {
+        this.servicios = result.lista;
       }
     });
   }
@@ -88,24 +73,12 @@ export class ServiciosComponent implements OnInit {
     this.subcategorias = [];
     this.subcategoriasService.listarAllSubcategorias().subscribe(result => {
       this.loading = false;
-      if(result){
+      if (result) {
         result.lista.forEach(a => {
-          this.subcategorias=result.lista;
+          this.subcategorias = result.lista;
         });
       }
     });
-  }
-  
-  setCantPorPagina(totalDatos){
-    this.totalItems=totalDatos;
-    if(totalDatos<this.cantPorPagina){
-      this.itemsTotalPagina=totalDatos;
-    }else{
-      if(this.servicios){
-        this.itemsTotalPagina=this.servicios.length;
-      }
-      
-    }
   }
 
   crearPaciente() {
@@ -125,16 +98,18 @@ export class ServiciosComponent implements OnInit {
     });
   }
 
-  addFilter(){
+  addFilter() {
     var data = {};
     if (this.filter.nombre) {
-      data["nombre"]=this.filter.nombre
+      data["nombre"] = this.filter.nombre;
     }
-    if (this.filter.subcategoria && this.filter.subcategoria!=0) {
-      data["idProducto"]={"idTipoProducto":{"idTipoProducto":this.filter.subcategoria}}
+    if (this.filter.subcategoria && this.filter.subcategoria != 0) {
+      data["idProducto"] = {
+        idTipoProducto: { idTipoProducto: this.filter.subcategoria }
+      };
     }
     this.urlFiltro = "&ejemplo=" + JSON.stringify(data);
-    this.filtrar(this.urlParams+this.urlFiltro);
+    this.filtrar(this.urlParams + this.urlFiltro);
   }
 
   filtrar(urlFiltro) {
@@ -144,16 +119,14 @@ export class ServiciosComponent implements OnInit {
       this.loading = false;
       console.log(result.lista);
       this.servicios = [];
-      if(result){
-        this.servicios=result.lista;
-        this.setCantPorPagina(result.totalDatos);
+      if (result) {
+        this.servicios = result.lista;
       }
     });
   }
 
-
   limpiar() {
-    this.filter={};
+    this.filter = {};
     this.listarServicios();
   }
 

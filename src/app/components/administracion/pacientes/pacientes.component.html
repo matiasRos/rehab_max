@@ -7,28 +7,28 @@
                 <button (click)="crearModal(crear)" type="button" class="btn btn-primary mb-3">Agregar Paciente</button>
             </div>
             <div class="card shadow">
-                <div  novalidate="" class="ng-untouched ng-pristine ng-valid">
-                    <h6  class="heading-small text-muted mb-4 ml-lg-4 mt-4">Filtrar</h6>
-                    <div  class="pl-lg-4 mr-3">
-                        <div  class="row">
-                            <div  class="col-lg-6">
-                                <div  class="form-group">
-                                    <label  class="form-control-label" for="input-username">Nombre</label>
-                                    <input  [(ngModel)]="filter.nombre" class="form-control form-control-alternative" id="input-username" placeholder="Nombre" type="text">
+                <div novalidate="" class="ng-untouched ng-pristine ng-valid">
+                    <h6 class="heading-small text-muted mb-4 ml-lg-4 mt-4">Filtrar</h6>
+                    <div class="pl-lg-4 mr-3">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Nombre</label>
+                                    <input [(ngModel)]="filter.nombre" class="form-control form-control-alternative" id="input-username" placeholder="Nombre" type="text">
                                 </div>
                             </div>
-                            <div  class="col-lg-6">
-                                <div  class="form-group">
-                                    <label  class="form-control-label" for="input-username">Apellido</label>
-                                    <input  [(ngModel)]="filter.apellido" class="form-control form-control-alternative" id="input-username" placeholder="Apellido" type="text" value="lucky.jesse">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Apellido</label>
+                                    <input [(ngModel)]="filter.apellido" class="form-control form-control-alternative" id="input-username" placeholder="Apellido" type="text" value="lucky.jesse">
                                 </div>
                             </div>
                         </div>
-                        <div  class="row">
-                            <div  class="col-lg-6">
-                                <div  class="form-group">
-                                    <label  class="form-control-label" for="input-username">Usuario del sistema</label>
-                                    <input  [(ngModel)]="filter.usuarioSistema" class="ml-2 mt-1" id="input-username" placeholder="Username" type="checkbox">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Usuario del sistema</label>
+                                    <input [(ngModel)]="filter.usuarioSistema" class="ml-2 mt-1" id="input-username" placeholder="Username" type="checkbox">
                                 </div>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                         <button (click)="limpiar()" type="button" class="btn btn-light mb-3 mr-3">Limpiar</button>
                         <button (click)="addFilter()" type="button" class="btn btn-primary mb-3 mr-3">Filtrar</button>
                     </div>
-                    <hr  class="my-4">
+                    <hr class="my-4">
                 </div>
                 <div class="table-responsive">
                     <table class="table align-items-center table-flush">
@@ -53,7 +53,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let pac of pacientes;let i = index;">
+                            <tr *ngFor="let pac of pacientes | paginate: config">
                                 <td>
                                     {{pac.idPersona}}
                                 </td>
@@ -76,11 +76,11 @@
                                     {{pac.telefono}}
                                 </td>
                             </tr>
-                            <td colspan="7" style="    height: 200px;" *ngIf="loading">
-                                <div class="container--box">
+                            <td colspan="7 " style=" height: 200px; " *ngIf="loading ">
+                                <div class="container--box ">
 
-                                    <div class="box">
-                                        <div class="spinner spinner--2"></div>
+                                    <div class="box ">
+                                        <div class="spinner spinner--2 "></div>
                                     </div>
                                 </div>
                             </td>
@@ -88,87 +88,63 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer py-4">
-                    <nav aria-label="...">
-
-                        <ul class="pagination justify-content-end mb-0">
-                            <li class="itemsTotal">
-                                <select class="form-control" name="" id="" [(ngModel)]="cantPorPagina" (change)="callPagination()">
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="30">30</option>
-                                    <option value="50">50</option>
-                                </select>
-                            </li>
-                            <li class="itemsTotal">
-                                {{itemsTotalPagina}} de {{totalItems}} items
-                            </li>
-                            <li class="page-item prev disabled">
-                                <a class="page-link" tabindex="-1" (click)="callPagination(-1)">
-                                    <i class="fas fa-angle-left"></i>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-
-                            <li class="page-item nxt ">
-                                <a class="page-link" (click)="callPagination(1)">
-                                    <i class="fas fa-angle-right"></i>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </ul>
+                <div class="card-footer py-4 ">
+                    <nav aria-label="... ">
+                        <pagination-controls class="pagination " (pageChange)="pageChanged($event) " maxSize="9 " directionLinks="true " autoHide="true " responsive="true " previousLabel="Anterior " nextLabel="Siguiente
+                                " screenReaderPaginationLabel="Pagination " screenReaderPageLabel="page " screenReaderCurrentLabel="Estas en la pagina.. ">
+                        </pagination-controls>
                     </nav>
                 </div>
             </div>
         </div>
     </div>
     <ng-template #crear let-modal>
-        <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Agregar Paciente</h4>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
+        <div class="modal-header ">
+            <h4 class="modal-title " id="modal-basic-title ">Agregar Paciente</h4>
+            <button type="button " class="close " aria-label="Close " (click)="modal.dismiss( 'Cross click') ">
+        <span aria-hidden="true ">&times;</span>
       </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body ">
             <form>
-                <div class="form-group" style="margin: 0px 15px 15px 15px;">
-                    <label for="nombre" class="col-form-label">Nombre</label>
-                    <input name="nombre" id="id_nombre" cols="30" class="form-control" rows="4" [(ngModel)]="nombre">
+                <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                    <label for="nombre " class="col-form-label ">Nombre</label>
+                    <input name="nombre " id="id_nombre " cols="30 " class="form-control " rows="4 " [(ngModel)]="nombre ">
                 </div>
-                <div class="form-group" style="margin: 0px 15px 15px 15px;">
-                    <label for="apellido" class="col-form-label">Apellido</label>
-                    <input name="apellido" id="id_apellido" cols="30" class="form-control" rows="4" [(ngModel)]="apellido">
+                <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                    <label for="apellido " class="col-form-label ">Apellido</label>
+                    <input name="apellido " id="id_apellido " cols="30 " class="form-control " rows="4 " [(ngModel)]="apellido ">
                 </div>
-                <div class="form-group" style="margin: 0px 15px 15px 15px;">
-                    <label for="email" class="col-form-label">Email</label>
-                    <input name="email" id="id_email" cols="30" class="form-control" rows="4" [(ngModel)]="email">
+                <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                    <label for="email " class="col-form-label ">Email</label>
+                    <input name="email " id="id_email " cols="30 " class="form-control " rows="4 " [(ngModel)]="email ">
                 </div>
-                <div class="form-group" style="margin: 0px 15px 15px 15px;">
-                    <label for="telefono" class="col-form-label">Telefono</label>
-                    <input name="telefono" id="id_telefono" cols="30" class="form-control" rows="4" [(ngModel)]="telefono">
+                <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                    <label for="telefono " class="col-form-label ">Telefono</label>
+                    <input name="telefono " id="id_telefono " cols="30 " class="form-control " rows="4 " [(ngModel)]="telefono ">
                 </div>
-                <div class="form-group" style="margin: 0px 15px 15px 15px;">
-                    <label for="ruc" class="col-form-label">RUC</label>
-                    <input name="ruc" id="id_ruc" cols="30" class="form-control" rows="4" [(ngModel)]="ruc">
+                <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                    <label for="ruc " class="col-form-label ">RUC</label>
+                    <input name="ruc " id="id_ruc " cols="30 " class="form-control " rows="4 " [(ngModel)]="ruc ">
                 </div>
-                <div class="form-group" style="margin: 0px 15px 15px 15px;">
-                    <label for="cedula" class="col-form-label">Cedula</label>
-                    <input name="cedula" id="id_cedula" cols="30" class="form-control" rows="4" [(ngModel)]="cedula">
+                <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                    <label for="cedula " class="col-form-label ">Cedula</label>
+                    <input name="cedula " id="id_cedula " cols="30 " class="form-control " rows="4 " [(ngModel)]="cedula ">
                 </div>
-                <div class="form-group" style="margin: 0px 15px 15px 15px;">
-                    <label for="tipoPersona" class="col-form-label">Tipo Persona</label>
-                    <input name="tipoPersona" id="id_tipoPersona" cols="30" class="form-control" rows="4" [(ngModel)]="tipoPersona">
+                <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                    <label for="tipoPersona " class="col-form-label ">Tipo Persona</label>
+                    <input name="tipoPersona " id="id_tipoPersona " cols="30 " class="form-control " rows="4 " [(ngModel)]="tipoPersona ">
                 </div>
-                <div class="form-group" style="margin: 0px 15px 15px 15px;">
-                    <label for="fechaNacimiento" class="col-form-label">Fecha Nacimiento</label>
-                    <input type="date" name="fechaNacimiento" id="id_fechaNacimiento" cols="30" class="form-control" rows="4" [(ngModel)]="fechaNacimiento">
+                <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                    <label for="fechaNacimiento " class="col-form-label ">Fecha Nacimiento</label>
+                    <input type="date " name="fechaNacimiento " id="id_fechaNacimiento " cols="30 " class="form-control " rows="4 " [(ngModel)]="fechaNacimiento ">
                 </div>
             </form>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn  btn-primary" (click)="modal.close('Save click')"><i class="fas fa-save"></i>
+        <div class="modal-footer ">
+            <button type="button " class="btn btn-primary " (click)="modal.close( 'Save click') "><i class="fas fa-save "></i>
         guardar</button>
-            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')"><i class="fas fa-times"></i>
+            <button type="button " class="btn btn-secondary " (click)="modal.dismiss( 'Cross click') "><i class="fas fa-times "></i>
         cancelar</button>
         </div>
     </ng-template>

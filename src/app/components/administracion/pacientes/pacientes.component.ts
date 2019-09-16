@@ -3,14 +3,13 @@ import { PacientesService } from "src/app/services/pacientes.service";
 import { Paciente } from "src/app/models/paciente";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { Router } from "@angular/router";
-import * as $ from 'jquery';
+import * as $ from "jquery";
 
 @Component({
   selector: "app-pacientes",
   templateUrl: "./pacientes.component.html",
   styleUrls: ["./pacientes.component.scss"]
 })
-
 export class PacientesComponent implements OnInit {
   pacientes: any = [];
   loading: boolean;
@@ -25,45 +24,70 @@ export class PacientesComponent implements OnInit {
   ruc: string = "";
   cedula: string = "";
   tipoPersona: string = "";
-  urlFiltro:String="";
-  urlParams:string="";
-  orderBy:string="nombre";
-  orderDir:string="desc";
-  cantPorPagina:number=5;
+  urlFiltro: String = "";
+  urlParams: string = "";
+  orderBy: string = "nombre";
+  orderDir: string = "desc";
+  cantPorPagina: number = 5;
   fechaNacimiento: Date;
   filter: any = {};
-  index:number=0;
-  inicio:number=0;
+  index: number = 0;
+  inicio: number = 0;
+  config = {
+    itemsPerPage: 5,
+    currentPage: 1,
+    totalItems: this.pacientes.count
+  };
   constructor(
     private pacienteService: PacientesService,
     private modalService: NgbModal,
     public router: Router
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
-    this.urlParams="?orderBy="+this.orderBy+"&orderDir="+this.orderDir+"&cantidad="+this.cantPorPagina +"&inicio="+this.inicio;
+    /*this.urlParams =
+      "?orderBy=" +
+      this.orderBy +
+      "&orderDir=" +
+      this.orderDir +
+      "&cantidad=" +
+      this.cantPorPagina +
+      "&inicio=" +
+      this.inicio;*/
     this.listarPacientes();
   }
-  
-  callPagination(pagina){
-    if(pagina){
-      if(pagina==1){
-        this.inicio = this.inicio + (+this.cantPorPagina)
-      }else if(pagina==-1){
-        this.inicio = this.inicio - (+this.cantPorPagina)
+
+  pageChanged(event) {
+    console.log(event);
+    this.config.currentPage = event;
+  }
+
+  callPagination(pagina) {
+    if (pagina) {
+      if (pagina == 1) {
+        this.inicio = this.inicio + +this.cantPorPagina;
+      } else if (pagina == -1) {
+        this.inicio = this.inicio - +this.cantPorPagina;
       }
-      this.index=this.index+pagina;
+      this.index = this.index + pagina;
       $(".prev").removeClass("disabled");
       $(".nxt").removeClass("disabled");
-      if(this.index<=0){
+      if (this.index <= 0) {
         $(".prev").addClass("disabled");
       }
-      if(this.inicio + (+this.cantPorPagina)>=this.totalItems){
+      if (this.inicio + +this.cantPorPagina >= this.totalItems) {
         $(".nxt").addClass("disabled");
       }
     }
-    this.urlParams="?orderBy="+this.orderBy+"&orderDir="+this.orderDir+"&cantidad="+this.cantPorPagina +"&inicio="+this.inicio;
+    this.urlParams =
+      "?orderBy=" +
+      this.orderBy +
+      "&orderDir=" +
+      this.orderDir +
+      "&cantidad=" +
+      this.cantPorPagina +
+      "&inicio=" +
+      this.inicio;
     this.addFilter();
   }
 
@@ -72,7 +96,7 @@ export class PacientesComponent implements OnInit {
     this.pacientes = [];
     this.pacienteService.listarPacientes(this.urlParams).subscribe(result => {
       this.loading = false;
-      if(result){
+      if (result) {
         result.lista.forEach(a => {
           this.pacientes.push(new Paciente(a));
         });
@@ -81,12 +105,12 @@ export class PacientesComponent implements OnInit {
     });
   }
 
-  setCantPorPagina(totalDatos){
-    this.totalItems=totalDatos;
-    if(totalDatos<this.cantPorPagina){
-      this.itemsTotalPagina=totalDatos;
-    }else{
-      this.itemsTotalPagina=this.pacientes.length;
+  setCantPorPagina(totalDatos) {
+    this.totalItems = totalDatos;
+    if (totalDatos < this.cantPorPagina) {
+      this.itemsTotalPagina = totalDatos;
+    } else {
+      this.itemsTotalPagina = this.pacientes.length;
     }
   }
 
@@ -107,19 +131,19 @@ export class PacientesComponent implements OnInit {
     });
   }
 
-  addFilter(){
+  addFilter() {
     var data = {};
     if (this.filter.nombre) {
-      data["nombre"]=this.filter.nombre
+      data["nombre"] = this.filter.nombre;
     }
     if (this.filter.apellido) {
-      data["apellido"]=this.filter.apellido
+      data["apellido"] = this.filter.apellido;
     }
     if (this.filter.usuarioSistema) {
-      data["soloUsuariosDelSistema"]=this.filter.usuarioSistema
+      data["soloUsuariosDelSistema"] = this.filter.usuarioSistema;
     }
     this.urlFiltro = "&ejemplo=" + JSON.stringify(data);
-    this.filtrar(this.urlParams+this.urlFiltro);
+    this.filtrar(this.urlParams + this.urlFiltro);
   }
 
   filtrar(urlFiltro) {
@@ -129,7 +153,7 @@ export class PacientesComponent implements OnInit {
       this.loading = false;
       console.log(result.lista);
       this.pacientes = [];
-      if(result){
+      if (result) {
         result.lista.forEach(a => {
           this.pacientes.push(new Paciente(a));
         });
@@ -139,21 +163,21 @@ export class PacientesComponent implements OnInit {
   }
   //Por ahora no usamos
   filtroLike() {
-      var data = {
-        nombre: ""
-      };
-      this.pacienteService.filtrarLike(data).subscribe(result => {
-        this.loading = false;
-        console.log(result.lista);
-        this.pacientes = [];
-        result.lista.forEach(a => {
-          this.pacientes.push(new Paciente(a));
-        });
+    var data = {
+      nombre: ""
+    };
+    this.pacienteService.filtrarLike(data).subscribe(result => {
+      this.loading = false;
+      console.log(result.lista);
+      this.pacientes = [];
+      result.lista.forEach(a => {
+        this.pacientes.push(new Paciente(a));
       });
+    });
   }
 
   limpiar() {
-    this.filter={};
+    this.filter = {};
     this.listarPacientes();
   }
 

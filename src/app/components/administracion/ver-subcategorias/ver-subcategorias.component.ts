@@ -21,6 +21,11 @@ export class VerSubcategoriasComponent implements OnInit {
   noSubs: string = "";
   closeResult: string;
   descripcion: string;
+  config = {
+    itemsPerPage: 5,
+    currentPage: 1,
+    totalItems: this.subcategorias.count
+  };
 
   constructor(
     private categoriaService: CategoriasServices,
@@ -34,6 +39,11 @@ export class VerSubcategoriasComponent implements OnInit {
     this.id_categoria = this.route.snapshot.paramMap.get("id");
     console.log(this.id_categoria);
     this.listarSubcategorias(this.id_categoria);
+  }
+
+  pageChanged(event) {
+    console.log(event);
+    this.config.currentPage = event;
   }
 
   crearSubcategoria() {
