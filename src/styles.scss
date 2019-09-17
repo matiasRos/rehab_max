@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 .box {
     display: flex;
     justify-content: center;
@@ -7,6 +8,11 @@
 
 .pagination {
     float: right !important;
+}
+
+.mat-table,
+.mat-paginator {
+    font-family: "Poppins", sans-serif !important;
 }
 
 .ngx-pagination .current {
@@ -30,7 +36,7 @@
     height: 400px;
     width: 600px;
     background: #2184e0;
-    box-shadow: 0 0 6px rgba(0, 0, 0, .5), 1px 2px 3px rgba(0, 0, 0, .3);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5), 1px 2px 3px rgba(0, 0, 0, 0.3);
     display: grid;
     grid-template-rows: 50px 1fr;
 }
@@ -48,7 +54,7 @@
 }
 
 .container .text::after {
-    content: 'Follow Me';
+    content: "Follow Me";
     position: absolute;
     height: 100%;
     width: 15%;
@@ -61,7 +67,7 @@
     font-weight: 100;
     color: #fff;
     text-transform: none;
-    font-size: .8rem;
+    font-size: 0.8rem;
     background: #222;
     transform-origin: bottom left;
     transition: all 200ms ease-in;
@@ -122,13 +128,13 @@
 
 @keyframes example {
     0% {
-        transform: scale(0.5)
+        transform: scale(0.5);
     }
     75% {
-        transform: scale(1.1)
+        transform: scale(1.1);
     }
     100% {
-        transform: scale(1)
+        transform: scale(1);
     }
 }
 

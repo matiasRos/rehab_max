@@ -40,59 +40,54 @@
                     <hr class="my-4">
                 </div>
                 <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Nombre y Apellido</th>
-                                <th scope="col">Cedula</th>
-                                <th scope="col">Ruc</th>
-                                <th scope="col">Fecha Nacimiento</th>
-                                <th scope="col">Tipo Persona</th>
-                                <th scope="col">Telefono</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let pac of pacientes | paginate: config">
-                                <td>
-                                    {{pac.idPersona}}
-                                </td>
-                                <td>
-                                    {{pac.nombre}} {{pac.apellido}}
-                                </td>
-                                <td>
-                                    {{pac.cedula}}
-                                </td>
-                                <td>
-                                    {{pac.ruc}}
-                                </td>
-                                <td>
-                                    {{pac.fechaNacimiento}}
-                                </td>
-                                <td>
-                                    {{pac.tipoPersona}}
-                                </td>
-                                <td>
-                                    {{pac.telefono}}
-                                </td>
-                            </tr>
-                            <td colspan="7 " style=" height: 200px; " *ngIf="loading ">
-                                <div class="container--box ">
+                    <div style="height: 200px;" *ngIf="loading">
+                        <div class="container--box">
 
-                                    <div class="box ">
-                                        <div class="spinner spinner--2 "></div>
-                                    </div>
-                                </div>
-                            </td>
-
-                        </tbody>
-                    </table>
+                            <div class="box">
+                                <div class="spinner spinner--2"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+                        <ng-container matColumnDef="idPersona">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+                            <mat-cell *matCellDef="let paciente"> {{paciente.idPersona}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="nombre">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+                            <mat-cell *matCellDef="let paciente"> {{paciente.nombre}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="apellido">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Apellido </mat-header-cell>
+                            <mat-cell *matCellDef="let paciente"> {{paciente.apellido}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="cedula">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Cedula </mat-header-cell>
+                            <mat-cell *matCellDef="let paciente"> {{paciente.cedula}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="ruc">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> RUC </mat-header-cell>
+                            <mat-cell *matCellDef="let paciente"> {{paciente.ruc}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="fechaNacimiento">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Nacimiento </mat-header-cell>
+                            <mat-cell *matCellDef="let paciente"> {{paciente.fechaNacimiento}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="tipoPersona">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo Persona </mat-header-cell>
+                            <mat-cell *matCellDef="let paciente"> {{paciente.tipoPersona}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="telefono">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Telefono </mat-header-cell>
+                            <mat-cell *matCellDef="let paciente"> {{paciente.telefono}} </mat-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
                 </div>
                 <div class="card-footer py-4 ">
                     <nav aria-label="... ">
-                        <pagination-controls class="pagination " (pageChange)="pageChanged($event) " maxSize="9 " directionLinks="true " autoHide="true " responsive="true " previousLabel="Anterior " nextLabel="Siguiente
-                                " screenReaderPaginationLabel="Pagination " screenReaderPageLabel="page " screenReaderCurrentLabel="Estas en la pagina.. ">
-                        </pagination-controls>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
                     </nav>
                 </div>
             </div>
