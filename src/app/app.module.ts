@@ -15,6 +15,7 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { AppRoutingModule } from "./app.routing";
 import { ComponentsModule } from "./components/components.module";
 import { HeaderBgComponent } from "./components/common/header-bg/header-bg.component";
+import { ReservasComponent } from './components/administracion/reservas/reservas.component';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { HeaderBgComponent } from "./components/common/header-bg/header-bg.compo
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    HeaderBgComponent
+    HeaderBgComponent,
+    ReservasComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
