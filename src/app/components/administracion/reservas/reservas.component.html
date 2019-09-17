@@ -1,3 +1,161 @@
-<p>
-  reservas works!
-</p>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+      <div class="col">
+          <div class="botonera">
+              <button (click)="crearModal(crear)" type="button" class="btn btn-primary mb-3">Agregar Reserva</button>
+          </div>
+          <div class="card shadow">
+              <div novalidate="" class="ng-untouched ng-pristine ng-valid">
+                  <h6 class="heading-small text-muted mb-4 ml-lg-4 mt-4">Filtros de Busqueda</h6>
+                  <div class="pl-lg-4 mr-3">
+                      <div class="row">
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                  <input [(ngModel)]="filter.fechaDesde" class="form-control form-control-alternative" id="input-username" 
+                                  matInput [matDatepicker]="picker" placeholder="Fecha desde" (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
+                                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker></mat-datepicker>
+                              </div>
+                          </div>
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                  <label class="form-control-label" for="input-username">Fecha hasta</label>
+                                  <input [(ngModel)]="filter.fechaHasta" class="form-control form-control-alternative" id="input-username" placeholder="Fecha hasta" type="text" value="">
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                  <label class="form-control-label" for="input-username">Fisioterapeuta</label>
+                                  <input [(ngModel)]="filter.idEmpleado" class="ml-2 mt-1" id="input-username" placeholder="xxxx" type="text">
+                                  <button (click)="buscar_fisio()" type="button" class="btn btn-light mb-3 mr-3">Buscar</button>
+                              </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-username">Cliente</label>
+                                <input [(ngModel)]="filter.idCliente" class="ml-2 mt-1" id="input-username" placeholder="xxxx" type="text">
+                                <button (click)="buscar_cliente()" type="button" class="btn btn-light mb-3 mr-3">Buscar</button>
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="botonera">
+                      <button (click)="limpiar()" type="button" class="btn btn-light mb-3 mr-3">Limpiar</button>
+                      <button (click)="addFilter()" type="button" class="btn btn-primary mb-3 mr-3">Filtrar</button>
+                  </div>
+                  <hr class="my-4">
+              </div>
+              <div class="table-responsive">
+                  <table class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                          <tr>
+                              <th scope="col">ID</th>
+                              <th scope="col">Nombre y Apellido</th>
+                              <th scope="col">Cedula</th>
+                              <th scope="col">Ruc</th>
+                              <th scope="col">Fecha Nacimiento</th>
+                              <th scope="col">Tipo Persona</th>
+                              <th scope="col">Telefono</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let pac of pacientes | paginate: config">
+                              <td>
+                                  {{pac.idPersona}}
+                              </td>
+                              <td>
+                                  {{pac.nombre}} {{pac.apellido}}
+                              </td>
+                              <td>
+                                  {{pac.cedula}}
+                              </td>
+                              <td>
+                                  {{pac.ruc}}
+                              </td>
+                              <td>
+                                  {{pac.fechaNacimiento}}
+                              </td>
+                              <td>
+                                  {{pac.tipoPersona}}
+                              </td>
+                              <td>
+                                  {{pac.telefono}}
+                              </td>
+                          </tr>
+                          <td colspan="7 " style=" height: 200px; " *ngIf="loading ">
+                              <div class="container--box ">
+
+                                  <div class="box ">
+                                      <div class="spinner spinner--2 "></div>
+                                  </div>
+                              </div>
+                          </td>
+
+                      </tbody>
+                  </table>
+              </div>
+              <div class="card-footer py-4 ">
+                  <nav aria-label="... ">
+                      <pagination-controls class="pagination " (pageChange)="pageChanged($event) " maxSize="9 " directionLinks="true " autoHide="true " responsive="true " previousLabel="Anterior " nextLabel="Siguiente
+                              " screenReaderPaginationLabel="Pagination " screenReaderPageLabel="page " screenReaderCurrentLabel="Estas en la pagina.. ">
+                      </pagination-controls>
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </div>
+  <ng-template #crear let-modal>
+      <div class="modal-header ">
+          <h4 class="modal-title " id="modal-basic-title ">Agregar Reserva</h4>
+          <button type="button " class="close " aria-label="Close " (click)="modal.dismiss( 'Cross click') ">
+      <span aria-hidden="true ">&times;</span>
+    </button>
+      </div>
+      <div class="modal-body ">
+          <form>
+              <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                  <label for="nombre " class="col-form-label ">Fisioterapeuta</label>
+                  <input name="nombre " id="id_nombre " cols="30 " class="form-control " rows="4 " [(ngModel)]="nombre ">
+              </div>
+              <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                  <label for="apellido " class="col-form-label ">Cliente</label>
+                  <input name="apellido " id="id_apellido " cols="30 " class="form-control " rows="4 " [(ngModel)]="apellido ">
+              </div>
+              <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                  <label for="email " class="col-form-label ">Fecha</label>
+                  <input name="email " id="id_email " cols="30 " class="form-control " rows="4 " [(ngModel)]="email ">
+              </div>
+              <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                  <label for="telefono " class="col-form-label ">Telefono</label>
+                  <input name="telefono " id="id_telefono " cols="30 " class="form-control " rows="4 " [(ngModel)]="telefono ">
+              </div>
+              <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                  <label for="ruc " class="col-form-label ">RUC</label>
+                  <input name="ruc " id="id_ruc " cols="30 " class="form-control " rows="4 " [(ngModel)]="ruc ">
+              </div>
+              <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                  <label for="cedula " class="col-form-label ">Cedula</label>
+                  <input name="cedula " id="id_cedula " cols="30 " class="form-control " rows="4 " [(ngModel)]="cedula ">
+              </div>
+              <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                  <label for="tipoPersona " class="col-form-label ">Tipo Persona</label>
+                  <input name="tipoPersona " id="id_tipoPersona " cols="30 " class="form-control " rows="4 " [(ngModel)]="tipoPersona ">
+              </div>
+              <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                  <label for="fechaNacimiento " class="col-form-label ">Fecha Nacimiento</label>
+                  <input type="date " name="fechaNacimiento " id="id_fechaNacimiento " cols="30 " class="form-control " rows="4 " [(ngModel)]="fechaNacimiento ">
+              </div>
+          </form>
+      </div>
+      <div class="modal-footer ">
+          <button type="button " class="btn btn-primary " (click)="modal.close( 'Save click') "><i class="fas fa-save "></i>
+      guardar</button>
+          <button type="button " class="btn btn-secondary " (click)="modal.dismiss( 'Cross click') "><i class="fas fa-times "></i>
+      cancelar</button>
+      </div>
+  </ng-template>
+</div>

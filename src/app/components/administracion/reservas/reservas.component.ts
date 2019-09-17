@@ -175,6 +175,10 @@ export class ReservasComponent implements OnInit {
     this.listarReservas();
   }
 
+  buscar_fisio(){
+    
+  }
+
   crearModal(content) {
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title" })
