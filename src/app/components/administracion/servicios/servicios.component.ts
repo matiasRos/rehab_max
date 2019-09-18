@@ -1,9 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { Router } from "@angular/router";
 import { ServiciosService } from "src/app/services/servicios.service";
 import * as $ from "jquery";
 import { SubcategoriasService } from "src/app/services/subcategorias.service";
+import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
 
 @Component({
   selector: "app-servicios",
@@ -19,11 +20,7 @@ export class ServiciosComponent implements OnInit {
   descripcion: string = "";
   closeResult: string;
   nombre: string = "";
-  apellido: string = "";
-  email: string = "";
-  telefono: string = "";
-  ruc: string = "";
-  cedula: string = "";
+  precio: number;
   tipoPersona: string = "";
   urlFiltro: String = "";
   urlParams: string = "";
@@ -39,6 +36,16 @@ export class ServiciosComponent implements OnInit {
     currentPage: 1,
     totalItems: this.servicios.count
   };
+  
+  dataSource: any = [];
+  displayedColumns: string[] = [
+    "id",
+    "servicio",
+    "descripcion",
+    "tipoServicio"
+  ];
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private serviciosService: ServiciosService,
@@ -63,6 +70,10 @@ export class ServiciosComponent implements OnInit {
     this.serviciosService.listarServicios(this.urlParams).subscribe(result => {
       this.loading = false;
       if (result) {
+        console.log("ser ",result.lista)
+        this.dataSource = new MatTableDataSource(result.lista);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
         this.servicios = result.lista;
       }
     });
@@ -74,26 +85,21 @@ export class ServiciosComponent implements OnInit {
     this.subcategoriasService.listarAllSubcategorias().subscribe(result => {
       this.loading = false;
       if (result) {
-        result.lista.forEach(a => {
-          this.subcategorias = result.lista;
+         result.lista.forEach(a => {
+           this.subcategorias = result.lista;
         });
       }
     });
   }
 
-  crearPaciente() {
+  crearServicio() {
     var data = {
-      nombre: this.nombre,
-      apellido: this.apellido,
-      email: this.email,
-      telefono: this.telefono,
-      ruc: this.ruc,
-      cedula: this.cedula,
-      tipoPersona: this.tipoPersona,
-      fechaNacimiento: this.fechaNacimiento
+        nombre: this.nombre,
+        precio: this.precio
     };
-    this.serviciosService.crearServicio(data).subscribe(result => {
+    this.serviciosService.crearServicioEntidad(data).subscribe(result => {
       this.servicios = "";
+      this.nombre="";
       this.addFilter();
     });
   }
@@ -127,6 +133,9 @@ export class ServiciosComponent implements OnInit {
       if (result) {
         this.servicios = result.lista;
       }
+      this.dataSource = new MatTableDataSource(result.lista);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     });
   }
 
@@ -140,7 +149,7 @@ export class ServiciosComponent implements OnInit {
       .open(content, { ariaLabelledBy: "modal-basic-title" })
       .result.then(
         result => {
-          this.crearPaciente();
+          this.crearServicio();
         },
         reason => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

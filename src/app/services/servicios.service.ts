@@ -61,4 +61,22 @@ export class ServiciosService {
       })
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
+
+
+  crearServicioEntidad(data): Observable<any> {
+    var body = {
+      "idProducto": {
+        "idProducto": 546
+      },
+      "existenciaProducto": {
+        "precioVenta": data.precio
+      },
+      "nombre": data.nombre,
+      "flagServicio": "S"
+    };
+    let url = Servers.RehabMax.baseUrl + "/presentacionProducto";
+    return this.http
+      .post<any[]>(url, body)
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
 }

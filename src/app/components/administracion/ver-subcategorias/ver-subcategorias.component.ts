@@ -24,7 +24,7 @@ export class VerSubcategoriasComponent implements OnInit {
   descripcion: string;
   dataSource: any = [];
 
-  displayedColumns: string[] = ["id", "descripcion"];
+  displayedColumns: string[] = ["idTipoProducto", "descripcion"];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 

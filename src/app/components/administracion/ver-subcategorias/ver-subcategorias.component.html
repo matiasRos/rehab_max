@@ -49,9 +49,9 @@
                 </h3>
                 <div *ngIf="existenSub" class="table-responsive">
                     <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-                        <ng-container matColumnDef="id">
+                        <ng-container matColumnDef="idTipoProducto">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
-                            <mat-cell *matCellDef="let subcateg"> {{subcateg.id}} </mat-cell>
+                            <mat-cell *matCellDef="let subcateg"> {{subcateg.idTipoProducto}} </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="descripcion">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </mat-header-cell>

@@ -77,9 +77,9 @@ export class CategoriasComponent implements OnInit {
     });
   }
 
-  verSubcategorias(elemento) {
-    console.log(elemento);
-    var url = "/subcategorias/" + elemento.id + "/ver";
+  verSubcategorias(id_cate) {
+    console.log(id_cate);
+    var url = "/subcategorias/" + id_cate + "/ver";
     this.router.navigate([url, {}]);
   }
 }

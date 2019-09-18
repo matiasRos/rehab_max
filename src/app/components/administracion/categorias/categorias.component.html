@@ -9,6 +9,7 @@
             <div class="card shadow">
 
                 <div class="table-responsive">
+                  
                     <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
                         <ng-container matColumnDef="idCategoria">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
@@ -20,9 +21,10 @@
                         </ng-container>
                         <ng-container matColumnDef="acciones">
                             <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                            <mat-cell *matCellDef="let categ"> <a style="cursor: pointer" (click)="verSubcategorias(categ)" class="nav-link">
-                                            Ver detalles <i class="ni ni-bold-right"></i> 
-                                            </a> </mat-cell>
+                            <mat-cell *matCellDef="let categ"> <a style="cursor: pointer"
+                                    (click)="verSubcategorias(categ.idCategoria)" class="nav-link">
+                                    Ver detalles <i class="ni ni-bold-right"></i>
+                                </a> </mat-cell>
                         </ng-container>
 
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -41,22 +43,25 @@
         <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">Agregar categoría</h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <div class="modal-body">
             <form>
                 <div class="form-group" style="margin: 0px 15px 15px 15px;">
                     <label for="descripcion" class="col-form-label">Descripción</label>
-                    <textarea name="descripcion" id="id_descripcion" cols="30" class="form-control" rows="4" [(ngModel)]="descripcion"></textarea>
+                    <textarea name="descripcion" id="id_descripcion" cols="30" class="form-control" rows="4"
+                        [(ngModel)]="descripcion"></textarea>
                 </div>
             </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn  btn-primary" (click)="modal.close('Save click')"><i class="fas fa-save"></i>
-        guardar</button>
-            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')"><i class="fas fa-times"></i>
-        cancelar</button>
+            <button type="button" class="btn  btn-primary" (click)="modal.close('Save click')"><i
+                    class="fas fa-save"></i>
+                guardar</button>
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')"><i
+                    class="fas fa-times"></i>
+                cancelar</button>
         </div>
     </ng-template>
 </div>

@@ -40,14 +40,6 @@
                     <hr class="my-4">
                 </div>
                 <div class="table-responsive">
-                    <div style="height: 200px;" *ngIf="loading">
-                        <div class="container--box">
-
-                            <div class="box">
-                                <div class="spinner spinner--2"></div>
-                            </div>
-                        </div>
-                    </div>
                     <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
                         <ng-container matColumnDef="idPersona">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
