@@ -20,16 +20,36 @@ export class ReservasService {
   }
 
   filtrarReservas(urlFiltro): Observable<any> {
+    console.log(this.url +""+urlFiltro);
     return this.http
       .get<any[]>(this.url + urlFiltro)
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
   crear(data): Observable<any> {
-    let headers = {"Content-Type": "application/json","usuario": "gustavo"}
+    console.log("data", data);
+    let body = {
+      fechaCadena: data.fechaCadena,
+      horaInicioCadena: data.horaInicioCadena,
+      horaFinCadena: data.horaFinCadena,
+      idEmpleado:{
+        idPersona:data.idEmpleado.idPersona
+      },
+      idCliente:{
+        idPersona:data.idCliente.idPersona
+      },
+      observacion:""
+    }
+    console.log("body", body);
     return this.http
-      .post<any[]>(this.url, data, {headers: headers})
+      .post<any[]>(this.url, body, {
+        headers: {
+          "Content-Type": "application/json",
+          "usuario":"ana"
+        }
+      })
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
+
   obtenerPorEmpleado(empleado, desde, hasta) {
     return this.http
       .get<any[]>(

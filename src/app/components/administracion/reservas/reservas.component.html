@@ -28,13 +28,13 @@
                           <div class="col-lg-6">
                               <div class="form-group">
                                   <label for="fisioterapeuta" class="col-form-label">Fisioterapeuta</label>
-                                  <input (click)="buscar_fisio()" name="fisioterapeuta" id="id_fisioterapeuta" cols="30" class="form-control" rows="4" [(ngModel)]="filter.idEmpleado">
+                                  <input (click)="buscar_fisio();doctorClick();crearModal(selectDoctor)" name="fisioterapeuta" id="id_fisioterapeuta" cols="30" class="form-control" rows="4" readonly=true [(ngModel)]="filter.idEmpleado">
                               </div>
                           </div>
                           <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="cliente" class="col-form-label">Cliente</label>
-                                <input (click)="buscar_cliente()" name="cliente" id="id_cliente" cols="30" class="form-control" rows="4" [(ngModel)]="filter.idCliente">
+                                <input (click)="buscar_cliente();clienteClick();crearModal(selectCliente)" name="cliente" id="id_cliente" cols="30" class="form-control" rows="4" readonly=true [(ngModel)]="filter.idCliente">
                             </div>
                         </div>
                       </div>
@@ -115,7 +115,7 @@
   <ng-template #crear let-modal>
       <div class="modal-header ">
           <h4 class="modal-title " id="modal-basic-title ">Agregar Reserva</h4>
-          <button type="button " class="close " aria-label="Close " (click)="modal.dismiss( 'Cross click') ">
+          <button type="button " class="close " aria-label="Close " (click)="limpiar();modal.dismiss( 'Cross click') ">
       <span aria-hidden="true ">&times;</span>
     </button>
       </div>
@@ -127,7 +127,7 @@
                         Buscar</button>
                 </div>
               <div class="form-group " style="margin: 0px 15px 15px 15px; ">
-                    <label for="idCliente " class="col-form-label col-lg-6">Cliente <p *ngIf="!paciente==''">: {{this.paciente}}</p></label>
+                    <label for="idCliente " class="col-form-label col-lg-6">Cliente <span *ngIf="!paciente==''">: {{this.paciente}}</span></label>
                     <button type="button " class="btn btn-primary col-lg-3" (click)="buscar_cliente();crearModal(selectCliente)"><i class="fas fa-single-02"></i>
                         Buscar</button>
               </div>
@@ -137,11 +137,11 @@
               </div>
               <div class="form-group " style="margin: 0px 15px 15px 15px; ">
                   <label for="horaInicioCadena " class="col-form-label ">Hora Inicio</label>
-                  <input name="horaInicioCadena " id="id_horaInicioCadena " cols="30 " class="form-control " rows="4 " [(ngModel)]="horaInicioCadena">
+                  <input name="horaInicioCadena " id="id_horaInicioCadena " cols="30 " class="form-control " rows="4 " [(ngModel)]="horaInicioCadena" placeholder="00:00">
               </div>
               <div class="form-group " style="margin: 0px 15px 15px 15px; ">
                   <label for="horaFinCadena " class="col-form-label ">Hora Fin</label>
-                  <input name="horaFinCadena " id="id_horaFinCadena " cols="30 " class="form-control " rows="4 " [(ngModel)]="horaFinCadena ">
+                  <input name="horaFinCadena " id="id_horaFinCadena " cols="30 " class="form-control " rows="4 " [(ngModel)]="horaFinCadena" placeholder="00:00">
               </div>
           </form>
       </div>
@@ -179,7 +179,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr (click)="doctor=emp.nombre+' '+emp.apellido; idEmpleado=emp.idPersona; modal.dismiss( 'Cross click') " *ngFor="let emp of doctores | paginate: config">
+                                        <tr (click)="doctor=emp.nombre+' '+emp.apellido; idEmpleado=emp.idPersona;putFilter(); modal.dismiss( 'Cross click') " *ngFor="let emp of doctores | paginate: config">
                                             <td>
                                                 {{emp.idPersona}}
                                             </td>
@@ -241,7 +241,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr (click)="paciente=pac.nombre+' '+pac.apellido; idCliente=pac.idPersona;modal.dismiss( 'Cross click')" *ngFor="let pac of clientes | paginate: config">
+                                                    <tr (click)="paciente=pac.nombre+' '+pac.apellido; idCliente=pac.idPersona;putFilter();modal.dismiss( 'Cross click')" *ngFor="let pac of clientes | paginate: config">
                                                         <td>
                                                             {{pac.idPersona}}
                                                         </td>
@@ -271,3 +271,6 @@
                 </div>
     </ng-template>
 </div>
+<script type="javascript">
+    
+</script>

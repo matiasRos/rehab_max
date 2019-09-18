@@ -33,6 +33,8 @@ export class ReservasComponent implements OnInit {
   idEmpleado: number;
   idCliente: number;
   IdReserva: number;
+  isDoctor: boolean=false;
+  isCliente: boolean=false;
   doctor: String='Hola';
   paciente: String='';
   orderBy: string = "fechaCadena";
@@ -142,9 +144,9 @@ export class ReservasComponent implements OnInit {
 
   crearReserva() {
     var data = {
-      fechaCadena: this.fechaCadena,
-      horaInicioCadena: this.horaInicioCadena,
-      horaFinCadena: this.horaFinCadena,
+      fechaCadena: this.fechaCadena.replace("-","").replace("-",""),
+      horaInicioCadena: this.horaInicioCadena.replace(":",""),
+      horaFinCadena: this.horaFinCadena.replace(":",""),
       idEmpleado:{
         idPersona:this.idEmpleado
       },
@@ -152,7 +154,11 @@ export class ReservasComponent implements OnInit {
         idPersona:this.idCliente
       }
     };
+    console.log("-------------------------------------");
+    console.log(data);
+    console.log("-------------------------------------");
     this.reservaService.crear(data).subscribe(result => {
+      console.log(result,result.lista)
       this.reservas = [];
       this.addFilter();
     });
@@ -160,19 +166,23 @@ export class ReservasComponent implements OnInit {
 
   addFilter() {
     var data = {};
-    if (this.filter.idEmpleado) {
-      data["idEmpleado"] = this.filter.idEmpleado;
+    if (document.getElementById("id_fisioterapeuta").value != "") {
+      data["idEmpleado"] = {
+        idPersona:this.idEmpleado
+      };
     }
-    if (this.filter.idCliente) {
-      data["idCliente"] = this.filter.idCliente;
+    if (document.getElementById("id_cliente").value != "") {
+      data["idCliente"] = {
+        idPersona:this.idCliente
+      };
     }
     if(this.filter.fechaDesde){
-      data["fechaDesde"] = this.filter.fechaDesde;
+      data["fechaDesdeCadena"] = this.filter.fechaDesde.replace("-","").replace("-","");
     }
     if(this.filter.fechaHasta){
-      data["fechaHasta"] = this.filter.fechaHasta;
+      data["fechaHastaCadena"] = this.filter.fechaHasta.replace("-","").replace("-","");
     }
-    this.urlFiltro = "&ejemplo=" + JSON.stringify(data);
+    this.urlFiltro = "?ejemplo=" + JSON.stringify(data);
     this.filtrar(this.urlParams + this.urlFiltro);
   }
 
@@ -234,6 +244,8 @@ export class ReservasComponent implements OnInit {
 
   limpiar() {
     this.filter = {};
+    document.getElementById("id_fisioterapeuta").value = ""
+    document.getElementById("id_cliente").value = "";
     this.listarReservas();
   }
 
@@ -244,7 +256,23 @@ export class ReservasComponent implements OnInit {
   buscar_cliente(){
     this.listarPacientes();
   }
+  putFilter(){
+    if(this.isDoctor){
+      document.getElementById("id_fisioterapeuta").value = this.doctor;
+    }
+    this.isDoctor=false;
+    if(this.isCliente){
+      document.getElementById("id_cliente").value = this.paciente;
+    }
+    this.isCliente=false;
+  }
+  doctorClick(){
+    this.isDoctor=true
+  }
 
+  clienteClick(){
+    this.isCliente=true
+  }
   listar(){
     this.reservaService.listarReservas("asd").subscribe((reservas: Reserva[]) => {
       this.reservas = reservas
