@@ -241,7 +241,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr (click)="cliente=pac.nombre+' '+pac.apellido; idCliente=pac.idPersona;modal.dismiss( 'Cross click')" *ngFor="let pac of clientes | paginate: config">
+                                                    <tr (click)="paciente=pac.nombre+' '+pac.apellido; idCliente=pac.idPersona;modal.dismiss( 'Cross click')" *ngFor="let pac of clientes | paginate: config">
                                                         <td>
                                                             {{pac.idPersona}}
                                                         </td>

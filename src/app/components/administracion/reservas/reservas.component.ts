@@ -193,9 +193,17 @@ export class ReservasComponent implements OnInit {
   }
  
   filtroCliente() {
-    var data = {
-      nombre: this.filter.nombre
-    };
+    var data;
+    if(this.filter.nombre) {
+      data = {
+        nombre: this.filter.nombre
+      };
+    }else{
+      data = {
+        nombre: ""
+      };
+    }
+
     this.pacienteService.filtrarLike(data).subscribe(result => {
       this.loading = false;
       this.clientes = [];
@@ -205,9 +213,16 @@ export class ReservasComponent implements OnInit {
     });
   }
   filtroDoctor() {
-    var data = {
-      nombre: this.filter.nombre
-    };
+    var data;
+    if(this.filter.nombre) {
+      data = {
+        nombre: this.filter.nombre
+      };
+    }else{
+      data = {
+        nombre: ""
+      };
+    }
     this.empleados.filtrarLike(data).subscribe(result => {
       this.loading = false;
       this.doctores = [];
@@ -239,7 +254,7 @@ export class ReservasComponent implements OnInit {
     
   }
   newFichaReserva(){
-    
+
   }
   cancelarReserva(){
     this.reservaService.cancelar(this.IdReserva);
