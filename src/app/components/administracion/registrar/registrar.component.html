@@ -24,7 +24,7 @@
                                     <th scope="col">Usuario</th>
                                     <th scope="col">Observacion</th>
                                     <th scope="col">Presupuesto</th>
-                                    <th scope="col">Eliminar detalle</th>
+                                    <th scope="col">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -41,7 +41,9 @@
                                     <td>
                                         {{ser.presupuesto}}
                                     </td>
-                                    <td><button class="btn btn-primary mb-1" (click)="eliminarUnServicioParcial(ser.idServicio)" type="button">Eliminar este servicio</button></td>
+                                    <td><button class="btn btn-primary mb-1" (click)="eliminarUnServicioParcial(ser.idServicio)" type="button"><i
+                                                class="fas fa-trash"></i></button></td>
+                                    <td><button class="btn btn-primary mb-1" (click)="crearModalDetallesDeServicio(detalles, ser.idServicio)" type="button"><i class="fas fa-eye"></i></button></td>
 
                                 </tr>
 
@@ -113,5 +115,26 @@
                         class="fas fa-times"></i>
                     Cancelar</button>
             </div>
+        </ng-template>
+
+        <ng-template #detalles let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="detalles-del-servicio">Detalles del servicio</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" style="margin: 0px 15px 15px 15px;">
+                    <label for="IdServicio" class="col-form-label">Id Servicio</label>
+                    <input name="Servicio" placeholder="{{idSer}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                    <label for="observacion" class="col-form-label">Observacion</label>
+                    <input name="Observacion" placeholder="{{observacion}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                    <label for="observacion" class="col-form-label">Id Servicio</label>
+                    <input name="Servicio" placeholder="{{idSer}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4" [(ngModel)]="idSer">
+
+                </div>
+            </div>
+
         </ng-template>
     </div>

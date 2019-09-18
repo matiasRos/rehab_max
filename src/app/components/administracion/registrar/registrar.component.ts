@@ -13,6 +13,9 @@ export class RegistrarComponent implements OnInit {
   presentacionProducto: any = [];
   idPre: any;
   idSer: any;
+  detallesCabeceraServicio: any;
+  estado: any;
+  presupuesto: any;
   constructor(private service: RegistrarService, private modalService: NgbModal, private fb: FormBuilder) { }
 
   closeResult: string;
@@ -70,7 +73,13 @@ export class RegistrarComponent implements OnInit {
   }
   getCabeceraServicios(idServicio) {
     this.service.listarServicioPorIdServicioCabecera(idServicio).subscribe((response) => {
+      //this.detallesCabeceraServicio = response;
       console.log(response);
+      console.log('detallesCabeceraServicio', this.detallesCabeceraServicio);
+      this.estado = response.estado;
+      this.observacion = response.observacion;
+      this.presupuesto = response.presupuesto;
+
     });
   }
 
@@ -155,6 +164,21 @@ export class RegistrarComponent implements OnInit {
       );
   }
 
+  crearModalDetallesDeServicio(content, idServicio) {
+    this.verDetallesServicio(idServicio);
+    this.modalService
+      .open(content, { ariaLabelledBy: 'detalles-del-servicio' })
+      .result.then(
+        result => {
+          console.log('Clg crearModalDetallesServicio');
+          this.verDetallesServicio(idServicio);
+        },
+        reason => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -163,5 +187,10 @@ export class RegistrarComponent implements OnInit {
     } else {
       return `with: ${reason}`;
     }
+  }
+
+  verDetallesServicio(idServicio) {
+    this.idSer = idServicio;
+    this.getCabeceraServicios(idServicio);
   }
 }
