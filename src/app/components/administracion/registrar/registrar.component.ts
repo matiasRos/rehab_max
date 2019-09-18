@@ -18,11 +18,12 @@ export class RegistrarComponent implements OnInit {
   presentacionProducto: any = [];
   idPre: any;
   idSer: any;
-  constructor(
-    private service: RegistrarService,
-    private modalService: NgbModal,
-    private fb: FormBuilder
-  ) {}
+  detallesCabeceraServicio: any;
+  estado: any;
+  presupuesto: any;
+  motivoConsulta: any;
+  descripcionGeneral: any;
+  constructor(private service: RegistrarService, private modalService: NgbModal, private fb: FormBuilder) { }
 
   closeResult: string;
   services: any = [];
@@ -71,19 +72,29 @@ export class RegistrarComponent implements OnInit {
     });
   }
   getCabeceraServicios(idServicio) {
-    this.service
-      .listarServicioPorIdServicioCabecera(idServicio)
-      .subscribe(response => {
-        console.log(response);
-      });
+    this.service.listarServicioPorIdServicioCabecera(idServicio).subscribe((response) => {
+      //this.detallesCabeceraServicio = response;
+      console.log(response);
+      console.log('detallesCabeceraServicio', this.detallesCabeceraServicio);
+      this.estado = response.estado;
+      this.observacion = response.observacion;
+      this.presupuesto = response.presupuesto;
+
+    });
   }
 
   getDetallesPorIdServicio(idServicio) {
-    this.service
-      .listarServicioPorIdServicioDetalle(idServicio)
-      .subscribe(response => {
-        console.log(response);
-      });
+    this.service.listarServicioPorIdServicioDetalle(idServicio).subscribe((response) => {
+      console.log(response);
+      if (response.length === 0) {
+        console.log('response vacio');
+        return;
+      }
+      console.log(response[0]);
+      this.idSer = response[0].idServicio.idServicio;
+      this.motivoConsulta = response[0].idServicio.idFichaClinica.motivoConsulta;
+      this.descripcionGeneral = response[0].idPresentacionProducto.descripcionGeneral;
+    });
   }
   obtenerServiciosRegistradosPorFisioterapeuta(idServicio) {
     this.service
@@ -169,6 +180,36 @@ export class RegistrarComponent implements OnInit {
       );
   }
 
+  crearModalDetallesDeServicio(content, idServicio) {
+    this.verDetallesServicio(idServicio);
+    this.modalService
+      .open(content, { ariaLabelledBy: 'detalles-del-servicio' })
+      .result.then(
+        result => {
+          console.log('Clg crearModalDetallesServicio');
+          // this.verDetallesServicio(idServicio);
+        },
+        reason => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
+  crearModalDetallesServicioDetallado(content, idServicio) {
+    this.getDetallesPorIdServicio(idServicio);
+    console.log(idServicio);
+    this.modalService
+      .open(content, { ariaLabelledBy: 'detalles-del-servicio-detallado' })
+      .result.then(
+        result => {
+          console.log('Clg crearModalDetallesServicioDetallado');
+
+        },
+        reason => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return "by pressing ESC";
@@ -177,5 +218,10 @@ export class RegistrarComponent implements OnInit {
     } else {
       return `with: ${reason}`;
     }
+  }
+
+  verDetallesServicio(idServicio) {
+    this.idSer = idServicio;
+    this.getCabeceraServicios(idServicio);
   }
 }
