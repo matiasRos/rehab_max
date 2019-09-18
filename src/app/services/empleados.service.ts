@@ -48,4 +48,15 @@ export class EmpleadosService {
       })
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
+
+  filtrarLike(data): Observable<any> {
+    let body = {
+      nombre: data.nombre,
+      soloUsuariosDelSistema: true
+    };
+    let datos = JSON.stringify(body);
+    return this.http
+      .get<any[]>(this.urlPersona + "?like=S&ejemplo=" + datos)
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
 }

@@ -3,14 +3,11 @@ import { ReservasService } from "src/app/services/reservas.service";
 import { PacientesService } from "src/app/services/pacientes.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { Reserva } from "src/app/models/reserva";
+import { Paciente } from "src/app/models/paciente";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { Router } from "@angular/router";
-import { FormControl } from '@angular/forms';
-import {
-  MatAutocompleteModule,
-  MatInputModule
-} from '@angular/material';
 import * as $ from "jquery";
+
 
 @Component({
   selector: "app-reservas",
@@ -18,7 +15,6 @@ import * as $ from "jquery";
   styleUrls: ["./reservas.component.scss"]
 })
 export class ReservasComponent implements OnInit {
-  myControl = new FormControl();
   reservas: any = [];
   doctores: any = [];
   clientes: any = [];
@@ -34,8 +30,11 @@ export class ReservasComponent implements OnInit {
   fechaCadena: string="";
   horaInicioCadena: string="";
   horaFinCadena: string="";
-  idEmpleado:number;
-  idCliente:number;
+  idEmpleado: number;
+  idCliente: number;
+  IdReserva: number;
+  doctor: String='Hola';
+  paciente: String='';
   orderBy: string = "fechaCadena";
   orderDir: string = "desc";
   cantPorPagina: number = 5;
@@ -51,14 +50,13 @@ export class ReservasComponent implements OnInit {
   constructor(
     private reservaService: ReservasService,
     private empleados: EmpleadosService,
+    private pacienteService: PacientesService,
     private modalService: NgbModal,
     public router: Router
   ) {}
 
   ngOnInit() {
     this.listarReservas();
-    this.buscar_fisio();
-
   }
 
   pageChanged(event) {
@@ -109,6 +107,30 @@ export class ReservasComponent implements OnInit {
     });
   }
 
+  listarDoctores() {
+    this.loading = true;
+    this.doctores = [];
+    this.empleados.listarEmpleados().subscribe(result => {
+      this.loading = false;
+      result.lista.forEach(a => {
+        this.doctores.push(new Paciente(a));
+      });
+    });
+  }
+
+  listarPacientes() {
+    this.loading = true;
+    this.clientes = [];
+    this.pacienteService.listarPacientes(this.urlParams).subscribe(result => {
+      this.loading = false;
+      if (result) {
+        result.lista.forEach(a => {
+          this.clientes.push(new Paciente(a));
+        });
+        this.setCantPorPagina(result.totalDatos);
+      }
+    });
+  }
   setCantPorPagina(totalDatos) {
     this.totalItems = totalDatos;
     if (totalDatos < this.cantPorPagina) {
@@ -170,6 +192,30 @@ export class ReservasComponent implements OnInit {
     });
   }
  
+  filtroCliente() {
+    var data = {
+      nombre: this.filter.nombre
+    };
+    this.pacienteService.filtrarLike(data).subscribe(result => {
+      this.loading = false;
+      this.clientes = [];
+      result.lista.forEach(a => {
+        this.clientes.push(new Paciente(a));
+      });
+    });
+  }
+  filtroDoctor() {
+    var data = {
+      nombre: this.filter.nombre
+    };
+    this.empleados.filtrarLike(data).subscribe(result => {
+      this.loading = false;
+      this.doctores = [];
+      result.lista.forEach(a => {
+        this.doctores.push(new Paciente(a));
+      });
+    });
+  }
 
   limpiar() {
     this.filter = {};
@@ -177,21 +223,26 @@ export class ReservasComponent implements OnInit {
   }
 
   buscar_fisio(){
-    this.doctores = this.empleados.listarEmpleados();
-    console.log(this.doctores);
-    $('#form-autocomplete-1').mdbAutocomplete({
-      data: this.doctores
-    });
+    this.listarDoctores();
   }
 
   buscar_cliente(){
-    
+    this.listarPacientes();
   }
 
   listar(){
     this.reservaService.listarReservas("asd").subscribe((reservas: Reserva[]) => {
       this.reservas = reservas
     })
+  }
+  modificarReserva(){
+    
+  }
+  newFichaReserva(){
+    
+  }
+  cancelarReserva(){
+    this.reservaService.cancelar(this.IdReserva);
   }
   crearModal(content) {
     this.modalService

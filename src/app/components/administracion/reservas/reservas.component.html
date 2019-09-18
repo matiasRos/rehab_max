@@ -82,7 +82,7 @@
                                     <a style="cursor: pointer" (click)="modificarReserva()" class="nav-link">
                                         Modificar <i class="ni ni-ruler-pencil"></i> 
                                     </a>
-                                    <a style="cursor: pointer" (click)="cancelarReserva()" class="nav-link">
+                                    <a style="cursor: pointer" (click)="idReserva=reserva.idReserva; cancelarReserva()" class="nav-link">
                                         Cancelar <i class="ni ni-fat-remove"></i> 
                                     </a>
                                     <a style="cursor: pointer" (click)="newFichaReserva()" class="nav-link">
@@ -122,12 +122,14 @@
       <div class="modal-body ">
           <form>
                 <div class="form-group " style="margin: 0px 15px 15px 15px; ">
-                    <label for="idEmpleado " class="col-form-label ">Doctor</label>
-                    <input name="idEmpleado " id="idEmpleado " cols="30 " class="form-control " rows="4 " [(ngModel)]="idEmpleado ">
+                    <label for="idEmpleado " class="col-form-label col-lg-6">Doctor <span *ngIf="!doctor==''">: {{this.doctor}}</span></label>
+                    <button type="button " class="btn btn-primary col-lg-3" (click)="buscar_fisio();crearModal(selectDoctor)"><i class="fas fa-single-02"></i>
+                        Buscar</button>
                 </div>
               <div class="form-group " style="margin: 0px 15px 15px 15px; ">
-                  <label for="idCliente " class="col-form-label ">Cliente</label>
-                  <input name="idCliente " id="idCliente " cols="30 " class="form-control " rows="4 " [(ngModel)]="idCliente">
+                    <label for="idCliente " class="col-form-label col-lg-6">Cliente <p *ngIf="!paciente==''">: {{this.paciente}}</p></label>
+                    <button type="button " class="btn btn-primary col-lg-3" (click)="buscar_cliente();crearModal(selectCliente)"><i class="fas fa-single-02"></i>
+                        Buscar</button>
               </div>
               <div class="form-group " style="margin: 0px 15px 15px 15px; ">
                   <label for="fechaCadena " class="col-form-label ">Fecha</label>
@@ -150,4 +152,122 @@
       cancelar</button>
       </div>
   </ng-template>
+
+
+  <ng-template #selectDoctor let-modal>
+    <div class="modal-header ">
+        <h4 class="modal-title " id="modal-basic-title ">Buscar Doctor</h4>
+        <button type="button " class="close " aria-label="Close " (click)="modal.dismiss( 'Cross click') ">
+    <span aria-hidden="true ">&times;</span>
+  </button>
+    </div>
+    <div class="modal-body ">
+            <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                <input (change)="filtroDoctor()" name="idEmpleado " id="idEmpleado " cols="30 " class="form-control " rows="4 " placeholder="Buscar" [(ngModel)]="filter.nombre">
+            </div>
+            <!-- Table -->
+            <div class="row">
+                    <div class="col">
+                        <div class="card shadow">
+                            <div class="table-responsive">
+                                <table class="table align-items-center table-flush">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Nombre y Apellido</th>
+                                            <th scope="col">Cedula</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr (click)="doctor=emp.nombre+' '+emp.apellido; idEmpleado=emp.idPersona; modal.dismiss( 'Cross click') " *ngFor="let emp of doctores | paginate: config">
+                                            <td>
+                                                {{emp.idPersona}}
+                                            </td>
+                                            <td>
+                                                {{emp.nombre}} {{emp.apellido}}
+                                            </td>
+                                            <td>
+                                                {{emp.cedula}}
+                                            </td>
+                                        </tr>
+            
+                                        <td colspan="2" style="    height: 200px;" *ngIf="loading">
+                                            <div class="container--box">
+            
+                                                <div class="box">
+                                                    <div class="spinner spinner--2"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+            
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer py-4">
+                                <nav aria-label="...">
+                                    <pagination-controls class="pagination" (pageChange)="pageChanged($event)" maxSize="9" directionLinks="true" autoHide="true" responsive="true" previousLabel="Anterior" nextLabel="Siguiente" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                                        screenReaderCurrentLabel="Estas en la pagina..">
+                                    </pagination-controls>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+            </div>
+</ng-template>
+<ng-template #selectCliente let-modal>
+        <div class="modal-header ">
+            <h4 class="modal-title " id="modal-basic-title ">Buscar Cliente</h4>
+            <button type="button " class="close " aria-label="Close " (click)="modal.dismiss( 'Cross click') ">
+        <span aria-hidden="true ">&times;</span>
+      </button>
+        </div>
+        <div class="modal-body ">
+                <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                    <input (change)="filtroCliente()" name="idCliente " id="idCliente " cols="30 " class="form-control " rows="4 " placeholder="Buscar" [(ngModel)]="filter.nombre">
+                </div>
+                <!-- Table -->
+                <div class="row">
+                        <div class="col">
+                            <div class="card shadow">
+                                    <div class="table-responsive">
+                                            <table class="table align-items-center table-flush">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th scope="col">ID</th>
+                                                        <th scope="col">Nombre y Apellido</th>
+                                                        <th scope="col">Cedula</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr (click)="cliente=pac.nombre+' '+pac.apellido; idCliente=pac.idPersona;modal.dismiss( 'Cross click')" *ngFor="let pac of clientes | paginate: config">
+                                                        <td>
+                                                            {{pac.idPersona}}
+                                                        </td>
+                                                        <td>
+                                                            {{pac.nombre}} {{pac.apellido}}
+                                                        </td>
+                                                        <td>
+                                                            {{pac.cedula}}
+                                                        </td>
+                                                    </tr>
+                                                    <td colspan="7 " style=" height: 200px; " *ngIf="loading ">
+                                                        <div class="container--box ">
+                        
+                                                            <div class="box ">
+                                                                <div class="spinner spinner--2 "></div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                        
+                                                </tbody>
+                                            </table>
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                </div>
+    </ng-template>
 </div>

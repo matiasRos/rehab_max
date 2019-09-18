@@ -9,7 +9,6 @@ export class Reserva {
     idCliente: {
       idPersona: number
     };
-  
     constructor(data) {
       this.fechaCadena = data.fechaCadena;
       this.horaInicioCadena = data.horaInicioCadena;
