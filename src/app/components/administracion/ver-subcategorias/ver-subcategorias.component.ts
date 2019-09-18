@@ -1,10 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { CategoriasServices } from "src/app/services/categorias.service";
 import { SubcategoriasService } from "src/app/services/subcategorias.service";
 import { Categoria } from "src/app/models/categoria";
 import { Subcategoria } from "src/app/models/subcategoria";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { Router, ActivatedRoute } from "@angular/router";
+import { MatTableDataSource, MatSort, MatPaginator } from "@angular/material";
 
 @Component({
   selector: "app-ver-subcategorias",
@@ -21,11 +22,11 @@ export class VerSubcategoriasComponent implements OnInit {
   noSubs: string = "";
   closeResult: string;
   descripcion: string;
-  config = {
-    itemsPerPage: 5,
-    currentPage: 1,
-    totalItems: this.subcategorias.count
-  };
+  dataSource: any = [];
+
+  displayedColumns: string[] = ["id", "descripcion"];
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private categoriaService: CategoriasServices,
@@ -39,11 +40,6 @@ export class VerSubcategoriasComponent implements OnInit {
     this.id_categoria = this.route.snapshot.paramMap.get("id");
     console.log(this.id_categoria);
     this.listarSubcategorias(this.id_categoria);
-  }
-
-  pageChanged(event) {
-    console.log(event);
-    this.config.currentPage = event;
   }
 
   crearSubcategoria() {
@@ -89,12 +85,12 @@ export class VerSubcategoriasComponent implements OnInit {
       console.log(result.lista);
       if (result.lista.length > 0) {
         this.existenSub = true;
+        this.dataSource = new MatTableDataSource(result.lista);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
       } else {
         this.noSubs = "No existen subcategorias de esta categoria :(";
       }
-      result.lista.forEach(a => {
-        this.subcategorias.push(new Subcategoria(a));
-      });
     });
   }
 }

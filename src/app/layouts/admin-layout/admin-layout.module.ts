@@ -17,6 +17,7 @@ import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { NgxPaginationModule } from "ngx-pagination";
 import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
+import { MatFormFieldModule, MatInputModule } from "@angular/material";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { CategoriasComponent } from "src/app/components/administracion/categorias/categorias.component";
 import { SubcategoriasComponent } from "src/app/components/administracion/subcategorias/subcategorias.component";
@@ -41,7 +42,9 @@ import { RegistrarComponent } from 'src/app/components/administracion/registrar/
     NgxPaginationModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   declarations: [
     DashboardComponent,

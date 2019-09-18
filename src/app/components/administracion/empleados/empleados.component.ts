@@ -1,8 +1,14 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { Paciente } from "src/app/models/paciente";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { Router } from "@angular/router";
+import {
+  MatTableDataSource,
+  MatSort,
+  MatPaginator,
+  MatFormField
+} from "@angular/material";
 
 @Component({
   selector: "app-empleados",
@@ -24,11 +30,19 @@ export class EmpleadosComponent implements OnInit {
   cedula: string = "";
   tipoPersona: string = "";
   fechaNacimiento: Date;
-  config = {
-    itemsPerPage: 2,
-    currentPage: 1,
-    totalItems: this.empleados.count
-  };
+  dataSource: any = [];
+
+  displayedColumns: string[] = [
+    "idPersona",
+    "nombre",
+    "apellido",
+    "ruc",
+    "tipoPersona",
+    "telefono",
+    "acciones"
+  ];
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private empleadoService: EmpleadosService,
@@ -40,20 +54,17 @@ export class EmpleadosComponent implements OnInit {
     this.listarEmpleados();
   }
 
-  pageChanged(event) {
-    console.log(event);
-    this.config.currentPage = event;
-  }
-
   listarEmpleados() {
     this.loading = true;
     this.empleados = [];
     this.empleadoService.listarEmpleados().subscribe(result => {
       this.loading = false;
+      if (result) {
+        this.dataSource = new MatTableDataSource(result.lista);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      }
       console.log(result.lista);
-      result.lista.forEach(a => {
-        this.empleados.push(new Paciente(a));
-      });
     });
   }
 
