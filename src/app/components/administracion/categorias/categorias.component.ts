@@ -1,8 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { CategoriasServices } from "src/app/services/categorias.service";
 import { Categoria } from "src/app/models/categoria";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { Router } from "@angular/router";
+import { MatTableDataSource, MatSort, MatPaginator } from "@angular/material";
 
 @Component({
   selector: "app-categorias",
@@ -16,21 +17,17 @@ export class CategoriasComponent implements OnInit {
   totalItems: any = 10;
   descripcion: string = "";
   closeResult: string;
-  config = {
-    itemsPerPage: 5,
-    currentPage: 1,
-    totalItems: this.categorias.count
-  };
+  dataSource: any = [];
+
+  displayedColumns: string[] = ["idCategoria", "descripcion", "acciones"];
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   constructor(
     private categoriaService: CategoriasServices,
     private modalService: NgbModal,
     public router: Router
   ) {}
-
-  pageChanged(event) {
-    console.log(event);
-    this.config.currentPage = event;
-  }
 
   ngOnInit() {
     this.listarCategorias();
@@ -63,9 +60,11 @@ export class CategoriasComponent implements OnInit {
     this.categoriaService.listarCategorias().subscribe(result => {
       this.loading = false;
       console.log(result.lista);
-      result.lista.forEach(a => {
-        this.categorias.push(new Categoria(a));
-      });
+      if (result) {
+        this.dataSource = new MatTableDataSource(result.lista);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      }
     });
   }
   crearCategoria() {
@@ -83,6 +82,4 @@ export class CategoriasComponent implements OnInit {
     var url = "/subcategorias/" + elemento.id + "/ver";
     this.router.navigate([url, {}]);
   }
-
-  callPagination() {}
 }

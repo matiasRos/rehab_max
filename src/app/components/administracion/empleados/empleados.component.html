@@ -6,118 +6,57 @@
             <div class="card shadow">
                 <div class="table-responsive">
                     <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Nombre y Apellido</th>
-                                <th scope="col">Cedula</th>
-                                <th scope="col">Ruc</th>
-                                <th scope="col">Fecha Nacimiento</th>
-                                <th scope="col">Tipo Persona</th>
-                                <th scope="col">Telefono</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let emp of empleados | paginate: config">
-                                <td>
-                                    {{emp.idPersona}}
-                                </td>
-                                <td>
-                                    {{emp.nombre}} {{emp.apellido}}
-                                </td>
-                                <td>
-                                    {{emp.cedula}}
-                                </td>
-                                <td>
-                                    {{emp.ruc}}
-                                </td>
-                                <td>
-                                    {{emp.fechaNacimiento}}
-                                </td>
-                                <td>
-                                    {{emp.tipoPersona}}
-                                </td>
-                                <td>
-                                    {{emp.telefono}}
-                                </td>
-                                <td>
-                                    <a style="cursor: pointer" (click)="gestionar(emp)" class="nav-link">
-                                        Gestionar <i class="ni ni-bold-right"></i> 
-                                    </a>
-                                </td>
-                            </tr>
+                        <mat-table [dataSource]="dataSource " class="mat-elevation-z8 " matSort>
+                            <ng-container matColumnDef="idPersona">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+                                <mat-cell *matCellDef="let paciente "> {{paciente.idPersona}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="nombre">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+                                <mat-cell *matCellDef="let paciente "> {{paciente.nombre}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="apellido">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Apellido </mat-header-cell>
+                                <mat-cell *matCellDef="let paciente "> {{paciente.apellido}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="cedula">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Cedula </mat-header-cell>
+                                <mat-cell *matCellDef="let paciente "> {{paciente.cedula}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="ruc">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> RUC </mat-header-cell>
+                                <mat-cell *matCellDef="let paciente "> {{paciente.ruc}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="fechaNacimiento">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Nacimiento </mat-header-cell>
+                                <mat-cell *matCellDef="let paciente "> {{paciente.fechaNacimiento}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="tipoPersona">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo Persona </mat-header-cell>
+                                <mat-cell *matCellDef="let paciente "> {{paciente.tipoPersona}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="telefono">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Telefono </mat-header-cell>
+                                <mat-cell *matCellDef="let paciente "> {{paciente.telefono}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="acciones">
+                                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                <mat-cell *matCellDef="let paciente "> <a style="cursor: pointer " (click)="gestionar(paciente) " class="nav-link ">
+                                            Gestionar <i class="ni ni-bold-right "></i> 
+                                        </a> </mat-cell>
+                            </ng-container>
 
-                            <td colspan="2" style="    height: 200px;" *ngIf="loading">
-                                <div class="container--box">
-
-                                    <div class="box">
-                                        <div class="spinner spinner--2"></div>
-                                    </div>
-                                </div>
-                            </td>
-
-                        </tbody>
+                            <mat-header-row *matHeaderRowDef="displayedColumns "></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns; "></mat-row>
+                        </mat-table>
                     </table>
                 </div>
-                <div class="card-footer py-4">
-                    <nav aria-label="...">
-                        <pagination-controls class="pagination" (pageChange)="pageChanged($event)" maxSize="9" directionLinks="true" autoHide="true" responsive="true" previousLabel="Anterior" nextLabel="Siguiente" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
-                            screenReaderCurrentLabel="Estas en la pagina..">
-                        </pagination-controls>
+                <div class="card-footer py-4 ">
+                    <nav aria-label="... ">
+                        <mat-paginator [pageSizeOptions]="[5, 10, 20] " showFirstLastButtons></mat-paginator>
                     </nav>
                 </div>
             </div>
         </div>
     </div>
-    <ng-template #crear let-modal>
-        <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Agregar empiente</h4>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-        </div>
-        <div class="modal-body">
-            <form>
-                <div class="form-group" style="margin: 0px 15px 15px 15px;">
-                    <label for="nombre" class="col-form-label">Nombre</label>
-                    <input name="nombre" id="id_nombre" cols="30" class="form-control" rows="4" [(ngModel)]="nombre">
-                </div>
-                <div class="form-group" style="margin: 0px 15px 15px 15px;">
-                    <label for="apellido" class="col-form-label">Apellido</label>
-                    <input name="apellido" id="id_apellido" cols="30" class="form-control" rows="4" [(ngModel)]="apellido">
-                </div>
-                <div class="form-group" style="margin: 0px 15px 15px 15px;">
-                    <label for="email" class="col-form-label">Email</label>
-                    <input name="email" id="id_email" cols="30" class="form-control" rows="4" [(ngModel)]="email">
-                </div>
-                <div class="form-group" style="margin: 0px 15px 15px 15px;">
-                    <label for="telefono" class="col-form-label">Telefono</label>
-                    <input name="telefono" id="id_telefono" cols="30" class="form-control" rows="4" [(ngModel)]="telefono">
-                </div>
-                <div class="form-group" style="margin: 0px 15px 15px 15px;">
-                    <label for="ruc" class="col-form-label">RUC</label>
-                    <input name="ruc" id="id_ruc" cols="30" class="form-control" rows="4" [(ngModel)]="ruc">
-                </div>
-                <div class="form-group" style="margin: 0px 15px 15px 15px;">
-                    <label for="cedula" class="col-form-label">Cedula</label>
-                    <input name="cedula" id="id_cedula" cols="30" class="form-control" rows="4" [(ngModel)]="cedula">
-                </div>
-                <div class="form-group" style="margin: 0px 15px 15px 15px;">
-                    <label for="tipoPersona" class="col-form-label">Tipo Persona</label>
-                    <input name="tipoPersona" id="id_tipoPersona" cols="30" class="form-control" rows="4" [(ngModel)]="tipoPersona">
-                </div>
-                <div class="form-group" style="margin: 0px 15px 15px 15px;">
-                    <label for="fechaNacimiento" class="col-form-label">Fecha Nacimiento</label>
-                    <input type="date" name="fechaNacimiento" id="id_fechaNacimiento" cols="30" class="form-control" rows="4" [(ngModel)]="fechaNacimiento">
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn  btn-primary" (click)="modal.close('Save click')"><i class="fas fa-save"></i>
-        guardar</button>
-            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')"><i class="fas fa-times"></i>
-        cancelar</button>
-        </div>
-    </ng-template>
 </div>

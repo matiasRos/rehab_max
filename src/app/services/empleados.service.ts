@@ -10,6 +10,7 @@ import { handleError } from "../util/error-handler";
 export class EmpleadosService {
   private urlPersona = Servers.RehabMax.baseUrl + "/persona";
   private urlHorario = Servers.RehabMax.baseUrl + "/personaHorarioAgenda";
+  private urlExcep = Servers.RehabMax.baseUrl + "/horarioExcepcion";
 
   constructor(private http: HttpClient) {}
 
@@ -43,9 +44,59 @@ export class EmpleadosService {
     return this.http
       .post<any[]>(this.urlHorario, body, {
         headers: {
-          "Content-Type": "application/json;usuario:gustavo"
+          "Content-Type": "application/json",
+          usuario: "gustavo"
         }
       })
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
+
+  nuevaExcepcion(data): Observable<any> {
+    console.log("data", data);
+    let body = data;
+    return this.http
+      .post<any[]>(this.urlExcep, body, {
+        headers: {
+          "Content-Type": "application/json",
+          usuario: "gustavo"
+        }
+      })
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
+
+  listarExcepFecha(data): Observable<any> {
+    let body = { fechaCadena: data.fechaCadena };
+
+    let datos = JSON.stringify(body);
+    console.log(datos);
+
+    return this.http
+      .get<any[]>(this.urlExcep + "?ejemplo=" + datos)
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
+
+  listarExcepEmpleado(data): Observable<any> {
+    let body = { idEmpleado: { idPersona: data } };
+
+    let datos = JSON.stringify(body);
+    console.log(datos);
+
+    return this.http
+      .get<any[]>(this.urlExcep + "?ejemplo=" + datos)
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
+
+  listarPorDia(data): Observable<any> {
+    let body = {
+      dia: data.diaSemana,
+      idEmpleado: { idPersona: data.idPersona }
+    };
+
+    let datos = JSON.stringify(body);
+    console.log(datos);
+
+    return this.http
+      .get<any[]>(this.urlHorario + "?ejemplo=" + datos)
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
 }

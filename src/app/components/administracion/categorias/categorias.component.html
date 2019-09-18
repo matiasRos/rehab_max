@@ -9,45 +9,29 @@
             <div class="card shadow">
 
                 <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">Nro</th>
-                                <th scope="col">Descripción</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let ctg of categorias | paginate: config">
-                                <td>
-                                    {{ctg.id}}
-                                </td>
-                                <td>
-                                    {{ctg.descripcion}}
-                                </td>
-                                <td>
-                                    <a style="cursor: pointer" (click)="verSubcategorias(ctg)" class="nav-link">
-                                        Ver detalles <i class="ni ni-bold-right"></i> 
-                                    </a>
-                                </td>
-                            </tr>
-                            <td colspan="2" style="    height: 200px;" *ngIf="loading">
-                                <div class="container--box">
+                    <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+                        <ng-container matColumnDef="idCategoria">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+                            <mat-cell *matCellDef="let categ"> {{categ.idCategoria}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="descripcion">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </mat-header-cell>
+                            <mat-cell *matCellDef="let categ"> {{categ.descripcion}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="acciones">
+                            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                            <mat-cell *matCellDef="let categ"> <a style="cursor: pointer" (click)="verSubcategorias(categ)" class="nav-link">
+                                            Ver detalles <i class="ni ni-bold-right"></i> 
+                                            </a> </mat-cell>
+                        </ng-container>
 
-                                    <div class="box">
-                                        <div class="spinner spinner--2"></div>
-                                    </div>
-                                </div>
-                            </td>
-
-                        </tbody>
-                    </table>
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
                 </div>
                 <div class="card-footer py-4">
                     <nav aria-label="...">
-                        <pagination-controls class="pagination" (pageChange)="pageChanged($event)" maxSize="9" directionLinks="true" autoHide="true" responsive="true" previousLabel="Anterior" nextLabel="Siguiente" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
-                            screenReaderCurrentLabel="Estas en la pagina..">
-                        </pagination-controls>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
                     </nav>
                 </div>
             </div>

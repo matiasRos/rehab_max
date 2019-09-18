@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col">
             <div class="botonera">
-                <button (click)="crearModal(crear)" type="button" class="btn btn-primary mb-3">Agregar Subcategoría</button>
+                <button (click)="crearModal(crear)" type="button" class="btn btn-primary mb-3">Agregar Subsubcategoría</button>
             </div>
             <h3 ng-cloak style="margin-top: 5px; color: white" *ngIf="existenSub">
                 SUBCATEGORIAS
@@ -48,40 +48,23 @@
                     {{noSubs}}
                 </h3>
                 <div *ngIf="existenSub" class="table-responsive">
+                    <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+                        <ng-container matColumnDef="id">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+                            <mat-cell *matCellDef="let subcateg"> {{subcateg.id}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="descripcion">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </mat-header-cell>
+                            <mat-cell *matCellDef="let subcateg"> {{subcateg.descripcion}} </mat-cell>
+                        </ng-container>
 
-                    <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">Nro</th>
-                                <th scope="col">Descripción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let sctg of subcategorias | paginate: config">
-                                <td>
-                                    {{sctg.id}}
-                                </td>
-                                <td>
-                                    {{sctg.descripcion}}
-                                </td>
-                            </tr>
-                            <td colspan="2" style="    height: 200px;" *ngIf="loading">
-                                <div class="container--box">
-
-                                    <div class="box">
-                                        <div class="spinner spinner--2"></div>
-                                    </div>
-                                </div>
-                            </td>
-
-                        </tbody>
-                    </table>
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
                 </div>
                 <div *ngIf="existenSub" class="card-footer py-4">
                     <nav aria-label="...">
-                        <pagination-controls class="pagination " (pageChange)="pageChanged($event) " maxSize="9 " directionLinks="true " autoHide="true " responsive="true " previousLabel="Anterior " nextLabel="Siguiente
-                            " screenReaderPaginationLabel="Pagination " screenReaderPageLabel="page " screenReaderCurrentLabel="Estas en la pagina.. ">
-                        </pagination-controls>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
                     </nav>
                 </div>
             </div>
