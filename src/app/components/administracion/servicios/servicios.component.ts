@@ -45,7 +45,7 @@ export class ServiciosComponent implements OnInit {
     private modalService: NgbModal,
     private subcategoriasService: SubcategoriasService,
     public router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.listarServicios();
@@ -108,7 +108,12 @@ export class ServiciosComponent implements OnInit {
         idTipoProducto: { idTipoProducto: this.filter.subcategoria }
       };
     }
-    this.urlFiltro = "&ejemplo=" + JSON.stringify(data);
+    if (this.urlParams.length === 0) {
+      this.urlFiltro = "?ejemplo=" + encodeURIComponent(JSON.stringify(data));
+    } else {
+      this.urlFiltro = "&ejemplo=" + encodeURIComponent(JSON.stringify(data));
+    }
+
     this.filtrar(this.urlParams + this.urlFiltro);
   }
 
