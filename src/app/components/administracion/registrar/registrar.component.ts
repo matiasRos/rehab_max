@@ -16,6 +16,8 @@ export class RegistrarComponent implements OnInit {
   detallesCabeceraServicio: any;
   estado: any;
   presupuesto: any;
+  motivoConsulta: any;
+  descripcionGeneral: any;
   constructor(private service: RegistrarService, private modalService: NgbModal, private fb: FormBuilder) { }
 
   closeResult: string;
@@ -86,6 +88,14 @@ export class RegistrarComponent implements OnInit {
   getDetallesPorIdServicio(idServicio) {
     this.service.listarServicioPorIdServicioDetalle(idServicio).subscribe((response) => {
       console.log(response);
+      if (response.length === 0) {
+        console.log('response vacio');
+        return;
+      }
+      console.log(response[0]);
+      this.idSer = response[0].idServicio.idServicio;
+      this.motivoConsulta = response[0].idServicio.idFichaClinica.motivoConsulta;
+      this.descripcionGeneral = response[0].idPresentacionProducto.descripcionGeneral;
     });
   }
   obtenerServiciosRegistradosPorFisioterapeuta(idServicio) {
@@ -171,7 +181,22 @@ export class RegistrarComponent implements OnInit {
       .result.then(
         result => {
           console.log('Clg crearModalDetallesServicio');
-          this.verDetallesServicio(idServicio);
+          // this.verDetallesServicio(idServicio);
+        },
+        reason => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
+  crearModalDetallesServicioDetallado(content, idServicio) {
+    this.getDetallesPorIdServicio(idServicio);
+    console.log(idServicio);
+    this.modalService
+      .open(content, { ariaLabelledBy: 'detalles-del-servicio-detallado' })
+      .result.then(
+        result => {
+          console.log('Clg crearModalDetallesServicioDetallado');
+
         },
         reason => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
