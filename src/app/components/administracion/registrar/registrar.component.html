@@ -4,6 +4,10 @@
     <div class="row">
         <div class="col">
             <div class="botonera">
+                <button (click)="crearModal(crear)" type="button" class="btn btn-primary mb-3" style="    background-color: #9e2e2e;
+                border: none;    font-size: 20px;"><i class="far fa-file-pdf"></i></button>
+                <button (click)="crearModal(crear)" type="button" class="btn btn-primary mb-3" style="    background-color: #2e9e60;
+                border: none;     font-size: 20px;"> <i class="far fa-file-excel"></i> </button>
                 <button (click)="crearModal(crear)" type="button" class="btn btn-primary mb-3">Registrar</button>
                 <button (click)="crearModalAgregarDetalleAServicio(crearModalDetalleServicio)" type="button" class="btn btn-primary mb-3">Agregar detalle a
                     servicio</button>
@@ -12,7 +16,31 @@
                 <div novalidate="" class="ng-untouched ng-pristine ng-valid">
                     <h6 class="heading-small text-muted mb-4 ml-lg-4 mt-4">Filtrar</h6>
                     <div class="pl-lg-4 mr-3">
-
+                        <div novalidate="" class="ng-untouched ng-pristine ng-valid">
+                            <h6 class="heading-small text-muted mb-4 ml-lg-4 mt-4">Filtrar</h6>
+                            <div class="pl-lg-4 mr-3">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">Fecha Inicio</label>
+                                            <input [(ngModel)]="fechaDesde" class="form-control form-control-alternative" id="input-username" placeholder="Nombre" type="date">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">Fecha Desde</label>
+                                            <input [(ngModel)]="fechaHasta" class="form-control form-control-alternative" id="input-username" placeholder="Apellido" type="date" value="lucky.jesse">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="botonera">
+                                <button (click)="limpiar()" type="button" class="btn btn-light mb-3 mr-3">Limpiar</button>
+                                <button (click)="addFilter()" type="button" class="btn btn-primary mb-3 mr-3">Filtrar</button>
+                            </div>
+                            <hr class="my-4">
+                        </div>
 
                         <hr class="my-4">
                     </div>

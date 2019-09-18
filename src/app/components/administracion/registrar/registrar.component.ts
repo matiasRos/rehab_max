@@ -24,10 +24,10 @@ export class RegistrarComponent implements OnInit {
   motivoConsulta: any;
   descripcionGeneral: any;
   constructor(private service: RegistrarService, private modalService: NgbModal, private fb: FormBuilder) { }
-
+  filter: any={};
   closeResult: string;
   services: any = [];
-  observacion: String = "";
+  observacion: string = "";
 
   submit() {
     console.log(this.form.value);
@@ -42,7 +42,7 @@ export class RegistrarComponent implements OnInit {
     this.getPresentacionProducto();
     this.getServicios();
   }
-
+  
   getPresentacionProducto() {
     this.presentacionProducto = [];
     this.service.listarPresentacionProducto().subscribe(result => {
@@ -57,7 +57,6 @@ export class RegistrarComponent implements OnInit {
   }
 
   getServicios() {
-    console.log("Servicios clg");
     this.services = [];
     this.service.listarServicios().subscribe(result => {
       result.lista.forEach(a => {
@@ -71,6 +70,26 @@ export class RegistrarComponent implements OnInit {
       });
     });
   }
+
+  filtrar() {
+    this.services = [];
+    this.pacienteService.filtrarPacientes(urlFiltro).subscribe(result => {
+      this.services = [];
+      if (result) {
+        result.lista.forEach(a => {
+          var elem = {
+            idServicio: a.idServicio,
+            usuario: a.usuario.usuarioLogin,
+            observacion: a.observacion,
+            presupuesto: a.presupuesto
+          };
+          this.services.push(elem);
+        });
+      }
+    });
+  }
+
+
   getCabeceraServicios(idServicio) {
     this.service.listarServicioPorIdServicioCabecera(idServicio).subscribe((response) => {
       //this.detallesCabeceraServicio = response;

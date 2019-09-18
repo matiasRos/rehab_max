@@ -12,6 +12,10 @@ import { MatTableDataSource, MatSort, MatPaginator } from "@angular/material";
 })
 export class CategoriasComponent implements OnInit {
   categorias: any = [];
+  fechaInicio:string;
+  fechaDesde:string;
+  idPersona:number;
+  idEmpleado:number;
   loading: boolean;
   itemsTotalPagina: any = 5;
   totalItems: any = 10;
