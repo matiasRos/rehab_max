@@ -1,0 +1,89 @@
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="botonera">
+                <button (click)="crearModal(crear)" type="button" class="btn btn-primary mb-3">Registrar</button>
+            </div>
+            <div class="card shadow">
+                <div novalidate="" class="ng-untouched ng-pristine ng-valid">
+                    <h6 class="heading-small text-muted mb-4 ml-lg-4 mt-4">Filtrar</h6>
+                    <div class="pl-lg-4 mr-3">
+
+                        <!--div class="botonera">
+                            <button (click)="limpiar()" type="button" class="btn btn-light mb-3 mr-3">Limpiar</button>
+                            <button (click)="addFilter()" type="button" class="btn btn-primary mb-3 mr-3">Registrar</button>
+                        </div-->
+                        <hr class="my-4">
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Usuario</th>
+                                    <th scope="col">Observacion</th>
+                                    <th scope="col">Presupuesto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ser of services">
+                                    <td>
+                                        {{ser.idServicio}}
+                                    </td>
+                                    <td>
+                                        {{ser.usuario.usuarioLogin}}
+                                    </td>
+                                    <td>
+                                        {{ser.observacion}}
+                                    </td>
+                                    <td>
+                                        {{ser.presupuesto}}
+                                    </td>
+
+                                </tr>
+                                <td colspan="4" style="    height: 200px;" *ngIf="loading">
+                                    <div class="container--box">
+
+                                        <div class="box">
+                                            <div class="spinner spinner--2"></div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer py-4">
+                        <nav aria-label="...">
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-template #crear let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Agregar Servicio</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" style="margin: 0px 15px 15px 15px;">
+                    <label for="observacion" class="col-form-label">Observacion</label>
+                    <input name="observacion" id="id_observacion" cols="30" class="form-control" rows="4" [(ngModel)]="observacion">
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn  btn-primary" (click)="modal.close('Save click')"><i
+                        class="fas fa-save"></i>
+                    guardar</button>
+                <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')"><i
+                        class="fas fa-times"></i>
+                    cancelar</button>
+            </div>
+        </ng-template>
+    </div>
