@@ -24,21 +24,37 @@ export class ReservasService {
       .get<any[]>(this.url + urlFiltro)
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
-
-  crearReserva(data): Observable<any> {
-    var body = {
-      fechaCadena: data.fechaCadena,
-      horaInicioCadena: data.horaInicioCadena,
-      horaFinCadena: data.horaFinCadena,
-      idEmpleado:{
-        idPersona:data.idPersona
-      },
-      idCliente:{
-        idPersona:data.idPersona
-      },
-    };
+  crear(data): Observable<any> {
+    let headers = {"Content-Type": "application/json","usuario": "gustavo"}
     return this.http
-      .post<any[]>(this.url, body)
+      .post<any[]>(this.url, data, {headers: headers})
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
+  obtenerPorEmpleado(empleado, desde, hasta) {
+    return this.http
+      .get<any[]>(
+        `${this.url}?ejemplo={"idEmpleado":{"idPersona":${empleado}},"fechaDesdeCadena":"${desde}","fechaHastaCadena":"${hasta}"}` 
+      )
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
+  obtenerPorCliente(cliente) {
+    return this.http
+      .get<any[]>(
+        `${this.url}?ejemplo={"idCliente":{"idPersona":${cliente}}}` 
+      )
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
+  cancelar(reserva) {
+    return this.http
+      .delete<any[]>(
+        `${this.url}/${reserva}` 
+      )
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
+  modificar(reserva, data){
+    let headers = {"Content-Type": "application/json","usuario": "gustavo"}
+    return this.http
+      .put<any[]>(`${this.url}`, data, {headers: headers})
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
 }

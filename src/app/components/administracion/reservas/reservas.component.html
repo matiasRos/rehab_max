@@ -13,32 +13,28 @@
                       <div class="row">
                           <div class="col-lg-6">
                               <div class="form-group">
-                                  <input [(ngModel)]="filter.fechaDesde" class="form-control form-control-alternative" id="input-username" 
-                                  matInput [matDatepicker]="picker" placeholder="Fecha desde" (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
-                                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                  <mat-datepicker #picker></mat-datepicker>
+                                    <label for="fechaDesde" class="col-form-label">Fecha Desde</label>
+                                    <input type="date" name="fechaDesde" id="id_fechaDesde" cols="30" class="form-control" rows="4" [(ngModel)]="filter.fechaDesde">
                               </div>
                           </div>
                           <div class="col-lg-6">
-                              <div class="form-group">
-                                  <label class="form-control-label" for="input-username">Fecha hasta</label>
-                                  <input [(ngModel)]="filter.fechaHasta" class="form-control form-control-alternative" id="input-username" placeholder="Fecha hasta" type="text" value="">
-                              </div>
+                                <div class="form-group">
+                                    <label for="fechaHasta" class="col-form-label">Fecha Hasta</label>
+                                    <input type="date" name="fechaHasta" id="id_fechaHasta" cols="30" class="form-control" rows="4" [(ngModel)]="filter.fechaHasta">
+                                </div>
                           </div>
                       </div>
                       <div class="row">
                           <div class="col-lg-6">
                               <div class="form-group">
-                                  <label class="form-control-label" for="input-username">Fisioterapeuta</label>
-                                  <input [(ngModel)]="filter.idEmpleado" class="ml-2 mt-1" id="input-username" placeholder="xxxx" type="text">
-                                  <button (click)="buscar_fisio()" type="button" class="btn btn-light mb-3 mr-3">Buscar</button>
+                                  <label for="fisioterapeuta" class="col-form-label">Fisioterapeuta</label>
+                                  <input (click)="buscar_fisio()" name="fisioterapeuta" id="id_fisioterapeuta" cols="30" class="form-control" rows="4" [(ngModel)]="filter.idEmpleado">
                               </div>
                           </div>
                           <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="form-control-label" for="input-username">Cliente</label>
-                                <input [(ngModel)]="filter.idCliente" class="ml-2 mt-1" id="input-username" placeholder="xxxx" type="text">
-                                <button (click)="buscar_cliente()" type="button" class="btn btn-light mb-3 mr-3">Buscar</button>
+                                <label for="cliente" class="col-form-label">Cliente</label>
+                                <input (click)="buscar_cliente()" name="cliente" id="id_cliente" cols="30" class="form-control" rows="4" [(ngModel)]="filter.idCliente">
                             </div>
                         </div>
                       </div>
@@ -54,36 +50,44 @@
                       <thead class="thead-light">
                           <tr>
                               <th scope="col">ID</th>
-                              <th scope="col">Nombre y Apellido</th>
-                              <th scope="col">Cedula</th>
-                              <th scope="col">Ruc</th>
-                              <th scope="col">Fecha Nacimiento</th>
-                              <th scope="col">Tipo Persona</th>
-                              <th scope="col">Telefono</th>
+                              <th scope="col">Empleado</th>
+                              <th scope="col">Cliente</th>
+                              <th scope="col">Fecha</th>
+                              <th scope="col">Hora Inicio</th>
+                              <th scope="col">Hora Fin</th>
+                              <th scope="col">Acciones</th>
                           </tr>
                       </thead>
                       <tbody>
-                          <tr *ngFor="let pac of pacientes | paginate: config">
+                          <tr *ngFor="let reserva of reservas | paginate: config">
                               <td>
-                                  {{pac.idPersona}}
+                                  {{reserva.idReserva}}
                               </td>
                               <td>
-                                  {{pac.nombre}} {{pac.apellido}}
+                                    {{reserva.idEmpleado}}
                               </td>
                               <td>
-                                  {{pac.cedula}}
+                                    {{reserva.idCliente}}
                               </td>
                               <td>
-                                  {{pac.ruc}}
+                                    {{reserva.fechaCadena}}
                               </td>
                               <td>
-                                  {{pac.fechaNacimiento}}
+                                    {{reserva.horaInicioCadena}}
                               </td>
                               <td>
-                                  {{pac.tipoPersona}}
+                                  {{reserva.horaFinCadena}}
                               </td>
                               <td>
-                                  {{pac.telefono}}
+                                    <a style="cursor: pointer" (click)="modificarReserva()" class="nav-link">
+                                        Modificar <i class="ni ni-ruler-pencil"></i> 
+                                    </a>
+                                    <a style="cursor: pointer" (click)="cancelarReserva()" class="nav-link">
+                                        Cancelar <i class="ni ni-fat-remove"></i> 
+                                    </a>
+                                    <a style="cursor: pointer" (click)="newFichaReserva()" class="nav-link">
+                                        Nueva Ficha <i class="ni ni-folder-17"></i> 
+                                    </a>
                               </td>
                           </tr>
                           <td colspan="7 " style=" height: 200px; " *ngIf="loading ">
@@ -117,37 +121,25 @@
       </div>
       <div class="modal-body ">
           <form>
+                <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                    <label for="idEmpleado " class="col-form-label ">Doctor</label>
+                    <input name="idEmpleado " id="idEmpleado " cols="30 " class="form-control " rows="4 " [(ngModel)]="idEmpleado ">
+                </div>
               <div class="form-group " style="margin: 0px 15px 15px 15px; ">
-                  <label for="nombre " class="col-form-label ">Fisioterapeuta</label>
-                  <input name="nombre " id="id_nombre " cols="30 " class="form-control " rows="4 " [(ngModel)]="nombre ">
+                  <label for="idCliente " class="col-form-label ">Cliente</label>
+                  <input name="idCliente " id="idCliente " cols="30 " class="form-control " rows="4 " [(ngModel)]="idCliente">
               </div>
               <div class="form-group " style="margin: 0px 15px 15px 15px; ">
-                  <label for="apellido " class="col-form-label ">Cliente</label>
-                  <input name="apellido " id="id_apellido " cols="30 " class="form-control " rows="4 " [(ngModel)]="apellido ">
+                  <label for="fechaCadena " class="col-form-label ">Fecha</label>
+                  <input type="date" name="fechaCadena " id="id_fechaCadena " cols="30 " class="form-control " rows="4 " [(ngModel)]="fechaCadena ">
               </div>
               <div class="form-group " style="margin: 0px 15px 15px 15px; ">
-                  <label for="email " class="col-form-label ">Fecha</label>
-                  <input name="email " id="id_email " cols="30 " class="form-control " rows="4 " [(ngModel)]="email ">
+                  <label for="horaInicioCadena " class="col-form-label ">Hora Inicio</label>
+                  <input name="horaInicioCadena " id="id_horaInicioCadena " cols="30 " class="form-control " rows="4 " [(ngModel)]="horaInicioCadena">
               </div>
               <div class="form-group " style="margin: 0px 15px 15px 15px; ">
-                  <label for="telefono " class="col-form-label ">Telefono</label>
-                  <input name="telefono " id="id_telefono " cols="30 " class="form-control " rows="4 " [(ngModel)]="telefono ">
-              </div>
-              <div class="form-group " style="margin: 0px 15px 15px 15px; ">
-                  <label for="ruc " class="col-form-label ">RUC</label>
-                  <input name="ruc " id="id_ruc " cols="30 " class="form-control " rows="4 " [(ngModel)]="ruc ">
-              </div>
-              <div class="form-group " style="margin: 0px 15px 15px 15px; ">
-                  <label for="cedula " class="col-form-label ">Cedula</label>
-                  <input name="cedula " id="id_cedula " cols="30 " class="form-control " rows="4 " [(ngModel)]="cedula ">
-              </div>
-              <div class="form-group " style="margin: 0px 15px 15px 15px; ">
-                  <label for="tipoPersona " class="col-form-label ">Tipo Persona</label>
-                  <input name="tipoPersona " id="id_tipoPersona " cols="30 " class="form-control " rows="4 " [(ngModel)]="tipoPersona ">
-              </div>
-              <div class="form-group " style="margin: 0px 15px 15px 15px; ">
-                  <label for="fechaNacimiento " class="col-form-label ">Fecha Nacimiento</label>
-                  <input type="date " name="fechaNacimiento " id="id_fechaNacimiento " cols="30 " class="form-control " rows="4 " [(ngModel)]="fechaNacimiento ">
+                  <label for="horaFinCadena " class="col-form-label ">Hora Fin</label>
+                  <input name="horaFinCadena " id="id_horaFinCadena " cols="30 " class="form-control " rows="4 " [(ngModel)]="horaFinCadena ">
               </div>
           </form>
       </div>

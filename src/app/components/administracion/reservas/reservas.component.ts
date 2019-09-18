@@ -1,8 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { ReservasService } from "src/app/services/reservas.service";
+import { PacientesService } from "src/app/services/pacientes.service";
+import { EmpleadosService } from "src/app/services/empleados.service";
 import { Reserva } from "src/app/models/reserva";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { Router } from "@angular/router";
+import { FormControl } from '@angular/forms';
+import {
+  MatAutocompleteModule,
+  MatInputModule
+} from '@angular/material';
 import * as $ from "jquery";
 
 @Component({
@@ -11,7 +18,10 @@ import * as $ from "jquery";
   styleUrls: ["./reservas.component.scss"]
 })
 export class ReservasComponent implements OnInit {
+  myControl = new FormControl();
   reservas: any = [];
+  doctores: any = [];
+  clientes: any = [];
   loading: boolean;
   itemsTotalPagina: any = 5;
   totalItems: any = 0;
@@ -40,21 +50,15 @@ export class ReservasComponent implements OnInit {
   };
   constructor(
     private reservaService: ReservasService,
+    private empleados: EmpleadosService,
     private modalService: NgbModal,
     public router: Router
   ) {}
 
   ngOnInit() {
-    /*this.urlParams =
-      "?orderBy=" +
-      this.orderBy +
-      "&orderDir=" +
-      this.orderDir +
-      "&cantidad=" +
-      this.cantPorPagina +
-      "&inicio=" +
-      this.inicio;*/
     this.listarReservas();
+    this.buscar_fisio();
+
   }
 
   pageChanged(event) {
@@ -126,8 +130,8 @@ export class ReservasComponent implements OnInit {
         idPersona:this.idCliente
       }
     };
-    this.reservaService.crearReserva(data).subscribe(result => {
-      this.reservas = "";
+    this.reservaService.crear(data).subscribe(result => {
+      this.reservas = [];
       this.addFilter();
     });
   }
@@ -145,9 +149,6 @@ export class ReservasComponent implements OnInit {
     }
     if(this.filter.fechaHasta){
       data["fechaHasta"] = this.filter.fechaHasta;
-    }
-    if (this.filter.usuarioSistema) {
-      data["soloUsuariosDelSistema"] = this.filter.usuarioSistema;
     }
     this.urlFiltro = "&ejemplo=" + JSON.stringify(data);
     this.filtrar(this.urlParams + this.urlFiltro);
@@ -176,9 +177,22 @@ export class ReservasComponent implements OnInit {
   }
 
   buscar_fisio(){
+    this.doctores = this.empleados.listarEmpleados();
+    console.log(this.doctores);
+    $('#form-autocomplete-1').mdbAutocomplete({
+      data: this.doctores
+    });
+  }
+
+  buscar_cliente(){
     
   }
 
+  listar(){
+    this.reservaService.listarReservas("asd").subscribe((reservas: Reserva[]) => {
+      this.reservas = reservas
+    })
+  }
   crearModal(content) {
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title" })
@@ -200,4 +214,5 @@ export class ReservasComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+
 }

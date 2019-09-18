@@ -15,11 +15,14 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { AppRoutingModule } from "./app.routing";
 import { ComponentsModule } from "./components/components.module";
 import { HeaderBgComponent } from "./components/common/header-bg/header-bg.component";
-import { ReservasComponent } from './components/administracion/reservas/reservas.component';
+import { AngularMaterialModule } from './angular-material.module';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
+    AngularMaterialModule,
     FormsModule,
     HttpClientModule,
     ComponentsModule,
@@ -27,14 +30,14 @@ import { ReservasComponent } from './components/administracion/reservas/reservas
     RouterModule,
     AppRoutingModule,
     NgxMaterialTimepickerModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ReactiveFormsModule
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
     HeaderBgComponent,
-    ReservasComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

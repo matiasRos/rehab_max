@@ -12,6 +12,7 @@ import { PacientesComponent } from "src/app/components/administracion/pacientes/
 import { EmpleadosComponent } from "src/app/components/administracion/empleados/empleados.component";
 import { GestionEmpleadoComponent } from "src/app/components/administracion/gestion-empleado/gestion-empleado.component";
 import { ServiciosComponent } from "src/app/components/administracion/servicios/servicios.component";
+import { ReservasComponent } from "src/app/components/administracion/reservas/reservas.component";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
@@ -25,5 +26,6 @@ export const AdminLayoutRoutes: Routes = [
   { path: "empleados", component: EmpleadosComponent },
   { path: "empleados/:id/gestionar", component: GestionEmpleadoComponent },
   { path: "subcategorias", component: SubcategoriasComponent },
-  { path: "subcategorias/:id/ver", component: VerSubcategoriasComponent }
+  { path: "subcategorias/:id/ver", component: VerSubcategoriasComponent },
+  { path: "reservas", component: ReservasComponent },
 ];
