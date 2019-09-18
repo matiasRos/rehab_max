@@ -181,14 +181,15 @@ export class RegistrarComponent implements OnInit {
       .listarServicioPorIdServicioDetalle(idServicio)
       .subscribe(response => {
         console.log("response eliminarUnServicioParcial", response);
-        if (response.lenght === 0) {
+        if (response.length === 0) {
           console.log('response vacio');
-          return;
           this.getServicios();
-        }
-        var idDetalleServicio = response[0].idServicioDetalle;
+          return;
+        } else {
+          var idDetalleServicio = response[0].idServicioDetalle;
 
-        this.deleteUnServicio(idServicio, idDetalleServicio);
+          this.deleteUnServicio(idServicio, idDetalleServicio);
+        }
       });
   }
   crearModalAgregarDetalleAServicio(content) {
