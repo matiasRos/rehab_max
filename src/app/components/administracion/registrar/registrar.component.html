@@ -33,7 +33,7 @@
                                         {{ser.idServicio}}
                                     </td>
                                     <td>
-                                        {{ser.usuario.usuarioLogin}}
+                                        {{ser.usuario}}
                                     </td>
                                     <td>
                                         {{ser.observacion}}
@@ -41,7 +41,7 @@
                                     <td>
                                         {{ser.presupuesto}}
                                     </td>
-                                    <td><button class="btn btn-primary mb-1" (click)="eliminarUnServicioParcial(ser.idServicio)" type="button">Eliminar este servicio</button></td>
+                                    <td><button class="btn btn-primary btn-sm mb-1" (click)="eliminarUnServicioParcial(ser.idServicio)" type="button">Eliminar este servicio</button></td>
 
                                 </tr>
 

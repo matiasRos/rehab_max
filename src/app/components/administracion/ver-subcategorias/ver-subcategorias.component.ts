@@ -22,9 +22,10 @@ export class VerSubcategoriasComponent implements OnInit {
   noSubs: string = "";
   closeResult: string;
   descripcion: string;
+  nombreSub: string;
   dataSource: any = [];
 
-  displayedColumns: string[] = ["id", "descripcion"];
+  displayedColumns: string[] = ["idTipoProducto", "descripcion"];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -52,6 +53,19 @@ export class VerSubcategoriasComponent implements OnInit {
       this.descripcion = "";
       this.listarSubcategorias(this.id_categoria);
     });
+  }
+
+  listarPorNombre() {
+    if (this.nombreSub) {
+      var data = { descripcion: this.nombreSub };
+      this.subcategoriasService.listarporNombre(data).subscribe(result => {
+        if (result.lista.length > 0) {
+          this.dataSource = new MatTableDataSource(result.lista);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+        }
+      });
+    }
   }
 
   crearModal(content) {

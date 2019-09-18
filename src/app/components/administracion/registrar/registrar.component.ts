@@ -1,23 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { RegistrarService } from '../../../services/registrar.service';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Component, OnInit } from "@angular/core";
+import { RegistrarService } from "../../../services/registrar.service";
+import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  Validators,
+  FormGroup
+} from "@angular/forms";
 
 @Component({
-  selector: 'app-registrar',
-  templateUrl: './registrar.component.html',
-  styleUrls: ['./registrar.component.scss']
+  selector: "app-registrar",
+  templateUrl: "./registrar.component.html",
+  styleUrls: ["./registrar.component.scss"]
 })
 export class RegistrarComponent implements OnInit {
   form: FormGroup;
   presentacionProducto: any = [];
   idPre: any;
   idSer: any;
-  constructor(private service: RegistrarService, private modalService: NgbModal, private fb: FormBuilder) { }
+  constructor(
+    private service: RegistrarService,
+    private modalService: NgbModal,
+    private fb: FormBuilder
+  ) {}
 
   closeResult: string;
   services: any = [];
-  observacion: String = '';
+  observacion: String = "";
 
   submit() {
     console.log(this.form.value);
@@ -35,70 +44,73 @@ export class RegistrarComponent implements OnInit {
 
   getPresentacionProducto() {
     this.presentacionProducto = [];
-    this.service.listarPresentacionProducto().subscribe((result) => {
+    this.service.listarPresentacionProducto().subscribe(result => {
       result.lista.forEach(a => {
         var elem = {
           idPresentacionProducto: a.idPresentacionProducto,
           descripcion: a.descripcion
-        }
+        };
         this.presentacionProducto.push(elem);
       });
-      console.log('presentacion', this.presentacionProducto);
     });
   }
 
   getServicios() {
-    console.log('Servicios clg');
+    console.log("Servicios clg");
     this.services = [];
-    this.service.listarServicios().subscribe((result) => {
-      console.log('result.lista', result.lista);
+    this.service.listarServicios().subscribe(result => {
       result.lista.forEach(a => {
         var elem = {
           idServicio: a.idServicio,
           usuario: a.usuario.usuarioLogin,
           observacion: a.observacion,
           presupuesto: a.presupuesto
-        }
+        };
         this.services.push(elem);
       });
-      console.log('this.services', this.services);
     });
-    /*this.service.listarServicios().subscribe((response) => {
-      this.services = response['lista'];
-      console.log(this.services);
-    });*/
   }
   getCabeceraServicios(idServicio) {
-    this.service.listarServicioPorIdServicioCabecera(idServicio).subscribe((response) => {
-      console.log(response);
-    });
+    this.service
+      .listarServicioPorIdServicioCabecera(idServicio)
+      .subscribe(response => {
+        console.log(response);
+      });
   }
 
   getDetallesPorIdServicio(idServicio) {
-    this.service.listarServicioPorIdServicioDetalle(idServicio).subscribe((response) => {
-      console.log(response);
-    });
+    this.service
+      .listarServicioPorIdServicioDetalle(idServicio)
+      .subscribe(response => {
+        console.log(response);
+      });
   }
   obtenerServiciosRegistradosPorFisioterapeuta(idServicio) {
-    this.service.obtenerServiciosRegistradosPorFisioterapeuta(idServicio).subscribe((response) => {
-      console.log(response);
-    });
+    this.service
+      .obtenerServiciosRegistradosPorFisioterapeuta(idServicio)
+      .subscribe(response => {
+        console.log(response);
+      });
   }
 
   listarObtenerServiciosPorPaciente(idPaciente) {
-    this.service.listarObtenerServiciosPorPaciente(idPaciente).subscribe((response) => {
-      console.log(response);
-    });
+    this.service
+      .listarObtenerServiciosPorPaciente(idPaciente)
+      .subscribe(response => {
+        console.log(response);
+      });
   }
   obtenerServiciosRealizadosPorFecha(fechaDesde, fechaHasta) {
-    this.service.obtenerServiciosRealizadosPorFecha(fechaDesde, fechaHasta).subscribe((response) => {
-      console.log(response);
-    });
+    this.service
+      .obtenerServiciosRealizadosPorFecha(fechaDesde, fechaHasta)
+      .subscribe(response => {
+        console.log(response);
+      });
   }
   deleteUnServicio(idServicio, idDetalle) {
-    this.service.deleteUnServicio(idServicio, idDetalle).subscribe((response) => {
+    this.service.deleteUnServicio(idServicio, idDetalle).subscribe(response => {
       console.log(response);
-    })
+    });
   }
 
   registrarServicio() {
@@ -108,22 +120,22 @@ export class RegistrarComponent implements OnInit {
       observacion: this.observacion,
       idFichaClinica: 68
     };
-    this.service.crearServicio(data).subscribe((response) => {
+    this.service.crearServicio(data).subscribe(response => {
       this.getServicios();
     });
   }
 
-
   agregarDetalleAServicio(idServicio, idPresentacionProducto, cantidad) {
-    this.service.agregarDetallesAServicio(idServicio, idPresentacionProducto, cantidad).subscribe((response) => {
-      console.log(response);
-    });
+    this.service
+      .agregarDetallesAServicio(idServicio, idPresentacionProducto, cantidad)
+      .subscribe(response => {
+        console.log(response);
+      });
   }
-
 
   crearModal(content) {
     this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title' })
+      .open(content, { ariaLabelledBy: "modal-basic-title" })
       .result.then(
         result => {
           this.registrarServicio();
@@ -135,16 +147,18 @@ export class RegistrarComponent implements OnInit {
   }
 
   eliminarUnServicioParcial(idServicio) {
-    this.service.listarServicioPorIdServicioDetalle(idServicio).subscribe((response) => {
-      console.log('response eliminarUnServicioParcial', response);
-      var idDetalleServicio = response[0].idServicioDetalle;
+    this.service
+      .listarServicioPorIdServicioDetalle(idServicio)
+      .subscribe(response => {
+        console.log("response eliminarUnServicioParcial", response);
+        var idDetalleServicio = response[0].idServicioDetalle;
 
-      this.deleteUnServicio(idServicio, idDetalleServicio);
-    });
+        this.deleteUnServicio(idServicio, idDetalleServicio);
+      });
   }
   crearModalAgregarDetalleAServicio(content) {
     this.modalService
-      .open(content, { ariaLabelledBy: 'modal-agregar-detalle-a-servicio' })
+      .open(content, { ariaLabelledBy: "modal-agregar-detalle-a-servicio" })
       .result.then(
         result => {
           this.agregarDetalleAServicio(this.idSer, this.idPre, 1);
@@ -157,9 +171,9 @@ export class RegistrarComponent implements OnInit {
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
+      return "by pressing ESC";
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
+      return "by clicking on a backdrop";
     } else {
       return `with: ${reason}`;
     }

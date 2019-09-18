@@ -10,48 +10,29 @@
                 SUBCATEGORIAS
             </h3>
             <div class="card shadow">
-                <form _ngcontent-c9="" novalidate="" class="ng-untouched ng-pristine ng-valid">
-                    <h6 _ngcontent-c9="" class="heading-small text-muted mb-4 ml-lg-4 mt-4">Filtrar</h6>
-                    <div _ngcontent-c9="" class="pl-lg-4">
-                        <div _ngcontent-c9="" class="row">
-                            <div _ngcontent-c9="" class="col-lg-6">
-                                <div _ngcontent-c9="" class="form-group">
-                                    <label _ngcontent-c9="" class="form-control-label" for="input-username">Username</label>
-                                    <input _ngcontent-c9="" class="form-control form-control-alternative" id="input-username" placeholder="Username" type="text" value="lucky.jesse">
-                                </div>
-                            </div>
-                            <div _ngcontent-c9="" class="col-lg-6">
-                                <div _ngcontent-c9="" class="form-group">
-                                    <label _ngcontent-c9="" class="form-control-label" for="input-username">Username</label>
-                                    <input _ngcontent-c9="" class="form-control form-control-alternative" id="input-username" placeholder="Username" type="text" value="lucky.jesse">
-                                </div>
-                            </div>
-                        </div>
-                        <div _ngcontent-c9="" class="row">
-                            <div _ngcontent-c9="" class="col-lg-6">
-                                <div _ngcontent-c9="" class="form-group">
-                                    <label _ngcontent-c9="" class="form-control-label" for="input-username">Username</label>
-                                    <input _ngcontent-c9="" class="form-control form-control-alternative" id="input-username" placeholder="Username" type="text" value="lucky.jesse">
-                                </div>
-                            </div>
-                            <div _ngcontent-c9="" class="col-lg-6">
-                                <div _ngcontent-c9="" class="form-group">
-                                    <label _ngcontent-c9="" class="form-control-label" for="input-username">Username</label>
-                                    <input _ngcontent-c9="" class="form-control form-control-alternative" id="input-username" placeholder="Username" type="text" value="lucky.jesse">
-                                </div>
+                <h6 class="heading-small text-muted mb-4 ml-lg-4 mt-4">Filtrar</h6>
+                <div class="pl-lg-4">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-username">Nombre de Subcategoria</label>
+                                <input [(ngModel)]="nombreSub" class="form-control form-control-alternative" id="input-username" placeholder="Subcategoria" type="text">
                             </div>
                         </div>
                     </div>
-                    <hr _ngcontent-c9="" class="my-4">
-                </form>
+                </div>
+                <div class="botonera">
+                    <button (click)="listarPorNombre()" type="button" class="btn btn-primary mb-3 mr-3">Filtrar</button>
+                </div>
+                <hr class="my-4">
                 <h3 ng-cloak style="margin: 50px" *ngIf="existenSub == false">
                     {{noSubs}}
                 </h3>
-                <div *ngIf="existenSub" class="table-responsive">
+                <div class="table-responsive">
                     <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-                        <ng-container matColumnDef="id">
+                        <ng-container matColumnDef="idTipoProducto">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
-                            <mat-cell *matCellDef="let subcateg"> {{subcateg.id}} </mat-cell>
+                            <mat-cell *matCellDef="let subcateg"> {{subcateg.idTipoProducto}} </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="descripcion">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </mat-header-cell>
@@ -62,7 +43,7 @@
                         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                     </mat-table>
                 </div>
-                <div *ngIf="existenSub" class="card-footer py-4">
+                <div class="card-footer py-4">
                     <nav aria-label="...">
                         <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
                     </nav>

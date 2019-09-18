@@ -24,6 +24,16 @@ export class SubcategoriasService {
       .get<any[]>(this.url + "?ejemplo=" + datos)
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
+
+  listarporNombre(data): Observable<any> {
+    let datos = JSON.stringify(data);
+    console.log(datos);
+
+    return this.http
+      .get<any[]>(this.url + "?like=S&ejemplo=" + datos)
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
+
   listarAllSubcategorias(): Observable<any> {
     return this.http
       .get<any[]>(this.url)

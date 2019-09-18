@@ -135,9 +135,6 @@ export class PacientesComponent implements OnInit {
         this.dataSource = new MatTableDataSource(result.lista);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        /*result.lista.forEach(a => {
-          this.pacientes.push(new Paciente(a));
-        });*/
       }
     });
   }
