@@ -74,4 +74,11 @@ export class RegistrarService {
       }
     });
   }
+
+  //stock-pwfe /servicio?ejemplo={"fechaDesdeCadena":"20190901","fechaHastaCadena":"20190901"}
+
+  obtenerServiciosPorRangoFechas(fechaDesde, fechaHasta): Observable<any> {
+    const urlFinal = this.url + '?ejemplo={"fechaDesdeCadena":' + fechaDesde + ',"fechaHastaCadena":' + fechaHasta + '}';
+    return this.http.get<any[]>(urlFinal);
+  }
 }

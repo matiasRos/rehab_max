@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { RegistrarService } from "../../../services/registrar.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+import { PacientesService } from '../../../services/pacientes.service';
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -24,10 +25,12 @@ export class RegistrarComponent implements OnInit {
   motivoConsulta: any;
   descripcionGeneral: any;
   constructor(private service: RegistrarService, private modalService: NgbModal, private fb: FormBuilder) { }
-  filter: any={};
+  filter: any = {};
   closeResult: string;
   services: any = [];
   observacion: string = "";
+  fechaDesde: Date;
+  fechaHasta: Date;
 
   submit() {
     console.log(this.form.value);
@@ -42,7 +45,7 @@ export class RegistrarComponent implements OnInit {
     this.getPresentacionProducto();
     this.getServicios();
   }
-  
+
   getPresentacionProducto() {
     this.presentacionProducto = [];
     this.service.listarPresentacionProducto().subscribe(result => {
@@ -72,12 +75,13 @@ export class RegistrarComponent implements OnInit {
   }
 
   filtrar() {
+
     this.services = [];
-    this.pacienteService.filtrarPacientes(urlFiltro).subscribe(result => {
+    this.service.obtenerServiciosPorRangoFechas(this.getDatesToS(this.fechaDesde), this.getDatesToS(this.fechaHasta)).subscribe(result => {
       this.services = [];
       if (result) {
         result.lista.forEach(a => {
-          var elem = {
+          const elem = {
             idServicio: a.idServicio,
             usuario: a.usuario.usuarioLogin,
             observacion: a.observacion,
@@ -89,6 +93,9 @@ export class RegistrarComponent implements OnInit {
     });
   }
 
+  getDatesToS(fecha) {
+    return fecha.replace(/-/g, '');
+  }
 
   getCabeceraServicios(idServicio) {
     this.service.listarServicioPorIdServicioCabecera(idServicio).subscribe((response) => {
