@@ -24,13 +24,16 @@ export class RegistrarComponent implements OnInit {
   presupuesto: any;
   motivoConsulta: any;
   descripcionGeneral: any;
-  constructor(private service: RegistrarService, private modalService: NgbModal, private fb: FormBuilder) { }
+  constructor(private service: RegistrarService, private modalService: NgbModal, private fb: FormBuilder,
+    private pacienteService: PacientesService) { }
   filter: any = {};
   closeResult: string;
   services: any = [];
   observacion: string = "";
   fechaDesde: Date;
   fechaHasta: Date;
+  idPersona: any;
+  pacientes: any = [];
 
   submit() {
     console.log(this.form.value);
@@ -44,6 +47,14 @@ export class RegistrarComponent implements OnInit {
     this.getServicios();
     this.getPresentacionProducto();
     this.getServicios();
+    this.getPacientes();
+  }
+  getPacientes() {
+    this.pacientes = [];
+    this.pacienteService.listarPacientes('').subscribe(result => {
+      console.log(result['lista']);
+      this.pacientes = result['lista'];
+    });
   }
 
   getPresentacionProducto() {
@@ -226,6 +237,37 @@ export class RegistrarComponent implements OnInit {
         }
       );
   }
+
+  crearModalDetallesPorCliente(content) {
+    this.modalService
+      .open(content, { ariaLabelledBy: 'modal-servicios-por-cliente' })
+      .result.then(
+        result => {
+          console.log('Clg crearModalDetallesServicio');
+          console.log('idPersona', this.idPersona);
+          this.services = [];
+          this.service.listarObtenerServiciosPorPaciente(this.idPersona).subscribe((result) => {
+            console.log('result', result);
+            if (result) {
+              result.lista.forEach(a => {
+                const elem = {
+                  idServicio: a.idServicio,
+                  usuario: a.usuario.usuarioLogin,
+                  observacion: a.observacion,
+                  presupuesto: a.presupuesto
+                };
+                this.services.push(elem);
+              });
+            }
+          });
+        },
+        reason => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
+
+
   crearModalDetallesServicioDetallado(content, idServicio) {
     this.getDetallesPorIdServicio(idServicio);
     console.log(idServicio);

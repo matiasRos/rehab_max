@@ -49,8 +49,8 @@ export class RegistrarService {
     return this.http.get<any[]>(Servers.RehabMax.baseUrl + '/presentacionProducto');
   }
   listarObtenerServiciosPorPaciente(idPaciente): Observable<any> {
-    return this.http.get<any[]>(this.url + '/stock-pwfe /servicio?ejemplo={"idFichaClinica":{"idCliente":{"idPersona":'
-      + idPaciente + '}}}');
+    return this.http.get<any[]>(this.url + '?ejemplo={"idFichaClinica":{"idCliente":{"idPersona":' +
+      idPaciente + '}}}');
   }
   obtenerServiciosRealizadosPorFecha(fechaDesde, fechaHasta): Observable<any> {
     return this.http.get<any[]>(this.url + '?ejemplo={"fechaDesdeCadena":' + fechaDesde + ',"fechaHastaCadena":' + fechaHasta);
@@ -74,9 +74,6 @@ export class RegistrarService {
       }
     });
   }
-
-  //stock-pwfe /servicio?ejemplo={"fechaDesdeCadena":"20190901","fechaHastaCadena":"20190901"}
-
   obtenerServiciosPorRangoFechas(fechaDesde, fechaHasta): Observable<any> {
     const urlFinal = this.url + '?ejemplo={"fechaDesdeCadena":' + fechaDesde + ',"fechaHastaCadena":' + fechaHasta + '}';
     return this.http.get<any[]>(urlFinal);
