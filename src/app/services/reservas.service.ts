@@ -20,7 +20,6 @@ export class ReservasService {
   }
 
   filtrarReservas(urlFiltro): Observable<any> {
-    console.log(this.url +""+urlFiltro);
     return this.http
       .get<any[]>(this.url + urlFiltro)
       .pipe(catchError(handleError("codigoMensaje", {})));
@@ -37,7 +36,7 @@ export class ReservasService {
       idCliente:{
         idPersona:data.idCliente.idPersona
       },
-      observacion:""
+      observacion:data.observacion
     }
     console.log("body", body);
     return this.http
@@ -71,10 +70,15 @@ export class ReservasService {
       )
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
-  modificar(reserva, data){
-    let headers = {"Content-Type": "application/json","usuario": "gustavo"}
+  modificar(data){
+    console.log(data)
     return this.http
-      .put<any[]>(`${this.url}`, data, {headers: headers})
+      .put<any[]>(`${this.url}`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          "usuario":"ana"
+        }
+      })
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
 }

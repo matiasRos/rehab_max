@@ -59,4 +59,27 @@ export class EmpleadosService {
       .get<any[]>(this.urlPersona + "?like=S&ejemplo=" + datos)
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
+
+  listarHorariosFechaDisponible(data): Observable<any> {
+    let body = { 
+      idEmpleado: { 
+        idPersona: data 
+      } 
+    };
+
+    let datos = JSON.stringify(body);
+    console.log(datos);
+
+    return this.http
+      .get<any[]>(this.urlHorario + "?ejemplo=" + datos)
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
+
+  listarHorariosDisponiblesEmpleado(empleado,fecha): Observable<any> {
+    return this.http
+      .get<any[]>(
+        `${this.urlPersona}/${empleado}/agenda?fecha=${fecha}&disponible=S` 
+      )
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
 }

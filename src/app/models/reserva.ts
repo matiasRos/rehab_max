@@ -9,6 +9,7 @@ export class Reserva {
     idCliente: {
       idPersona: number
     };
+    observacion: string;
     constructor(data) {
       this.fechaCadena = data.fechaCadena;
       this.horaInicioCadena = data.horaInicioCadena;
@@ -16,5 +17,6 @@ export class Reserva {
       this.idEmpleado = data.idEmpleado.idPersona;
       this.idCliente = data.idCliente.idPersona;
       this.idReserva = data.idReserva;
+      this.observacion = data.observacion;
     }
   }

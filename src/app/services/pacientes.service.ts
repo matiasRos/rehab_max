@@ -30,6 +30,7 @@ export class PacientesService {
       nombre: data.nombre
     };
     let datos = JSON.stringify(body);
+    console.log(this.url + "?like=S&ejemplo=" + datos);
     return this.http
       .get<any[]>(this.url + "?like=S&ejemplo=" + datos)
       .pipe(catchError(handleError("codigoMensaje", {})));

@@ -55,6 +55,7 @@
                               <th scope="col">Fecha</th>
                               <th scope="col">Hora Inicio</th>
                               <th scope="col">Hora Fin</th>
+                              <th scope="col">Observaciones</th>
                               <th scope="col">Acciones</th>
                           </tr>
                       </thead>
@@ -79,10 +80,13 @@
                                   {{reserva.horaFinCadena}}
                               </td>
                               <td>
-                                    <a style="cursor: pointer" (click)="modificarReserva()" class="nav-link">
+                                    {{reserva.observacion}}
+                            </td>
+                              <td>
+                                    <a style="cursor: pointer" (click)="IdReserva=reserva.idReserva;observacion=reserva.observacion;turno=reserva.flagAsistio;crearModal(modificar);setModificar();" class="nav-link">
                                         Modificar <i class="ni ni-ruler-pencil"></i> 
                                     </a>
-                                    <a style="cursor: pointer" (click)="idReserva=reserva.idReserva; cancelarReserva()" class="nav-link">
+                                    <a style="cursor: pointer" (click)="IdReserva=reserva.idReserva;crearModal(estaSeguro)" class="nav-link">
                                         Cancelar <i class="ni ni-fat-remove"></i> 
                                     </a>
                                     <a style="cursor: pointer" (click)="newFichaReserva()" class="nav-link">
@@ -133,16 +137,50 @@
               </div>
               <div class="form-group " style="margin: 0px 15px 15px 15px; ">
                   <label for="fechaCadena " class="col-form-label ">Fecha</label>
-                  <input type="date" name="fechaCadena " id="id_fechaCadena " cols="30 " class="form-control " rows="4 " [(ngModel)]="fechaCadena ">
+                  <input (change)="listarHorarios();" type="date" name="fechaCadena " id="id_fechaCadena" cols="30 " class="form-control " rows="4 " [(ngModel)]="fechaCadena ">
               </div>
-              <div class="form-group " style="margin: 0px 15px 15px 15px; ">
-                  <label for="horaInicioCadena " class="col-form-label ">Hora Inicio</label>
-                  <input name="horaInicioCadena " id="id_horaInicioCadena " cols="30 " class="form-control " rows="4 " [(ngModel)]="horaInicioCadena" placeholder="00:00">
-              </div>
-              <div class="form-group " style="margin: 0px 15px 15px 15px; ">
-                  <label for="horaFinCadena " class="col-form-label ">Hora Fin</label>
-                  <input name="horaFinCadena " id="id_horaFinCadena " cols="30 " class="form-control " rows="4 " [(ngModel)]="horaFinCadena" placeholder="00:00">
-              </div>
+              <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Hora Inicio</th>
+                            <th scope="col">Hora Fin</th>
+                            <th scope="col">Seleccion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let hor of horarios">
+                            <td>
+                                {{hor.horaInicioCadena}}
+                            </td>
+                            <td>
+                                {{hor.horaFinCadena}}
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <label class="form-check-label">
+                                        <input (click)="horaInicioCadena=hor.horaInicioCadena;horaFinCadena=hor.horaFinCadena" type="radio" class="form-check-input" name="Seleccion">
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <td colspan="2" style="    height: 200px;" *ngIf="loading">
+                            <div class="container--box">
+
+                                <div class="box">
+                                    <div class="spinner spinner--2"></div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                <label for="observacion" class="col-form-label ">Observacion</label>
+                <input type="text" name="observacion" id="id_observacion" cols="30 " class="form-control " rows="4 " [(ngModel)]="observacion">
+            </div>
           </form>
       </div>
       <div class="modal-footer ">
@@ -163,7 +201,7 @@
     </div>
     <div class="modal-body ">
             <div class="form-group " style="margin: 0px 15px 15px 15px; ">
-                <input (change)="filtroDoctor()" name="idEmpleado " id="idEmpleado " cols="30 " class="form-control " rows="4 " placeholder="Buscar" [(ngModel)]="filter.nombre">
+                <input (keyup)="filtroDoctor()" name="idEmpleado " id="idEmpleadoBuscar" cols="30 " class="form-control " rows="4 " placeholder="Buscar" [(ngModel)]="filter.nombre">
             </div>
             <!-- Table -->
             <div class="row">
@@ -225,7 +263,8 @@
         </div>
         <div class="modal-body ">
                 <div class="form-group " style="margin: 0px 15px 15px 15px; ">
-                    <input (change)="filtroCliente()" name="idCliente " id="idCliente " cols="30 " class="form-control " rows="4 " placeholder="Buscar" [(ngModel)]="filter.nombre">
+                    <input (keyup)="filtroCliente()" name="idCliente " id="idClienteBuscar" cols="30 " class="form-control" rows="4 " placeholder="Buscar" [(ngModel)]="filter.nombre">
+                    
                 </div>
                 <!-- Table -->
                 <div class="row">
@@ -271,6 +310,44 @@
                 </div>
     </ng-template>
 </div>
-<script type="javascript">
-    
-</script>
+<ng-template #estaSeguro let-modal>
+    <div class="modal-header ">
+        <h3 class="modal-title " id="modal-basic-title ">¿Esta seguro/a de cancelar la reserva?</h3>
+        <button type="button " class="close " aria-label="Close " (click)="modal.dismiss( 'Cross click') ">
+    <span aria-hidden="true ">&times;</span>
+  </button>
+    </div>
+    <div class="modal-body ">
+            <button type="button " class="btn btn-primary " (click)="cancelarReserva();modal.close()">
+        Si, estoy seguro</button>
+            <button type="button " class="btn btn-secondary " (click)="modal.dismiss( 'Cross click') ">
+        Cancelar</button>
+    </div>
+</ng-template>
+
+<ng-template #modificar let-modal>
+    <div class="modal-header ">
+        <h3 class="modal-title " id="modal-basic-title ">Modificar Reserva</h3>
+        <button type="button " class="close " aria-label="Close " (click)="modal.dismiss( 'Cross click') ">
+    <span aria-hidden="true ">&times;</span>
+  </button>
+    </div>
+    <div class="modal-body ">
+                <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                    <label for="observacion" class="col-form-label ">Observacion:</label>
+                    <input type="text" name="observacion" id="id_observacion" cols="30 " class="form-control " rows="4 " [(ngModel)]="observacion">
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="id_turno" [(ngModel)]="turno">
+                    <label class="form-check-label" for="id_turno">
+                      Acudió a su Turno
+                    </label>
+                </div>
+    </div>
+    <div class="modal-footer ">
+        <button type="button " class="btn btn-primary " (click)="modal.close();modificarReserva()"><i class="fas fa-save "></i>
+    Guardar</button>
+        <button type="button " class="btn btn-secondary " (click)="modal.dismiss( 'Cross click') "><i class="fas fa-times "></i>
+    Cancelar</button>
+    </div>
+</ng-template>

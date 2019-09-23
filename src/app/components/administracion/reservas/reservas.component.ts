@@ -18,6 +18,7 @@ export class ReservasComponent implements OnInit {
   reservas: any = [];
   doctores: any = [];
   clientes: any = [];
+  horarios: any = [];
   loading: boolean;
   itemsTotalPagina: any = 5;
   totalItems: any = 0;
@@ -33,9 +34,11 @@ export class ReservasComponent implements OnInit {
   idEmpleado: number;
   idCliente: number;
   IdReserva: number;
+  observacion: string="";
+  turno: string="";
   isDoctor: boolean=false;
   isCliente: boolean=false;
-  doctor: String='Hola';
+  doctor: String="";
   paciente: String='';
   orderBy: string = "fechaCadena";
   orderDir: string = "desc";
@@ -58,7 +61,7 @@ export class ReservasComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.listarReservas();
+    this.addFilter();
   }
 
   pageChanged(event) {
@@ -109,6 +112,20 @@ export class ReservasComponent implements OnInit {
     });
   }
 
+  listarHorarios(){
+    this.loading = true;
+    let fecha = (<HTMLInputElement>document.getElementById("id_fechaCadena")).value.replace("-","").replace("-","")
+    this.horarios = [];
+    this.empleados.listarHorariosDisponiblesEmpleado(this.idEmpleado, fecha).subscribe(result => {
+      this.loading = false;
+      if (result) {
+        result.forEach(a => {
+          this.horarios.push(a);
+        });
+      }
+    });
+  }
+
   listarDoctores() {
     this.loading = true;
     this.doctores = [];
@@ -145,18 +162,16 @@ export class ReservasComponent implements OnInit {
   crearReserva() {
     var data = {
       fechaCadena: this.fechaCadena.replace("-","").replace("-",""),
-      horaInicioCadena: this.horaInicioCadena.replace(":",""),
-      horaFinCadena: this.horaFinCadena.replace(":",""),
+      horaInicioCadena: this.horaInicioCadena,
+      horaFinCadena: this.horaFinCadena,
       idEmpleado:{
         idPersona:this.idEmpleado
       },
       idCliente:{
         idPersona:this.idCliente
-      }
+      },
+      observacion:this.observacion
     };
-    console.log("-------------------------------------");
-    console.log(data);
-    console.log("-------------------------------------");
     this.reservaService.crear(data).subscribe(result => {
       console.log(result,result.lista)
       this.reservas = [];
@@ -165,13 +180,19 @@ export class ReservasComponent implements OnInit {
   }
 
   addFilter() {
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = today.getFullYear();
     var data = {};
-    if (document.getElementById("id_fisioterapeuta").value != "") {
+
+    data["fechaDesdeCadena"]=data["fechaHastaCadena"]=yyyy+mm+dd;
+    if ((<HTMLInputElement>document.getElementById("id_fisioterapeuta")).value != "") {
       data["idEmpleado"] = {
         idPersona:this.idEmpleado
       };
     }
-    if (document.getElementById("id_cliente").value != "") {
+    if ((<HTMLInputElement>document.getElementById("id_cliente")).value != "") {
       data["idCliente"] = {
         idPersona:this.idCliente
       };
@@ -204,9 +225,10 @@ export class ReservasComponent implements OnInit {
  
   filtroCliente() {
     var data;
-    if(this.filter.nombre) {
+    let valor=(<HTMLInputElement>document.getElementById("idClienteBuscar")).value;
+    if( valor != "") {
       data = {
-        nombre: this.filter.nombre
+        nombre: valor
       };
     }else{
       data = {
@@ -224,9 +246,11 @@ export class ReservasComponent implements OnInit {
   }
   filtroDoctor() {
     var data;
-    if(this.filter.nombre) {
+    let valor=(<HTMLInputElement>document.getElementById("idEmpleadoBuscar")).value;
+    console.log("valor",valor);
+    if( valor!= "") {
       data = {
-        nombre: this.filter.nombre
+        nombre: valor
       };
     }else{
       data = {
@@ -244,8 +268,8 @@ export class ReservasComponent implements OnInit {
 
   limpiar() {
     this.filter = {};
-    document.getElementById("id_fisioterapeuta").value = ""
-    document.getElementById("id_cliente").value = "";
+    (<HTMLInputElement>document.getElementById("id_fisioterapeuta")).value = "";
+    (<HTMLInputElement>document.getElementById("id_cliente")).value = "";
     this.listarReservas();
   }
 
@@ -258,11 +282,11 @@ export class ReservasComponent implements OnInit {
   }
   putFilter(){
     if(this.isDoctor){
-      document.getElementById("id_fisioterapeuta").value = this.doctor;
+      (<HTMLInputElement>document.getElementById("id_fisioterapeuta")).value = this.doctor + '';
     }
     this.isDoctor=false;
     if(this.isCliente){
-      document.getElementById("id_cliente").value = this.paciente;
+      (<HTMLInputElement>document.getElementById("id_cliente")).value = this.paciente + '';
     }
     this.isCliente=false;
   }
@@ -278,14 +302,35 @@ export class ReservasComponent implements OnInit {
       this.reservas = reservas
     })
   }
+
+  setModificar(){
+    (<HTMLInputElement>document.getElementById("id_observacion")).value = this.observacion;
+    if(this.turno=='S'){
+      (<HTMLInputElement>document.getElementById("id_turno")).checked = true;
+    }
+  }
+
   modificarReserva(){
-    
+    console.log('obs:'+this.observacion);
+    console.log('turno:'+this.turno);
+    let data = {
+      idReserva : this.IdReserva,
+      observacion : this.observacion,
+      flagAsistio : ((this.turno) ? 'S' : '')
+    };
+    this.reservaService.modificar(data).subscribe(result => {
+      this.reservas = [];
+      this.addFilter();
+    });
   }
   newFichaReserva(){
 
   }
   cancelarReserva(){
-    this.reservaService.cancelar(this.IdReserva);
+    this.reservaService.cancelar(this.IdReserva).subscribe(result => {
+      this.reservas = [];
+      this.addFilter();
+    });
   }
   crearModal(content) {
     this.modalService
