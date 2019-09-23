@@ -7,6 +7,7 @@
     </div>
 </div>
 <!-- Page content -->
+
 <div class="container pb-4">
     <div class="row ">
         <div class="col-lg-7">
@@ -23,8 +24,13 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                             </div>
-                            <input [(ngModel)]="usuario" class="form-control" placeholder="Email" type="email">
+                            <label>
+                                <input [(ngModel)]="usuario" class="form-control" placeholder="Email" type="email">
+                            </label>
                         </div>
+                        <label *ngIf="modalUsu" class="custom-control">
+                            <span style="color : #a11918;">* Usuario Incorrecto</span>
+                        </label>
                     </div>
                     <div class="form-group">
                         <div class="input-group input-group-alternative">
@@ -41,7 +47,8 @@
                         </label>
                     </div>
                     <div class="text-center">
-                        <button (click)="ingresar(usuario)" type="button" class="btn btn-primary my-4">Ingresar</button>
+                        <button (click)="ingresar(usuario)" type="button" class="btn btn-primary my-4">Ingresar
+                        </button>
                     </div>
                 </div>
             </div>
@@ -57,5 +64,6 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>

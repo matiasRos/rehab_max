@@ -2,7 +2,7 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Paciente} from 'src/app/models/paciente';
 import {PacientesService} from '../../services/pacientes.service';
 import {Router} from '@angular/router';
-
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -24,15 +24,17 @@ export class LoginComponent implements OnInit, OnDestroy {
     ruc = '';
     cedula = '';
     tipoPersona = '';
-    urlParams = '';
     fechaNacimiento: Date;
     filter: any = {};
     index = 0;
+    modalUsu: boolean;
+    closeResult: string;
 
 
     constructor(
         private pacienteService: PacientesService,
-        public router: Router) {
+        public router: Router,
+        private modalService: NgbModal) {
     }
 
     ngOnInit() {
@@ -58,18 +60,20 @@ export class LoginComponent implements OnInit, OnDestroy {
         let bandera = 0;
         console.log('Nooooooo');
         this.pacientes.forEach(function (element) {
-            if (usuario === element.email) {
+            if (usuario === element.email && usuario !== '') {
+                console.log(usuario);
                 bandera = 1;
             }
         });
-
         if (bandera === 1) {
             const url = '/dashboard';
             this.router.navigate([url, {}]);
         } else {
             console.log('Youuuuu... Shall nooot... Paaaasss');
+            this.modalUsu = true;
             /*const url = '/login';
             this.router.navigate([url, {}]);*/
         }
     }
+
 }
