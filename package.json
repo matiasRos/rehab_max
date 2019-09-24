@@ -33,6 +33,7 @@
     "luxon": "^1.17.2",
     "mdbootstrap": "^4.8.10",
     "ngx-clipboard": "11.1.9",
+    "ngx-export-as": "^1.3.0",
     "ngx-material-timepicker": "^3.0.3",
     "ngx-pagination": "^4.1.0",
     "ngx-toastr": "9.1.2",
@@ -61,5 +62,4 @@
     "tslint": "5.12.1",
     "typescript": "3.2.4"
   }
-
 }

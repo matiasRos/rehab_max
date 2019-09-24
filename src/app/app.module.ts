@@ -17,7 +17,6 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { AppRoutingModule } from "./app.routing";
 import { ComponentsModule } from "./components/components.module";
 import { HeaderBgComponent } from "./components/common/header-bg/header-bg.component";
-import { ReactiveFormsModule } from '@angular/forms';
 import { ExportAsModule } from 'ngx-export-as';
 @NgModule({
   imports: [

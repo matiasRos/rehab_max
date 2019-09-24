@@ -68,12 +68,11 @@ export class EmpleadosService {
       idEmpleado: { 
         idPersona: data 
       }
+    };
       let datos = JSON.stringify(body);
-    console.log(datos);
 
     return this.http
-      .get<any[]>(this.urlHorario + "?ejemplo=" + datos)
-      .pipe(catchError(handleError("codigoMensaje", {})));
+      .get<any[]>(this.urlHorario + "?ejemplo=" + datos).pipe(catchError(handleError("codigoMensaje", {})));
   }
 
   nuevaExcepcion(data): Observable<any> {

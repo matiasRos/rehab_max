@@ -63,7 +63,8 @@ import { ComisionesComponent } from "src/app/components/administracion/comisione
     EmpleadosComponent,
     GestionEmpleadoComponent,
     CardsComponent,
-    ServiciosComponent, 
+    ServiciosComponent,
+    ReservasComponent,
     RegistrarComponent,
     RegistrarDetalladoComponent,
     ComisionesComponent
