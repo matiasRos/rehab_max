@@ -13,10 +13,10 @@ import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { NgxPaginationModule } from "ngx-pagination";
 import { ReactiveFormsModule } from "@angular/forms";
 
-import { AppRoutingModule } from "./app.routing";
-import { ComponentsModule } from "./components/components.module";
-import { HeaderBgComponent } from "./components/common/header-bg/header-bg.component";
-
+import { AppRoutingModule } from './app.routing';
+import { ComponentsModule } from './components/components.module';
+import { HeaderBgComponent } from './components/common/header-bg/header-bg.component';
+import { ExportAsModule } from 'ngx-export-as';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -28,7 +28,8 @@ import { HeaderBgComponent } from "./components/common/header-bg/header-bg.compo
     AppRoutingModule,
     NgxMaterialTimepickerModule,
     NgxPaginationModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ExportAsModule
   ],
   declarations: [
     AppComponent,

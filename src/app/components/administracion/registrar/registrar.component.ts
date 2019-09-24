@@ -8,6 +8,9 @@ import {
   Validators,
   FormGroup
 } from "@angular/forms";
+import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
+import { EmpleadosService } from "src/app/services/empleados.service";
+import { MatTableDataSource } from "@angular/material";
 
 @Component({
   selector: "app-registrar",
@@ -24,16 +27,40 @@ export class RegistrarComponent implements OnInit {
   presupuesto: any;
   motivoConsulta: any;
   descripcionGeneral: any;
-  constructor(private service: RegistrarService, private modalService: NgbModal, private fb: FormBuilder,
+  dataSource: any = [];
+  urlFiltro: String = "";
+  constructor(private exportAsService: ExportAsService,private empleadoService: EmpleadosService,private service: RegistrarService, private modalService: NgbModal, private fb: FormBuilder,
     private pacienteService: PacientesService) { }
   filter: any = {};
   closeResult: string;
   services: any = [];
   observacion: string = "";
-  fechaDesde: Date;
-  fechaHasta: Date;
+  fechaDesde: String;
+  fechaHasta: String;
   idPersona: any;
   pacientes: any = [];
+  empleados:any=[];
+  exportAsConfig: ExportAsConfig = {
+    type: 'pdf', // the type you want to download
+    elementId: 'table-registrar', // the id of html/table element
+  }
+  displayedColumns: string[] = [
+    "id",
+    "fisioterapeuta",
+    "cliente",
+    "presupuesto",
+    "subcategoria",
+    "fechaHora",
+    "opciones"
+  ];
+
+  export() {
+    // download the file using old school javascript method
+    this.exportAsService.save(this.exportAsConfig, 'My File Name').subscribe(() => {
+      // save started
+    });
+   
+  }
 
   submit() {
     console.log(this.form.value);
@@ -46,8 +73,8 @@ export class RegistrarComponent implements OnInit {
   ngOnInit() {
     this.getServicios();
     this.getPresentacionProducto();
-    this.getServicios();
     this.getPacientes();
+    this.listarEmpleados();
   }
   getPacientes() {
     this.pacientes = [];
@@ -73,33 +100,54 @@ export class RegistrarComponent implements OnInit {
   getServicios() {
     this.services = [];
     this.service.listarServicios().subscribe(result => {
-      result.lista.forEach(a => {
-        var elem = {
-          idServicio: a.idServicio,
-          usuario: a.usuario.usuarioLogin,
-          observacion: a.observacion,
-          presupuesto: a.presupuesto
-        };
-        this.services.push(elem);
-      });
+     if(result.lista){
+        this.dataSource = new MatTableDataSource(result.lista);
+     }   
     });
+  }
+  listarEmpleados() {
+    this.empleados = [];
+    this.empleadoService.listarEmpleados().subscribe(result => {
+      if (result) {
+        this.empleados = [...result.lista];
+      }
+    });
+  }
+  limpiar(){
+    this.fechaDesde="";
+    this.fechaHasta="";
+    this.getServicios();
+  }
+  addFilter() {
+    var data = {};
+    if (this.fechaDesde) {
+      data["fechaDesdeCadena"] = this.getDatesToS(this.fechaDesde);
+    }
+    if (this.fechaHasta) {
+      data["fechaHastaCadena"] = this.getDatesToS(this.fechaHasta);
+    }
+    if (this.filter.cliente && this.filter.cliente!=0) {
+      data["idFichaClinica"] = {};
+      data["idFichaClinica"]["idCliente"]={}
+      data["idFichaClinica"]["idCliente"]["idPersona"]=this.filter.cliente;
+    }
+    if (this.filter.empleado && this.filter.empleado!=0) {
+      data["idEmpleado"] = {};
+      data["idEmpleado"]["idPersona"]= +this.filter.empleado;
+    }
+    this.urlFiltro = "?ejemplo=" + JSON.stringify(data);
+    this.filtrar();
   }
 
   filtrar() {
 
     this.services = [];
-    this.service.obtenerServiciosPorRangoFechas(this.getDatesToS(this.fechaDesde), this.getDatesToS(this.fechaHasta)).subscribe(result => {
+    this.service.obtenerServiciosPorRangoFechas(this.urlFiltro).subscribe(result => {
       this.services = [];
       if (result) {
-        result.lista.forEach(a => {
-          const elem = {
-            idServicio: a.idServicio,
-            usuario: a.usuario.usuarioLogin,
-            observacion: a.observacion,
-            presupuesto: a.presupuesto
-          };
-          this.services.push(elem);
-        });
+        if(result.lista){
+          this.dataSource = new MatTableDataSource(result.lista);
+       }
       }
     });
   }

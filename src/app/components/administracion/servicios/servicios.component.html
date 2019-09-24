@@ -14,16 +14,19 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Servicio</label>
-                                    <input [(ngModel)]="filter.nombre" class="form-control form-control-alternative" id="input-username" placeholder="Nombre" type="text">
+                                    <input [(ngModel)]="filter.nombre" class="form-control form-control-alternative"
+                                        id="input-username" placeholder="Nombre" type="text">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Tipo</label>
-                                    <select name="" id="" [(ngModel)]="filter.subcategoria" class="form-control form-control-alternative">
-                      <option value="0">--------</option>
-                      <option value="{{subcat.idTipoProducto}}" *ngFor="let subcat of subcategorias"> {{subcat.descripcion}}</option>
-                    </select>
+                                    <select name="" id="" [(ngModel)]="filter.subcategoria"
+                                        class="form-control form-control-alternative">
+                                        <option value="0">--------</option>
+                                        <option value="{{subcat.idTipoProducto}}" *ngFor="let subcat of subcategorias">
+                                            {{subcat.descripcion}}</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -65,14 +68,14 @@
             </div>
         </div>
     </div>
-    
-    
+
+
     <ng-template #crear let-modal>
         <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">Agregar Servicio</h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <div class="modal-body">
             <div class="form-group" style="margin: 0px 15px 15px 15px;">
@@ -85,11 +88,12 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn  btn-primary" (click)="modal.close('Save click')"><i class="fas fa-save"></i>
-        guardar</button>
+            <button type="button" class="btn  btn-primary" (click)="modal.close('Save click')"><i
+                    class="fas fa-save"></i>
+                guardar</button>
             <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')"><i
-          class="fas fa-times"></i>
-        cancelar</button>
+                    class="fas fa-times"></i>
+                cancelar</button>
         </div>
     </ng-template>
 </div>
