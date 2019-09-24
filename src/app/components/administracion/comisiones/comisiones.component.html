@@ -1,0 +1,71 @@
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div novalidate="" class="ng-untouched ng-pristine ng-valid">
+                    <h6 class="heading-small text-muted mb-4 ml-lg-4 mt-4">Filtros</h6>
+                    <div class="pl-lg-4 mr-3">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Fisioterapeuta</label>
+                                    <select [(ngModel)]="fisio" class="form-control form-control-alternative">
+                                        <option value="{{pp.idPersona}}" *ngFor="let pp of empleados">
+                                            {{pp.nombre}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Presentación Producto</label>
+                                    <select [(ngModel)]="presproducto" class="form-control form-control-alternative">
+                                        <option value="{{pp.idPresentacionProducto}}" *ngFor="let pp of presprod">
+                                            {{pp.descripcion}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="botonera">
+                        <button (click)="limpiar()" type="button" class="btn btn-secondary mb-3 mr-3">Limpiar</button>
+                        <button (click)="filtrar()" type="button" class="btn btn-primary mb-3 mr-3">Filtrar</button>
+                    </div>
+                    <hr class="my-4">
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <mat-table [dataSource]="dataSource " class="mat-elevation-z8 " matSort>
+                            <ng-container matColumnDef="fechaHora">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha y Hora </mat-header-cell>
+                                <mat-cell *matCellDef="let com"> {{com.fechaHora}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="empleado">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+                                <mat-cell *matCellDef="let com">
+                                    <span *ngIf="com.idEmpleado">{{com.idEmpleado.nombreCompleto}}</span>
+                                    <span *ngIf="!com.idEmpleado">-</span>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="local">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Local</mat-header-cell>
+                                <mat-cell *matCellDef="let com"> {{com.idLocal.nombre}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="presentacion_producto">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Pres. Prod. </mat-header-cell>
+                                <mat-cell *matCellDef="let com"> {{com.idPresentacionProducto.descripcion}} </mat-cell>
+                            </ng-container>
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns "></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns; "></mat-row>
+                        </mat-table>
+                    </table>
+                </div>
+                <div class="card-footer py-4 ">
+                    <nav aria-label="... ">
+                        <mat-paginator [pageSizeOptions]="[5, 10, 20] " showFirstLastButtons></mat-paginator>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -14,7 +14,7 @@ import { GestionEmpleadoComponent } from "src/app/components/administracion/gest
 import { ServiciosComponent } from "src/app/components/administracion/servicios/servicios.component";
 import { RegistrarComponent } from '../../components/administracion/registrar/registrar.component';
 import { RegistrarDetalladoComponent } from "src/app/components/administracion/registrar-detallado/registrar-detallado.component";
-
+import { ComisionesComponent } from "../../components/administracion/comisiones/comisiones.component";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
@@ -30,5 +30,9 @@ export const AdminLayoutRoutes: Routes = [
   { path: "subcategorias", component: SubcategoriasComponent },
   { path: "subcategorias/:id/ver", component: VerSubcategoriasComponent },
   { path: "registro", component: RegistrarComponent },
+<<<<<<< HEAD
   { path: "servicios-detallado", component: RegistrarDetalladoComponent }
+=======
+  { path: "comisiones", component: ComisionesComponent }
+>>>>>>> develop
 ];
