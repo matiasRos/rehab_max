@@ -65,19 +65,19 @@
                                   {{reserva.idReserva}}
                               </td>
                               <td>
-                                    {{reserva.idEmpleado}}
+                                    {{reserva.idEmpleado.nombre}} {{reserva.idEmpleado.apellido}}
                               </td>
                               <td>
-                                    {{reserva.idCliente}}
+                                    {{reserva.idCliente.nombre}} {{reserva.idCliente.apellido}}
                               </td>
                               <td>
-                                    {{reserva.fechaCadena}}
+                                    {{reserva.fecha}}
                               </td>
                               <td>
-                                    {{reserva.horaInicioCadena}}
+                                    {{reserva.horaInicio}}
                               </td>
                               <td>
-                                  {{reserva.horaFinCadena}}
+                                  {{reserva.horaFin}}
                               </td>
                               <td>
                                     {{reserva.observacion}}
@@ -217,7 +217,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr (click)="doctor=emp.nombre+' '+emp.apellido; idEmpleado=emp.idPersona;putFilter(); modal.dismiss( 'Cross click') " *ngFor="let emp of doctores | paginate: config">
+                                        <tr (click)="doctor=emp.nombre+' '+((emp.apellido)? emp.apellido:''); idEmpleado=emp.idPersona;putFilter(); modal.dismiss( 'Cross click') " *ngFor="let emp of doctores | paginate: config">
                                             <td>
                                                 {{emp.idPersona}}
                                             </td>
@@ -280,7 +280,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr (click)="paciente=pac.nombre+' '+pac.apellido; idCliente=pac.idPersona;putFilter();modal.dismiss( 'Cross click')" *ngFor="let pac of clientes | paginate: config">
+                                                    <tr (click)="paciente=pac.nombre+' '+((pac.apellido)? pac.apellido:''); idCliente=pac.idPersona;putFilter();modal.dismiss( 'Cross click')" *ngFor="let pac of clientes | paginate: config">
                                                         <td>
                                                             {{pac.idPersona}}
                                                         </td>

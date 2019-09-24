@@ -120,6 +120,9 @@ export class ReservasComponent implements OnInit {
       this.loading = false;
       if (result) {
         result.forEach(a => {
+          a.horaInicioCadena = a.horaInicioCadena.slice(0,2)+ ":" +a.horaInicioCadena.slice(2,4);
+          a.horaFinCadena = a.horaFinCadena.slice(0,2) + ":" + a.horaFinCadena.slice(2,4);
+          console.log(a);
           this.horarios.push(a);
         });
       }
@@ -162,8 +165,8 @@ export class ReservasComponent implements OnInit {
   crearReserva() {
     var data = {
       fechaCadena: this.fechaCadena.replace("-","").replace("-",""),
-      horaInicioCadena: this.horaInicioCadena,
-      horaFinCadena: this.horaFinCadena,
+      horaInicioCadena: this.horaInicioCadena.replace(":",""),
+      horaFinCadena: this.horaFinCadena.replace(":",""),
       idEmpleado:{
         idPersona:this.idEmpleado
       },
@@ -172,6 +175,7 @@ export class ReservasComponent implements OnInit {
       },
       observacion:this.observacion
     };
+    console.log(data)
     this.reservaService.crear(data).subscribe(result => {
       console.log(result,result.lista)
       this.reservas = [];
@@ -216,7 +220,8 @@ export class ReservasComponent implements OnInit {
       this.reservas = [];
       if (result) {
         result.lista.forEach(a => {
-          this.reservas.push(new Reserva(a));
+          console.log(a);
+          this.reservas.push(a);
         });
         this.setCantPorPagina(result.totalDatos);
       }
@@ -268,9 +273,11 @@ export class ReservasComponent implements OnInit {
 
   limpiar() {
     this.filter = {};
+    this.paciente = "";
+    this.doctor = "";
     (<HTMLInputElement>document.getElementById("id_fisioterapeuta")).value = "";
     (<HTMLInputElement>document.getElementById("id_cliente")).value = "";
-    this.listarReservas();
+    this.addFilter();
   }
 
   buscar_fisio(){
@@ -296,11 +303,6 @@ export class ReservasComponent implements OnInit {
 
   clienteClick(){
     this.isCliente=true
-  }
-  listar(){
-    this.reservaService.listarReservas("asd").subscribe((reservas: Reserva[]) => {
-      this.reservas = reservas
-    })
   }
 
   setModificar(){
