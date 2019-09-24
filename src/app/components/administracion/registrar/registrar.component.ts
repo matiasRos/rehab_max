@@ -29,7 +29,7 @@ export class RegistrarComponent implements OnInit {
   descripcionGeneral: any;
   dataSource: any = [];
   urlFiltro: String = "";
-  constructor(private exportAsService: ExportAsService,private empleadoService: EmpleadosService,private service: RegistrarService, private modalService: NgbModal, private fb: FormBuilder,
+  constructor(private exportAsService: ExportAsService, private empleadoService: EmpleadosService, private service: RegistrarService, private modalService: NgbModal, private fb: FormBuilder,
     private pacienteService: PacientesService) { }
   filter: any = {};
   closeResult: string;
@@ -39,7 +39,7 @@ export class RegistrarComponent implements OnInit {
   fechaHasta: String;
   idPersona: any;
   pacientes: any = [];
-  empleados:any=[];
+  empleados: any = [];
   exportAsConfig: ExportAsConfig;
   displayedColumns: string[] = [
     "id",
@@ -50,16 +50,17 @@ export class RegistrarComponent implements OnInit {
     "fechaHora",
     "opciones"
   ];
+  cantidadDetalle: any;
 
   exportPDF() {
-    this.exportAsConfig={
+    this.exportAsConfig = {
       type: 'pdf', // the type you want to download
       elementId: 'table-registrar-pdf', // the id of html/table element
       options: { // html-docx-js document options
         orientation: 'landscape',
         margins: {
           top: '2000',
-          left:'2000',
+          left: '2000',
           bottom: '2000'
         }
       }
@@ -68,11 +69,11 @@ export class RegistrarComponent implements OnInit {
     this.exportAsService.save(this.exportAsConfig, 'Servicios').subscribe(() => {
       // save started
     });
-   
+
   }
 
   exportCSV() {
-    this.exportAsConfig={
+    this.exportAsConfig = {
       type: 'xlsx', // the type you want to download
       elementId: 'table-registrar-xlsx', // the id of html/table element
       options: { // html-docx-js document options
@@ -87,7 +88,7 @@ export class RegistrarComponent implements OnInit {
     this.exportAsService.save(this.exportAsConfig, 'Servicios').subscribe(() => {
       // save started
     });
-   
+
   }
   submit() {
     console.log(this.form.value);
@@ -127,10 +128,10 @@ export class RegistrarComponent implements OnInit {
   getServicios() {
     this.services = [];
     this.service.listarServicios().subscribe(result => {
-     if(result.lista){
+      if (result.lista) {
         this.dataSource = new MatTableDataSource(result.lista);
-        this.services= [... result.lista]
-     }   
+        this.services = [...result.lista]
+      }
     });
   }
   listarEmpleados() {
@@ -141,9 +142,9 @@ export class RegistrarComponent implements OnInit {
       }
     });
   }
-  limpiar(){
-    this.fechaDesde="";
-    this.fechaHasta="";
+  limpiar() {
+    this.fechaDesde = "";
+    this.fechaHasta = "";
     this.getServicios();
   }
   addFilter() {
@@ -154,14 +155,14 @@ export class RegistrarComponent implements OnInit {
     if (this.fechaHasta) {
       data["fechaHastaCadena"] = this.getDatesToS(this.fechaHasta);
     }
-    if (this.filter.cliente && this.filter.cliente!=0) {
+    if (this.filter.cliente && this.filter.cliente != 0) {
       data["idFichaClinica"] = {};
-      data["idFichaClinica"]["idCliente"]={}
-      data["idFichaClinica"]["idCliente"]["idPersona"]=this.filter.cliente;
+      data["idFichaClinica"]["idCliente"] = {}
+      data["idFichaClinica"]["idCliente"]["idPersona"] = this.filter.cliente;
     }
-    if (this.filter.empleado && this.filter.empleado!=0) {
+    if (this.filter.empleado && this.filter.empleado != 0) {
       data["idEmpleado"] = {};
-      data["idEmpleado"]["idPersona"]= +this.filter.empleado;
+      data["idEmpleado"]["idPersona"] = +this.filter.empleado;
     }
     this.urlFiltro = "?ejemplo=" + JSON.stringify(data);
     this.filtrar();
@@ -173,10 +174,10 @@ export class RegistrarComponent implements OnInit {
     this.service.obtenerServiciosPorRangoFechas(this.urlFiltro).subscribe(result => {
       this.services = [];
       if (result) {
-        if(result.lista){
+        if (result.lista) {
           this.dataSource = new MatTableDataSource(result.lista);
-          this.services= [... result.lista];
-       }
+          this.services = [...result.lista];
+        }
       }
     });
   }
@@ -292,7 +293,7 @@ export class RegistrarComponent implements OnInit {
       .open(content, { ariaLabelledBy: "modal-agregar-detalle-a-servicio" })
       .result.then(
         result => {
-          this.agregarDetalleAServicio(this.idSer, this.idPre, 1);
+          this.agregarDetalleAServicio(this.idSer, this.idPre, this.cantidadDetalle);
         },
         reason => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
