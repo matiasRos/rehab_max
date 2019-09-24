@@ -1,8 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { PacientesService } from "src/app/services/pacientes.service";
 import { Paciente } from "src/app/models/paciente";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { Router } from "@angular/router";
+import { MatTableDataSource, MatSort, MatPaginator } from "@angular/material";
 import * as $ from "jquery";
 
 @Component({
@@ -26,18 +27,29 @@ export class PacientesComponent implements OnInit {
   tipoPersona: string = "";
   urlFiltro: String = "";
   urlParams: string = "";
-  orderBy: string = "nombre";
-  orderDir: string = "desc";
   cantPorPagina: number = 5;
   fechaNacimiento: Date;
   filter: any = {};
   index: number = 0;
   inicio: number = 0;
+  dataSource: any = [];
   config = {
     itemsPerPage: 5,
     currentPage: 1,
     totalItems: this.pacientes.count
   };
+  displayedColumns: string[] = [
+    "nombre",
+    "apellido",
+    "cedula",
+    "ruc",
+    "tipoPersona",
+    "fechaNacimiento",
+    "telefono"
+  ];
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   constructor(
     private pacienteService: PacientesService,
     private modalService: NgbModal,
@@ -45,15 +57,6 @@ export class PacientesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    /*this.urlParams =
-      "?orderBy=" +
-      this.orderBy +
-      "&orderDir=" +
-      this.orderDir +
-      "&cantidad=" +
-      this.cantPorPagina +
-      "&inicio=" +
-      this.inicio;*/
     this.listarPacientes();
   }
 
@@ -62,41 +65,15 @@ export class PacientesComponent implements OnInit {
     this.config.currentPage = event;
   }
 
-  callPagination(pagina) {
-    if (pagina) {
-      if (pagina == 1) {
-        this.inicio = this.inicio + +this.cantPorPagina;
-      } else if (pagina == -1) {
-        this.inicio = this.inicio - +this.cantPorPagina;
-      }
-      this.index = this.index + pagina;
-      $(".prev").removeClass("disabled");
-      $(".nxt").removeClass("disabled");
-      if (this.index <= 0) {
-        $(".prev").addClass("disabled");
-      }
-      if (this.inicio + +this.cantPorPagina >= this.totalItems) {
-        $(".nxt").addClass("disabled");
-      }
-    }
-    this.urlParams =
-      "?orderBy=" +
-      this.orderBy +
-      "&orderDir=" +
-      this.orderDir +
-      "&cantidad=" +
-      this.cantPorPagina +
-      "&inicio=" +
-      this.inicio;
-    this.addFilter();
-  }
-
   listarPacientes() {
     this.loading = true;
     this.pacientes = [];
     this.pacienteService.listarPacientes(this.urlParams).subscribe(result => {
       this.loading = false;
       if (result) {
+        this.dataSource = new MatTableDataSource(result.lista);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
         result.lista.forEach(a => {
           this.pacientes.push(new Paciente(a));
         });
@@ -142,22 +119,22 @@ export class PacientesComponent implements OnInit {
     if (this.filter.usuarioSistema) {
       data["soloUsuariosDelSistema"] = this.filter.usuarioSistema;
     }
-    this.urlFiltro = "&ejemplo=" + JSON.stringify(data);
+    this.urlFiltro = "?ejemplo=" + JSON.stringify(data);
     this.filtrar(this.urlParams + this.urlFiltro);
   }
 
   filtrar(urlFiltro) {
     this.pacientes = [];
+    this.dataSource = [];
     this.loading = true;
     this.pacienteService.filtrarPacientes(urlFiltro).subscribe(result => {
       this.loading = false;
       console.log(result.lista);
       this.pacientes = [];
       if (result) {
-        result.lista.forEach(a => {
-          this.pacientes.push(new Paciente(a));
-        });
-        this.setCantPorPagina(result.totalDatos);
+        this.dataSource = new MatTableDataSource(result.lista);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
       }
     });
   }

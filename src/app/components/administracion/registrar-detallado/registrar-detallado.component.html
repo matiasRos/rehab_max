@@ -1,0 +1,299 @@
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="botonera">
+                <button (click)="exportPDF()" type="button" class="btn btn-primary mb-3" style="    background-color: #9e2e2e;
+                border: none;        font-size: 16px;
+    margin-right: 12px;
+"><i class="far fa-file-pdf"></i></button>
+                <button (click)="exportCSV()" type="button" class="btn btn-primary mb-3" style="    background-color: #2e9e60;
+                border: none;         font-size: 16px;
+    margin-right: 12px;
+"> <i class="far fa-file-excel"></i> </button>
+                </div>
+            <div class="card shadow">
+                <div novalidate="" class="ng-untouched ng-pristine ng-valid">
+                    <h6 class="heading-small text-muted mb-4 ml-lg-4 mt-4">Filtrar</h6>
+                    <div class="pl-lg-4 mr-3">
+                        <div novalidate="" class="ng-untouched ng-pristine ng-valid">
+                            <h6 class="heading-small text-muted mb-4 ml-lg-4 mt-4">Filtrar</h6>
+                            <div class="pl-lg-4 mr-3">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">Fecha Inicio:</label>
+                                            <input [(ngModel)]="fechaDesde" class="form-control form-control-alternative" id="input-username" placeholder="Nombre" type="date">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">Fecha Fin:</label>
+                                            <input [(ngModel)]="fechaHasta" class="form-control form-control-alternative" id="input-username" placeholder="Apellido" type="date" value="lucky.jesse">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">Cliente:</label>
+                                            <select name="" id="" [(ngModel)]="filter.cliente"
+                                            class="form-control form-control-alternative">
+                                            <option value="0">--------</option>
+                                            <option value="{{pac.idPersona}}" *ngFor="let pac of pacientes">
+                                                {{pac.nombre}} {{pac.apellido}}</option>
+                                        </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6"> 
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">Empleado: </label>
+                                            <select name="" id="" [(ngModel)]="filter.empleado"
+                                                class="form-control form-control-alternative">
+                                                <option value="0">--------</option>
+                                                <option value="{{emp.idPersona}}" *ngFor="let emp of empleados">
+                                                    {{emp.nombre}} {{emp.apellido}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-username">Presentación Producto:</label>
+                                                <select name="" id="" [(ngModel)]="filter.cliente"
+                                                class="form-control form-control-alternative">
+                                                <option value="0">--------</option>
+                                                <option value="{{pac.idPersona}}" *ngFor="let pac of pacientes">
+                                                    {{pac.nombre}} {{pac.apellido}}</option>
+                                            </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6"> 
+                                          
+                                        </div>
+                                    </div>
+
+                            </div>
+                            <div class="botonera">
+                                <button (click)="limpiar()" type="button" class="btn btn-light mb-3 mr-3">Limpiar</button>
+                                <button (click)="addFilter()" type="button" class="btn btn-primary mb-3 mr-3">Filtrar</button>
+                            </div>
+                            <hr class="my-4">
+                        </div>
+
+                        <hr class="my-4">
+                    </div>
+                    <div class="table-responsive d-none" >
+                        <table class="table table-responsive" id="table-registrar-xlsx">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Fisioterapeuta</th>
+                                    <th scope="col">Cliente</th>
+                                    <th scope="col">Presupuesto</th>
+                                    <th scope="col">Sub Categoria</th>
+                                    <th scope="col">Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ser of services">
+                                    <td>
+                                            {{ser.idServicio}}
+                                    </td>
+                                    <td>
+                                            {{ser.idEmpleado.nombre}} {{ser.idEmpleado.apellido}}
+                                    </td>
+                                    <td>
+                                            {{ser.idFichaClinica.idCliente.nombre}} {{ser.idFichaClinica.idCliente.apellido}}
+                                    </td>
+                                    <td>
+                                            {{ser.presupuesto}}
+                                    </td>
+                                    <td>
+                                            {{ser.idFichaClinica.idTipoProducto.descripcion}}
+                                    </td>
+                                    <td>
+                                            {{ser.fechaHora}}
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-responsive" id="table-registrar-pdf">
+                        <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort> 
+                            <ng-container matColumnDef="id">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> ID Servicio </mat-header-cell>
+                                <mat-cell *matCellDef="let servicio"> {{servicio.idServicio}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="fisioterapeuta">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Fisioterapeuta </mat-header-cell>
+                                <mat-cell *matCellDef="let servicio"> {{servicio.idEmpleado.nombre}} {{servicio.idEmpleado.apellido}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="cliente">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </mat-header-cell>
+                                <mat-cell *matCellDef="let servicio"> {{servicio.idFichaClinica.idCliente.nombre}} {{servicio.idFichaClinica.idCliente.apellido}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="presupuesto">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Presupuesto </mat-header-cell>
+                                <mat-cell *matCellDef="let servicio"> {{servicio.presupuesto}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="subcategoria">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Sub categoría </mat-header-cell>
+                                <mat-cell *matCellDef="let servicio"> {{servicio.idFichaClinica.idTipoProducto.descripcion}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="fechaHora">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha y Hora </mat-header-cell>
+                                <mat-cell *matCellDef="let servicio"> {{servicio.fechaHora}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="opciones">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>  </mat-header-cell>
+                                <mat-cell *matCellDef="let servicio" style="    padding: 0px 15px;"> 
+                                    <button title="Eliminar servicio" class="btn btn-primary btn-sm mb-1" (click)="eliminarUnServicioParcial(servicio.idServicio)" type="button"><i class="fas fa-trash"></i></button>
+                                    <button title="Detalles servicio" class="btn btn-primary btn-sm mb-1" (click)="crearModalDetallesDeServicio(detalles, servicio.idServicio)" type="button"><i class="fas fa-eye"></i></button>
+                                    <button title="Servicio Detallado" class="btn btn-primary btn-sm mb-1" (click)="crearModalDetallesServicioDetallado(detallesDetallado, servicio.idServicio)" type="button"><i class="fas fa-arrow-alt-circle-right"></i></button>
+                              
+                                     </mat-cell>
+                            </ng-container>
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                        </mat-table>
+                    </div>
+                    <div class="card-footer py-4">
+                        <nav aria-label="...">
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-template #crear let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Agregar Servicio</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" style="margin: 0px 15px 15px 15px;">
+                    <label for="observacion" class="col-form-label">Observacion</label>
+                    <input name="observacion" id="id_observacion" cols="30" class="form-control" rows="4" [(ngModel)]="observacion">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn  btn-primary" (click)="modal.close('Save click')"><i
+                        class="fas fa-save"></i>
+                    guardar</button>
+                <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')"><i
+                        class="fas fa-times"></i>
+                    cancelar</button>
+            </div>
+        </ng-template>
+        <ng-template #crearModalDetalleServicio let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-agregar-detalle-a-servicio">Agregar Detalle a Servicio</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="form-group" style="margin: 0px 15px 15px 15px;">
+                <label for="observacion" class="col-form-label">Seleccione el detalle a agregar</label>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <select [(ngModel)]="idPre" class="form-control form-control-alternative">
+                            <option value="{{pp.idPresentacionProducto}}" *ngFor="let pp of presentacionProducto">
+                                {{pp.descripcion}}</option>
+                        </select>
+                    </div>
+                </div>
+                <label for="observacion" class="col-form-label">Seleccione Servicio a agregar</label>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <select name="" id="" [(ngModel)]="idSer" class="form-control form-control-alternative">
+                            <option value="0">-------------------------------</option>
+                            <option value="{{s.idServicio}}" *ngFor="let s of services">{{s.observacion}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn  btn-primary" (click)="modal.close('Save click')"><i
+                        class="fas fa-save"></i>
+                    Guardar</button>
+                <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')"><i
+                        class="fas fa-times"></i>
+                    Cancelar</button>
+            </div>
+        </ng-template>
+
+        <ng-template #detalles let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="detalles-del-servicio">Detalles del servicio</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" style="margin: 0px 15px 15px 15px;">
+                    <label for="IdServicio" class="col-form-label">Id Servicio</label>
+                    <input name="Servicio" placeholder="{{idSer}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                    <label for="observacion" class="col-form-label">Observacion</label>
+                    <input name="Observacion" placeholder="{{observacion}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                    <label for="Estado" class="col-form-label">Estado</label>
+                    <input name="Estado" placeholder="{{estado}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                    <label for="Presupuesto" class="col-form-label">Presupuesto</label>
+                    <input name="Presupuesto" placeholder="{{presupuesto}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #detallesDetallado let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="detalles-del-servicio-detallado">Detalles del servicio</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" style="margin: 0px 15px 15px 15px;">
+                    <label for="IdServicio" class="col-form-label">Id Servicio</label>
+                    <input name="Servicio" placeholder="{{idSer}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                    <label for="Motivo Consulta" class="col-form-label">Motivo Consulta</label>
+                    <input name="motivoConsulta" placeholder="{{motivoConsulta}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                    <label for="Descripcion" class="col-form-label">Descripcion</label>
+                    <input name="descripcion" placeholder="{{descripcionGeneral}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #modalGetServiciosPorCliente let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-servicios-por-cliente">Obtener servicios por cliente</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="form-group" style="margin: 0px 15px 15px 15px;">
+                <label for="cliente" class="col-form-label">Seleccione el cliente</label>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <select [(ngModel)]="idPersona" class="form-control form-control-alternative">
+                            <option value="{{pp.idPersona}}" *ngFor="let pp of pacientes">
+                                {{pp.nombre + " " +pp.apellido}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn  btn-primary" (click)="modal.close('Save click')"><i
+                        class="fas fa-save"></i>
+                    Filtrar</button>
+                <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')"><i
+                        class="fas fa-times"></i>
+                    Cancelar</button>
+            </div>
+        </ng-template>
+    </div>

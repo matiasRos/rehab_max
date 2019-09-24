@@ -15,6 +15,10 @@ import { TablesComponent } from "../../pages/tables/tables.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { NgxPaginationModule } from "ngx-pagination";
+import { MatTableModule } from "@angular/material/table";
+import { MatSortModule } from "@angular/material/sort";
+import { MatFormFieldModule, MatInputModule } from "@angular/material";
+import { MatPaginatorModule } from "@angular/material/paginator";
 import { CategoriasComponent } from "src/app/components/administracion/categorias/categorias.component";
 import { SubcategoriasComponent } from "src/app/components/administracion/subcategorias/subcategorias.component";
 import { VerSubcategoriasComponent } from "src/app/components/administracion/ver-subcategorias/ver-subcategorias.component";
@@ -24,18 +28,27 @@ import { EmpleadosComponent } from "src/app/components/administracion/empleados/
 import { GestionEmpleadoComponent } from "src/app/components/administracion/gestion-empleado/gestion-empleado.component";
 import { CardsComponent } from "src/app/pages/cards/cards.component";
 import { ServiciosComponent } from "src/app/components/administracion/servicios/servicios.component";
-// import { ToastrModule } from 'ngx-toastr';
+import { RegistrarComponent } from 'src/app/components/administracion/registrar/registrar.component';
+import { RegistrarDetalladoComponent } from 'src/app/components/administracion/registrar-detallado/registrar-detallado.component';
+
+
+import { ComisionesComponent } from "src/app/components/administracion/comisiones/comisiones.component";
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(AdminLayoutRoutes),
+    RouterModule.forChild(AdminLayoutRoutes), 
     FormsModule,
     HttpClientModule,
     NgbModule,
     ClipboardModule,
     NgxMaterialTimepickerModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   declarations: [
     DashboardComponent,
@@ -50,8 +63,10 @@ import { ServiciosComponent } from "src/app/components/administracion/servicios/
     EmpleadosComponent,
     GestionEmpleadoComponent,
     CardsComponent,
-    ServiciosComponent,
-    ReservasComponent
+    ServiciosComponent, 
+    RegistrarComponent,
+    RegistrarDetalladoComponent,
+    ComisionesComponent
   ]
 })
 export class AdminLayoutModule {}

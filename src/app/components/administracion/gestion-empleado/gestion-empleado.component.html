@@ -4,11 +4,39 @@
     <div class="row">
         <div class="col">
             <div class="botonera">
+                <button (click)="verTodos()" type="button" class="btn btn-primary mb-3">Ver todos los horarios</button>
                 <button (click)="crearModal(crear)" type="button" class="btn btn-primary mb-3">Agregar Horario</button>
+                <button (click)="crearModalExcep(excep)" type="button" class="btn btn-primary mb-3">Excepciones por fecha</button>
+                <button (click)="crearNuevaExcep(nuevaExcep)" type="button" class="btn btn-primary mb-3">Nueva Excepcion</button>
             </div>
             <div class="card shadow">
-
-                <div class="table-responsive">
+                <div novalidate="" class="ng-untouched ng-pristine ng-valid">
+                    <h6 class="heading-small text-muted mb-4 ml-lg-4 mt-4">Filtros</h6>
+                    <div class="pl-lg-4 mr-3">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Día</label>
+                                    <select (change)="setDiaFiltro()" class="custom-select" [(ngModel)]="diaSemana">
+                                        <option value="" disabled>Seleccionar día</option>
+                                        <option value="0">Domingo</option>
+                                        <option value="1">Lunes</option>
+                                        <option value="2">Martes</option>
+                                        <option value="3">Miércoles</option>
+                                        <option value="4">Jueves</option>
+                                        <option value="5">Viernes</option>
+                                        <option value="6">Sábado</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="botonera">
+                        <button (click)="limpiar()" type="button" class="btn btn-light mb-3 mr-3">Limpiar</button>
+                    </div>
+                    <hr class="my-4">
+                </div>
+                <div class="table-responsive" *ngIf="mostrarHorarioNormal">
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
                             <tr>
@@ -31,6 +59,76 @@
                                 </td>
                                 <td>
                                     {{hor.intervaloMinutos}}
+                                </td>
+                            </tr>
+                            <td colspan="2" style="    height: 200px;" *ngIf="loading">
+                                <div class="container--box">
+
+                                    <div class="box">
+                                        <div class="spinner spinner--2"></div>
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-responsive" *ngIf="mostrarHorarioPorDia">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Dia</th>
+                                <th scope="col">Hora Apertura</th>
+                                <th scope="col">Hora Cierre</th>
+                                <th scope="col">Intervalo Minutos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let hor of horarioPorDia | paginate: config">
+                                <td>
+                                    {{hor.diaCadena}}
+                                </td>
+                                <td>
+                                    {{hor.horaAperturaCadena}}
+                                </td>
+                                <td>
+                                    {{hor.horaCierreCadena}}
+                                </td>
+                                <td>
+                                    {{hor.intervaloMinutos}}
+                                </td>
+                            </tr>
+                            <td colspan="2" style="    height: 200px;" *ngIf="loading">
+                                <div class="container--box">
+
+                                    <div class="box">
+                                        <div class="spinner spinner--2"></div>
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-responsive" *ngIf="mostrarHorarioExcep">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Hora Apertura</th>
+                                <th scope="col">Hora Cierre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let exc of horariosExcep">
+                                <td>
+                                    {{exc.fecha}}
+                                </td>
+                                <td>
+                                    {{exc.horaApertura}}
+                                </td>
+                                <td>
+                                    {{exc.horaCierre}}
                                 </td>
                             </tr>
                             <td colspan="2" style="    height: 200px;" *ngIf="loading">
@@ -96,6 +194,46 @@
             guardar</button>
             <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')"><i class="fas fa-times"></i>
             cancelar</button>
+        </div>
+    </ng-template>
+    <ng-template #excep let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Obtener excepciones por fecha</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group" style="margin: 0px 15px 15px 15px;">
+                <label for="descripcion" class="col-form-label">Fecha</label>
+                <input name="descripcion" id="id_descripcion" placeholder="DD/MM/AAAA" cols="30" class="form-control" rows="4" [(ngModel)]="fechaexcep">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn  btn-primary" (click)="modal.close('Save click')">
+                Obtener</button>
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')"><i class="fas fa-times"></i>
+                Cancelar</button>
+        </div>
+    </ng-template>
+    <ng-template #nuevaExcep let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Ingresar fecha de la excepcion</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group" style="margin: 0px 15px 15px 15px;">
+                <label for="descripcion" class="col-form-label">Fecha</label>
+                <input name="descripcion" id="id_descripcion" placeholder="DD/MM/AAAA" cols="30" class="form-control" rows="4" [(ngModel)]="fechaexcep">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn  btn-primary" (click)="modal.close('Save click')">
+                Guardar</button>
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')"><i class="fas fa-times"></i>
+                Cancelar</button>
         </div>
     </ng-template>
 </div>

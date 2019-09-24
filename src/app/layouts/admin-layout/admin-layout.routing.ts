@@ -12,7 +12,9 @@ import { PacientesComponent } from "src/app/components/administracion/pacientes/
 import { EmpleadosComponent } from "src/app/components/administracion/empleados/empleados.component";
 import { GestionEmpleadoComponent } from "src/app/components/administracion/gestion-empleado/gestion-empleado.component";
 import { ServiciosComponent } from "src/app/components/administracion/servicios/servicios.component";
-import { ReservasComponent } from "src/app/components/administracion/reservas/reservas.component";
+import { RegistrarComponent } from '../../components/administracion/registrar/registrar.component';
+import { RegistrarDetalladoComponent } from "src/app/components/administracion/registrar-detallado/registrar-detallado.component";
+import { ComisionesComponent } from "../../components/administracion/comisiones/comisiones.component";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
@@ -28,4 +30,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: "subcategorias", component: SubcategoriasComponent },
   { path: "subcategorias/:id/ver", component: VerSubcategoriasComponent },
   { path: "reservas", component: ReservasComponent },
+  { path: "registro", component: RegistrarComponent },
+  { path: "servicios-detallado", component: RegistrarDetalladoComponent },
+  { path: "comisiones", component: ComisionesComponent }
 ];
