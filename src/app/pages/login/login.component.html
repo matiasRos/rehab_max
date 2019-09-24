@@ -1,7 +1,6 @@
 <div class="header" style="padding-bottom: 8rem !important;padding-top: 31rem !important;">
     <div class="separator separator-bottom separator-skew zindex-100">
-        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
-             xmlns="http://www.w3.org/2000/svg">
+        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
             <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
         </svg>
     </div>
@@ -28,10 +27,11 @@
                                 <input [(ngModel)]="usuario" class="form-control" placeholder="Email" type="email">
                             </label>
                         </div>
-                        <label *ngIf="modalUsu" class="custom-control">
-                            <span style="color : #a11918;">* Usuario Incorrecto</span>
-                        </label>
+
                     </div>
+                    <label *ngIf="modalUsu" class="custom-control">
+                        <span style="color : #a11918;">* Usuario Incorrecto</span>
+                    </label>
                     <div class="form-group">
                         <div class="input-group input-group-alternative">
                             <div class="input-group-prepend">
@@ -53,9 +53,10 @@
                 </div>
             </div>
             <div class="row mt-3">
-                <div class="col-6"><a href="javascript:void(0)" class="text-light">
-                    <small>Olvidaste tu contraseña?</small>
-                </a>
+                <div class="col-6">
+                    <a href="javascript:void(0)" class="text-light">
+                        <small>Olvidaste tu contraseña?</small>
+                    </a>
                 </div>
                 <div class="col-6 text-right">
                     <a href="javascript:void(0)" class="text-light">

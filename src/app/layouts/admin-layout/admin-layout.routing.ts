@@ -12,8 +12,8 @@ import { PacientesComponent } from "src/app/components/administracion/pacientes/
 import { EmpleadosComponent } from "src/app/components/administracion/empleados/empleados.component";
 import { GestionEmpleadoComponent } from "src/app/components/administracion/gestion-empleado/gestion-empleado.component";
 import { ServiciosComponent } from "src/app/components/administracion/servicios/servicios.component";
-import { RegistrarComponent } from '../../components/administracion/registrar/registrar.component';
-
+import { RegistrarComponent } from "../../components/administracion/registrar/registrar.component";
+import { ComisionesComponent } from "../../components/administracion/comisiones/comisiones.component";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
@@ -28,5 +28,6 @@ export const AdminLayoutRoutes: Routes = [
   { path: "empleados/:id/gestionar", component: GestionEmpleadoComponent },
   { path: "subcategorias", component: SubcategoriasComponent },
   { path: "subcategorias/:id/ver", component: VerSubcategoriasComponent },
-  { path: "registro", component: RegistrarComponent }
+  { path: "registro", component: RegistrarComponent },
+  { path: "comisiones", component: ComisionesComponent }
 ];

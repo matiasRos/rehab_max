@@ -27,7 +27,8 @@ import { EmpleadosComponent } from "src/app/components/administracion/empleados/
 import { GestionEmpleadoComponent } from "src/app/components/administracion/gestion-empleado/gestion-empleado.component";
 import { CardsComponent } from "src/app/pages/cards/cards.component";
 import { ServiciosComponent } from "src/app/components/administracion/servicios/servicios.component";
-import { RegistrarComponent } from 'src/app/components/administracion/registrar/registrar.component';
+import { RegistrarComponent } from "src/app/components/administracion/registrar/registrar.component";
+import { ComisionesComponent } from "src/app/components/administracion/comisiones/comisiones.component";
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -59,8 +60,9 @@ import { RegistrarComponent } from 'src/app/components/administracion/registrar/
     EmpleadosComponent,
     GestionEmpleadoComponent,
     CardsComponent,
-    ServiciosComponent, 
-    RegistrarComponent
+    ServiciosComponent,
+    RegistrarComponent,
+    ComisionesComponent
   ]
 })
 export class AdminLayoutModule {}
