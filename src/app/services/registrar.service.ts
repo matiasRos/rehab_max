@@ -33,11 +33,12 @@ export class RegistrarService {
   listarServicios(): Observable<any> {
     return this.http.get<any[]>(this.url).pipe(catchError(handleError('CodigoMensaje', {})));
   }
-
+  listarServiciosDetallados(): Observable<any> {
+    return this.http.get<any[]>(this.url + "?detalle=S").pipe(catchError(handleError('CodigoMensaje', {})));
+  }
   listarServicioPorIdServicioCabecera(idServicio): Observable<any> {
     return this.http.get<any[]>(this.url + '/' + idServicio).pipe(catchError(handleError('CodigoMensaje', {})));
   }
-
   listarServicioPorIdServicioDetalle(idServicio): Observable<any> {
     return this.http.get<any[]>(this.url + '/' + idServicio + '/detalle').pipe(catchError(handleError('CodigoMensaje', {})));
   }
