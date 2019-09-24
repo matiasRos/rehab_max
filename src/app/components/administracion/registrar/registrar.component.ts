@@ -283,7 +283,6 @@ export class RegistrarComponent implements OnInit {
           return;
         } else {
           var idDetalleServicio = response[0].idServicioDetalle;
-
           this.deleteUnServicio(idServicio, idDetalleServicio);
         }
       });
