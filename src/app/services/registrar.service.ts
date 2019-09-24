@@ -69,7 +69,8 @@ export class RegistrarService {
       },
       idServicio: { idServicio: idServicio }
     };
-    return this.http.post(this.url, body, {
+    var urlFinal = this.url + '/' + idServicio + '/detalle';
+    return this.http.post(urlFinal, body, {
       headers: {
         usuario: 'ana'
       }
