@@ -42,19 +42,17 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-username">Cliente:</label>
-                                            <select name="" id="" [(ngModel)]="filter.cliente"
-                                            class="form-control form-control-alternative">
+                                            <select name="" id="" [(ngModel)]="filter.cliente" class="form-control form-control-alternative">
                                             <option value="0">--------</option>
                                             <option value="{{pac.idPersona}}" *ngFor="let pac of pacientes">
                                                 {{pac.nombre}} {{pac.apellido}}</option>
                                         </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6"> 
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-username">Empleado: </label>
-                                            <select name="" id="" [(ngModel)]="filter.empleado"
-                                                class="form-control form-control-alternative">
+                                            <select name="" id="" [(ngModel)]="filter.empleado" class="form-control form-control-alternative">
                                                 <option value="0">--------</option>
                                                 <option value="{{emp.idPersona}}" *ngFor="let emp of empleados">
                                                     {{emp.nombre}} {{emp.apellido}}</option>
@@ -73,7 +71,7 @@
 
                         <hr class="my-4">
                     </div>
-                    <div class="table-responsive d-none" >
+                    <div class="table-responsive d-none">
                         <table class="table table-responsive" id="table-registrar-xlsx">
                             <thead class="thead-light">
                                 <tr>
@@ -88,22 +86,22 @@
                             <tbody>
                                 <tr *ngFor="let ser of services">
                                     <td>
-                                            {{ser.idServicio}}
+                                        {{ser.idServicio}}
                                     </td>
                                     <td>
-                                            {{ser.idEmpleado.nombre}} {{ser.idEmpleado.apellido}}
+                                        {{ser.idEmpleado.nombre}} {{ser.idEmpleado.apellido}}
                                     </td>
                                     <td>
-                                            {{ser.idFichaClinica.idCliente.nombre}} {{ser.idFichaClinica.idCliente.apellido}}
+                                        {{ser.idFichaClinica.idCliente.nombre}} {{ser.idFichaClinica.idCliente.apellido}}
                                     </td>
                                     <td>
-                                            {{ser.presupuesto}}
+                                        {{ser.presupuesto}}
                                     </td>
                                     <td>
-                                            {{ser.idFichaClinica.idTipoProducto.descripcion}}
+                                        {{ser.idFichaClinica.idTipoProducto.descripcion}}
                                     </td>
                                     <td>
-                                            {{ser.fechaHora}}
+                                        {{ser.fechaHora}}
                                     </td>
 
                                 </tr>
@@ -112,7 +110,7 @@
                         </table>
                     </div>
                     <div class="table-responsive" id="table-registrar-pdf">
-                        <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort> 
+                        <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
                             <ng-container matColumnDef="id">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> ID Servicio </mat-header-cell>
                                 <mat-cell *matCellDef="let servicio"> {{servicio.idServicio}} </mat-cell>
@@ -138,13 +136,13 @@
                                 <mat-cell *matCellDef="let servicio"> {{servicio.fechaHora}} </mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="opciones">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>  </mat-header-cell>
-                                <mat-cell *matCellDef="let servicio" style="    padding: 0px 15px;"> 
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+                                <mat-cell *matCellDef="let servicio" style="    padding: 0px 15px;">
                                     <button title="Eliminar servicio" class="btn btn-primary btn-sm mb-1" (click)="eliminarUnServicioParcial(servicio.idServicio)" type="button"><i class="fas fa-trash"></i></button>
                                     <button title="Detalles servicio" class="btn btn-primary btn-sm mb-1" (click)="crearModalDetallesDeServicio(detalles, servicio.idServicio)" type="button"><i class="fas fa-eye"></i></button>
                                     <button title="Servicio Detallado" class="btn btn-primary btn-sm mb-1" (click)="crearModalDetallesServicioDetallado(detallesDetallado, servicio.idServicio)" type="button"><i class="fas fa-arrow-alt-circle-right"></i></button>
-                              
-                                     </mat-cell>
+
+                                </mat-cell>
                             </ng-container>
                             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
@@ -206,6 +204,8 @@
                         </select>
                     </div>
                 </div>
+                <label for="cantidad" class="col-form-label">Ingrese la cantidad</label>
+                <input name="observacion" id="id_observacion" cols="30" class="form-control" rows="4" [(ngModel)]="cantidadDetalle">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn  btn-primary" (click)="modal.close('Save click')"><i
