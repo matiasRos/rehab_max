@@ -13,6 +13,7 @@ import { EmpleadosComponent } from "src/app/components/administracion/empleados/
 import { GestionEmpleadoComponent } from "src/app/components/administracion/gestion-empleado/gestion-empleado.component";
 import { ServiciosComponent } from "src/app/components/administracion/servicios/servicios.component";
 import { RegistrarComponent } from '../../components/administracion/registrar/registrar.component';
+import { RegistrarDetalladoComponent } from "src/app/components/administracion/registrar-detallado/registrar-detallado.component";
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -28,5 +29,6 @@ export const AdminLayoutRoutes: Routes = [
   { path: "empleados/:id/gestionar", component: GestionEmpleadoComponent },
   { path: "subcategorias", component: SubcategoriasComponent },
   { path: "subcategorias/:id/ver", component: VerSubcategoriasComponent },
-  { path: "registro", component: RegistrarComponent }
+  { path: "registro", component: RegistrarComponent },
+  { path: "servicios-detallado", component: RegistrarDetalladoComponent }
 ];

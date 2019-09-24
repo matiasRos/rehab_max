@@ -14,10 +14,10 @@ import { MatTableDataSource } from "@angular/material";
 
 @Component({
   selector: "app-registrar",
-  templateUrl: "./registrar.component.html",
-  styleUrls: ["./registrar.component.scss"]
+  templateUrl: "./registrar-detallado.component.html",
+  styleUrls: ["./registrar-detallado.component.scss"]
 })
-export class RegistrarComponent implements OnInit {
+export class RegistrarDetalladoComponent implements OnInit {
   form: FormGroup;
   presentacionProducto: any = [];
   idPre: any;

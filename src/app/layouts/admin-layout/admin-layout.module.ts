@@ -28,12 +28,13 @@ import { GestionEmpleadoComponent } from "src/app/components/administracion/gest
 import { CardsComponent } from "src/app/pages/cards/cards.component";
 import { ServiciosComponent } from "src/app/components/administracion/servicios/servicios.component";
 import { RegistrarComponent } from 'src/app/components/administracion/registrar/registrar.component';
+import { RegistrarDetalladoComponent } from 'src/app/components/administracion/registrar-detallado/registrar-detallado.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(AdminLayoutRoutes),
+    RouterModule.forChild(AdminLayoutRoutes), 
     FormsModule,
     HttpClientModule,
     NgbModule,
@@ -60,7 +61,8 @@ import { RegistrarComponent } from 'src/app/components/administracion/registrar/
     GestionEmpleadoComponent,
     CardsComponent,
     ServiciosComponent, 
-    RegistrarComponent
+    RegistrarComponent,
+    RegistrarDetalladoComponent
   ]
 })
 export class AdminLayoutModule {}
