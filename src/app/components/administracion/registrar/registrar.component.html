@@ -140,7 +140,6 @@
                                     <button title="Eliminar servicio" class="btn btn-primary btn-sm mb-1" (click)="eliminarUnServicioParcial(servicio.idServicio)" type="button"><i class="fas fa-trash"></i></button>
                                     <button title="Detalles servicio" class="btn btn-primary btn-sm mb-1" (click)="crearModalDetallesDeServicio(detalles, servicio.idServicio)" type="button"><i class="fas fa-eye"></i></button>
                                     <button title="Servicio Detallado" class="btn btn-primary btn-sm mb-1" (click)="crearModalDetallesServicioDetallado(detallesDetallado, servicio.idServicio)" type="button"><i class="fas fa-arrow-alt-circle-right"></i></button>
-
                                 </mat-cell>
                             </ng-container>
                             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -165,7 +164,7 @@
             <div class="modal-body">
                 <div class="form-group" style="margin: 0px 15px 15px 15px;">
                     <label for="observacion" class="col-form-label">Observacion</label>
-                    <input name="observacion" id="id_observacion" cols="30" class="form-control" rows="4" [(ngModel)]="observacion">
+                    <input name="observacion" id="id_observacion" cols="30" class="form-control form-control-alternative" rows="4" [(ngModel)]="observacion">
                 </div>
             </div>
             <div class="modal-footer">
@@ -204,7 +203,7 @@
                     </div>
                 </div>
                 <label for="cantidad" class="col-form-label">Ingrese la cantidad</label>
-                <input name="observacion" id="id_observacion" cols="30" class="form-control" rows="4" [(ngModel)]="cantidadDetalle">
+                <input name="observacion" id="id_observacion" cols="30" class="form-control form-control-alternative" rows="4" [(ngModel)]="cantidadDetalle">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn  btn-primary" (click)="modal.close('Save click')"><i
@@ -226,7 +225,7 @@
             <div class="modal-body">
                 <div class="form-group" style="margin: 0px 15px 15px 15px;">
                     <label for="IdServicio" class="col-form-label">Id Servicio</label>
-                    <input name="Servicio" placeholder="{{idSer}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                    <input name="Servicio" placeholder="{{idSer}}" disabled="disabled" id="id_servicio" cols="30" class="form-control form-control-alternative" rows="4">
                     <label for="observacion" class="col-form-label">Observacion</label>
                     <input name="Observacion" placeholder="{{observacion}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
                     <label for="Estado" class="col-form-label">Estado</label>

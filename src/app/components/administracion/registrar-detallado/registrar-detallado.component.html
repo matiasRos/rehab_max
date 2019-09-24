@@ -67,11 +67,11 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-username">Presentación
                                                 Producto:</label>
-                                            <select name="" id="" [(ngModel)]="filter.cliente"
+                                            <select name="" id="" [(ngModel)]="filter.presentacionProducto"
                                                 class="form-control form-control-alternative">
                                                 <option value="0">--------</option>
-                                                <option value="{{pac.idPersona}}" *ngFor="let pac of pacientes">
-                                                    {{pac.nombre}} {{pac.apellido}}</option>
+                                                <option value="{{pac.idPresentacionProducto}}" *ngFor="let pac of presentacionProducto">
+                                                    {{pac.descripcion}}</option>
                                             </select>
                                         </div>
                                     </div>

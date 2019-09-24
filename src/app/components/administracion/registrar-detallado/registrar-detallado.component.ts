@@ -163,6 +163,10 @@ export class RegistrarDetalladoComponent implements OnInit {
       data["idEmpleado"] = {};
       data["idEmpleado"]["idPersona"]= +this.filter.empleado;
     }
+    if (this.filter.presentacionProducto && this.filter.presentacionProducto!=0) {
+      data["idPresentacionProducto"] = {};
+      data["idPresentacionProducto"]["idPresentacionProducto"]= +this.filter.presentacionProducto;
+    }
     this.urlFiltro = "?ejemplo=" + JSON.stringify(data);
     this.filtrar();
   }
