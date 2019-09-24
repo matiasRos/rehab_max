@@ -74,8 +74,8 @@ export class RegistrarService {
       }
     });
   }
-  obtenerServiciosPorRangoFechas(fechaDesde, fechaHasta): Observable<any> {
-    const urlFinal = this.url + '?ejemplo={"fechaDesdeCadena":' + fechaDesde + ',"fechaHastaCadena":' + fechaHasta + '}';
+  obtenerServiciosPorRangoFechas(urlFiltro): Observable<any> {
+    const urlFinal = this.url + urlFiltro;
     return this.http.get<any[]>(urlFinal);
   }
 }
