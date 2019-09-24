@@ -23,6 +23,7 @@ import { CategoriasComponent } from "src/app/components/administracion/categoria
 import { SubcategoriasComponent } from "src/app/components/administracion/subcategorias/subcategorias.component";
 import { VerSubcategoriasComponent } from "src/app/components/administracion/ver-subcategorias/ver-subcategorias.component";
 import { PacientesComponent } from "src/app/components/administracion/pacientes/pacientes.component";
+import { ReservasComponent } from "src/app/components/administracion/reservas/reservas.component";
 import { EmpleadosComponent } from "src/app/components/administracion/empleados/empleados.component";
 import { GestionEmpleadoComponent } from "src/app/components/administracion/gestion-empleado/gestion-empleado.component";
 import { CardsComponent } from "src/app/pages/cards/cards.component";

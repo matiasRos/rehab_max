@@ -45,6 +45,12 @@ export const ROUTES: RouteInfo[] = [
     class: ""
   },
   {
+    path: "/reservas",
+    title: "Reservas",
+    icon: "ni-planet text-blue",
+    class: ""
+  },
+  {
     path: "/empleados",
     title: "Empleados",
     icon: "ni-circle-08 text-blue",

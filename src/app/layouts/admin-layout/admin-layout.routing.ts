@@ -29,6 +29,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: "empleados/:id/gestionar", component: GestionEmpleadoComponent },
   { path: "subcategorias", component: SubcategoriasComponent },
   { path: "subcategorias/:id/ver", component: VerSubcategoriasComponent },
+  { path: "reservas", component: ReservasComponent },
   { path: "registro", component: RegistrarComponent },
   { path: "servicios-detallado", component: RegistrarDetalladoComponent },
   { path: "comisiones", component: ComisionesComponent }

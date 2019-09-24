@@ -52,6 +52,30 @@ export class EmpleadosService {
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
 
+  filtrarLike(data): Observable<any> {
+    let body = {
+      nombre: data.nombre,
+      soloUsuariosDelSistema: true
+    };
+    let datos = JSON.stringify(body);
+    return this.http
+      .get<any[]>(this.urlPersona + "?like=S&ejemplo=" + datos)
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
+
+  listarHorariosFechaDisponible(data): Observable<any> {
+    let body = { 
+      idEmpleado: { 
+        idPersona: data 
+      }
+      let datos = JSON.stringify(body);
+    console.log(datos);
+
+    return this.http
+      .get<any[]>(this.urlHorario + "?ejemplo=" + datos)
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
+
   nuevaExcepcion(data): Observable<any> {
     console.log("data", data);
     let body = data;
@@ -101,6 +125,14 @@ export class EmpleadosService {
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
 
+
+  listarHorariosDisponiblesEmpleado(empleado,fecha): Observable<any> {
+    return this.http
+      .get<any[]>(
+        `${this.urlPersona}/${empleado}/agenda?fecha=${fecha}&disponible=S` 
+      ).pipe(catchError(handleError("codigoMensaje", {})));
+  }
+
   listarComisiones(): Observable<any> {
     return this.http
       .get<any[]>(this.urlComision)
@@ -128,7 +160,6 @@ export class EmpleadosService {
     console.log(datos);
 
     return this.http
-      .get<any[]>(this.urlComision + "?ejemplo=" + datos)
-      .pipe(catchError(handleError("codigoMensaje", {})));
+      .get<any[]>(this.urlComision + "?ejemplo=" + datos).pipe(catchError(handleError("codigoMensaje", {})));
   }
 }
