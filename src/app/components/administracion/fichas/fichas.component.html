@@ -1,0 +1,324 @@
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+      <div class="col">
+          <div class="botonera">
+              <button (click)="crearModal(crear)" type="button" class="btn btn-primary mb-3">Agregar Reserva</button>
+          </div>
+          <div class="card shadow">
+              <div novalidate="" class="ng-untouched ng-pristine ng-valid">
+                  <h6 class="heading-small text-muted mb-4 ml-lg-4 mt-4">Filtros de Busqueda</h6>
+                  <div class="pl-lg-4 mr-3">
+                      <div class="row">
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                    <label for="fechaDesde" class="col-form-label">Fecha Desde</label>
+                                    <input type="date" name="fechaDesde" id="id_fechaDesde" cols="30" class="form-control" rows="4" [(ngModel)]="filter.fechaDesde">
+                              </div>
+                          </div>
+                          <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="fechaHasta" class="col-form-label">Fecha Hasta</label>
+                                    <input type="date" name="fechaHasta" id="id_fechaHasta" cols="30" class="form-control" rows="4" [(ngModel)]="filter.fechaHasta">
+                                </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                  <label for="fisioterapeuta" class="col-form-label">Fisioterapeuta</label>
+                                  <input (click)="buscar_fisio();doctorClick();crearModal(selectDoctor)" name="fisioterapeuta" id="id_fisioterapeuta" cols="30" class="form-control" rows="4" readonly=true [(ngModel)]="filter.idEmpleado">
+                              </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="cliente" class="col-form-label">Cliente</label>
+                                <input (click)="buscar_cliente();clienteClick();crearModal(selectCliente)" name="cliente" id="id_cliente" cols="30" class="form-control" rows="4" readonly=true [(ngModel)]="filter.idCliente">
+                            </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                              <label class="form-control-label" for="input-username">Categoria</label>
+                              <select [(ngModel)]="filter.idCategoria" class="form-control form-control-alternative">
+                                  <option value="{{c.idCategoria}}" *ngFor="let c of categorias">
+                                      {{c.descripcion}}</option>
+                              </select>
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                              <label class="form-control-label" for="input-username">Producto</label>
+                              <select [(ngModel)]="filter.idTipoProducto" class="form-control form-control-alternative">
+                                  <option value="{{p.idProducto.idTipoProducto}}" *ngFor="let p of productos">
+                                      {{p.descripcion}}</option>
+                              </select>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="botonera">
+                      <button (click)="limpiar()" type="button" class="btn btn-light mb-3 mr-3">Limpiar</button>
+                      <button (click)="addFilter()" type="button" class="btn btn-primary mb-3 mr-3">Filtrar</button>
+                  </div>
+                  <hr class="my-4">
+              </div>
+              <div class="table-responsive">
+                  <table class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                          <tr>
+                              <th scope="col">ID</th>
+                              <th scope="col">Empleado</th>
+                              <th scope="col">Cliente</th>
+                              <th scope="col">Producto</th>
+                              <th scope="col">Motivo Consulta</th>
+                              <th scope="col">Diagnostico</th>
+                              <th scope="col">Observaciones</th>
+                              <th scope="col">Acciones</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let ficha of fichas | paginate: config">
+                              <td>
+                                  {{ficha.idFichaClinica}}
+                              </td>
+                              <td>
+                                    {{ficha.idEmpleado.nombre}} {{ficha.idEmpleado.apellido}}
+                              </td>
+                              <td>
+                                    {{ficha.idCliente.nombre}} {{ficha.idCliente.apellido}}
+                              </td>
+                              <td>
+                                    {{ficha.idTipoProducto.descripcion}}
+                              </td>
+                              <td>
+                                    {{ficha.motivoConsulta}}
+                              </td>
+                              <td>
+                                  {{ficha.diagnostico}}
+                              </td>
+                              <td>
+                                    {{ficha.observacion}}
+                            </td>
+                              <td>
+                                    <a style="cursor: pointer" (click)="idTipoProducto=ficha.idTipoProducto;observacion=ficha.observacion;crearModal(modificar);setModificar();" class="nav-link">
+                                        Modificar <i class="ni ni-ruler-pencil"></i> 
+                                    </a>
+                              </td>
+                          </tr>
+                          <td colspan="7 " style=" height: 200px; " *ngIf="loading ">
+                              <div class="container--box ">
+
+                                  <div class="box ">
+                                      <div class="spinner spinner--2 "></div>
+                                  </div>
+                              </div>
+                          </td>
+
+                      </tbody>
+                  </table>
+              </div>
+              <div class="card-footer py-4 ">
+                  <nav aria-label="... ">
+                      <pagination-controls class="pagination " (pageChange)="pageChanged($event) " maxSize="9 " directionLinks="true " autoHide="true " responsive="true " previousLabel="Anterior " nextLabel="Siguiente
+                              " screenReaderPaginationLabel="Pagination " screenReaderPageLabel="page " screenReaderCurrentLabel="Estas en la pagina.. ">
+                      </pagination-controls>
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </div>
+  <ng-template #crear let-modal>
+      <div class="modal-header ">
+          <h4 class="modal-title " id="modal-basic-title ">Agregar Reserva</h4>
+          <button type="button " class="close " aria-label="Close " (click)="limpiar();modal.dismiss( 'Cross click') ">
+      <span aria-hidden="true ">&times;</span>
+    </button>
+      </div>
+      <div class="modal-body ">
+          <form>
+                <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                    <label for="idEmpleado " class="col-form-label col-lg-6">Doctor <span *ngIf="!doctor==''">: {{this.doctor}}</span></label>
+                    <button type="button " class="btn btn-primary col-lg-3" (click)="buscar_fisio();crearModal(selectDoctor)"><i class="fas fa-single-02"></i>
+                        Buscar</button>
+                </div>
+              <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                    <label for="idCliente " class="col-form-label col-lg-6">Cliente <span *ngIf="!paciente==''">: {{this.paciente}}</span></label>
+                    <button type="button " class="btn btn-primary col-lg-3" (click)="buscar_cliente();crearModal(selectCliente)"><i class="fas fa-single-02"></i>
+                        Buscar</button>
+              </div>
+              <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                  <label for="fechaCadena " class="col-form-label ">Fecha</label>
+                  <input (change)="listarHorarios();" type="date" name="fechaCadena " id="id_fechaCadena" cols="30 " class="form-control " rows="4 " [(ngModel)]="fechaCadena ">
+              </div>
+              
+            <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                <label for="observacion" class="col-form-label ">Observacion</label>
+                <input type="text" name="observacion" id="id_observacion" cols="30 " class="form-control " rows="4 " [(ngModel)]="observacion">
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer ">
+          <button type="button " class="btn btn-primary " (click)="modal.close( 'Save click') "><i class="fas fa-save "></i>
+      guardar</button>
+          <button type="button " class="btn btn-secondary " (click)="modal.dismiss( 'Cross click') "><i class="fas fa-times "></i>
+      cancelar</button>
+      </div>
+  </ng-template>
+
+
+  <ng-template #selectDoctor let-modal>
+    <div class="modal-header ">
+        <h4 class="modal-title " id="modal-basic-title ">Buscar Doctor</h4>
+        <button type="button " class="close " aria-label="Close " (click)="modal.dismiss( 'Cross click') ">
+    <span aria-hidden="true ">&times;</span>
+  </button>
+    </div>
+    <div class="modal-body ">
+            <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                <input (keyup)="filtroDoctor()" name="idEmpleado " id="idEmpleadoBuscar" cols="30 " class="form-control " rows="4 " placeholder="Buscar" [(ngModel)]="filter.nombre">
+            </div>
+            <!-- Table -->
+            <div class="row">
+                    <div class="col">
+                        <div class="card shadow">
+                            <div class="table-responsive">
+                                <table class="table align-items-center table-flush">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Nombre y Apellido</th>
+                                            <th scope="col">Cedula</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr (click)="doctor=emp.nombre+' '+((emp.apellido)? emp.apellido:''); idEmpleado=emp.idPersona;putFilter(); modal.dismiss( 'Cross click') " *ngFor="let emp of doctores | paginate: config">
+                                            <td>
+                                                {{emp.idPersona}}
+                                            </td>
+                                            <td>
+                                                {{emp.nombre}} {{emp.apellido}}
+                                            </td>
+                                            <td>
+                                                {{emp.cedula}}
+                                            </td>
+                                        </tr>
+            
+                                        <td colspan="2" style="    height: 200px;" *ngIf="loading">
+                                            <div class="container--box">
+            
+                                                <div class="box">
+                                                    <div class="spinner spinner--2"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+            
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer py-4">
+                                <nav aria-label="...">
+                                    <pagination-controls class="pagination" (pageChange)="pageChanged($event)" maxSize="9" directionLinks="true" autoHide="true" responsive="true" previousLabel="Anterior" nextLabel="Siguiente" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                                        screenReaderCurrentLabel="Estas en la pagina..">
+                                    </pagination-controls>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+            </div>
+</ng-template>
+<ng-template #selectCliente let-modal>
+        <div class="modal-header ">
+            <h4 class="modal-title " id="modal-basic-title ">Buscar Cliente</h4>
+            <button type="button " class="close " aria-label="Close " (click)="modal.dismiss( 'Cross click') ">
+        <span aria-hidden="true ">&times;</span>
+      </button>
+        </div>
+        <div class="modal-body ">
+                <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                    <input (keyup)="filtroCliente()" name="idCliente " id="idClienteBuscar" cols="30 " class="form-control" rows="4 " placeholder="Buscar" [(ngModel)]="filter.nombre">
+                    
+                </div>
+                <!-- Table -->
+                <div class="row">
+                        <div class="col">
+                            <div class="card shadow">
+                                    <div class="table-responsive">
+                                            <table class="table align-items-center table-flush">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th scope="col">ID</th>
+                                                        <th scope="col">Nombre y Apellido</th>
+                                                        <th scope="col">Cedula</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr (click)="paciente=pac.nombre+' '+((pac.apellido)? pac.apellido:''); idCliente=pac.idPersona;putFilter();modal.dismiss( 'Cross click')" *ngFor="let pac of clientes | paginate: config">
+                                                        <td>
+                                                            {{pac.idPersona}}
+                                                        </td>
+                                                        <td>
+                                                            {{pac.nombre}} {{pac.apellido}}
+                                                        </td>
+                                                        <td>
+                                                            {{pac.cedula}}
+                                                        </td>
+                                                    </tr>
+                                                    <td colspan="7 " style=" height: 200px; " *ngIf="loading ">
+                                                        <div class="container--box ">
+                        
+                                                            <div class="box ">
+                                                                <div class="spinner spinner--2 "></div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                        
+                                                </tbody>
+                                            </table>
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                </div>
+    </ng-template>
+</div>
+<ng-template #estaSeguro let-modal>
+    <div class="modal-header ">
+        <h3 class="modal-title " id="modal-basic-title ">¿Esta seguro/a de cancelar la reserva?</h3>
+        <button type="button " class="close " aria-label="Close " (click)="modal.dismiss( 'Cross click') ">
+    <span aria-hidden="true ">&times;</span>
+  </button>
+    </div>
+    <div class="modal-body ">
+            <button type="button " class="btn btn-primary " (click)="cancelarReserva();modal.close()">
+        Si, estoy seguro</button>
+            <button type="button " class="btn btn-secondary " (click)="modal.dismiss( 'Cross click') ">
+        Cancelar</button>
+    </div>
+</ng-template>
+
+<ng-template #modificar let-modal>
+    <div class="modal-header ">
+        <h3 class="modal-title " id="modal-basic-title ">Modificar Reserva</h3>
+        <button type="button " class="close " aria-label="Close " (click)="modal.dismiss( 'Cross click') ">
+    <span aria-hidden="true ">&times;</span>
+  </button>
+    </div>
+    <div class="modal-body ">
+                <div class="form-group " style="margin: 0px 15px 15px 15px; ">
+                    <label for="observacion" class="col-form-label ">Observacion:</label>
+                    <input type="text" name="observacion" id="id_observacion" cols="30 " class="form-control " rows="4 " [(ngModel)]="observacion">
+                </div>
+    </div>
+    <div class="modal-footer ">
+        <button type="button " class="btn btn-primary " (click)="modal.close();modificarReserva()"><i class="fas fa-save "></i>
+    Guardar</button>
+        <button type="button " class="btn btn-secondary " (click)="modal.dismiss( 'Cross click') "><i class="fas fa-times "></i>
+    Cancelar</button>
+    </div>
+</ng-template>
