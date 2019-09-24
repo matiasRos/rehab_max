@@ -56,21 +56,21 @@ export const ROUTES: RouteInfo[] = [
     icon: "ni-money-coins text-blue",
     class: ""
   },
-  { path: "/icons", title: "Iconos", icon: "ni-planet text-blue", class: "" },
-  { path: "/maps", title: "Mapas", icon: "ni-pin-3 text-orange", class: "" },
-  {
-    path: "/user-profile",
-    title: "Formulario",
-    icon: "ni-single-02 text-yellow",
-    class: ""
-  },
-  {
-    path: "/tables",
-    title: "Tablas",
-    icon: "ni-bullet-list-67 text-red",
-    class: ""
-  },
-  { path: "/login", title: "Login", icon: "ni-key-25 text-info", class: "" }
+  // { path: "/icons", title: "Iconos", icon: "ni-planet text-blue", class: "" },
+  // { path: "/maps", title: "Mapas", icon: "ni-pin-3 text-orange", class: "" },
+  // {
+  //   path: "/user-profile",
+  //   title: "Formulario",
+  //   icon: "ni-single-02 text-yellow",
+  //   class: ""
+  // },
+  // {
+  //   path: "/tables",
+  //   title: "Tablas",
+  //   icon: "ni-bullet-list-67 text-red",
+  //   class: ""
+  // },
+  // { path: "/login", title: "Login", icon: "ni-key-25 text-info", class: "" }
   // { path: '/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' }
 ];
 
