@@ -45,10 +45,10 @@ export class RegistrarDetalladoComponent implements OnInit {
     "id",
     "fisioterapeuta",
     "cliente",
-    "presupuesto",
-    "subcategoria",
-    "fechaHora",
-    "opciones"
+    "precioUnitario",
+    "cantidad",
+    "precioTotal",
+    "fechaHora"
   ];
 
   exportPDF() {
@@ -126,7 +126,7 @@ export class RegistrarDetalladoComponent implements OnInit {
 
   getServicios() {
     this.services = [];
-    this.service.listarServicios().subscribe(result => {
+    this.service.listarServiciosDetallados().subscribe(result => {
      if(result.lista){
         this.dataSource = new MatTableDataSource(result.lista);
         this.services= [... result.lista]
@@ -196,7 +196,6 @@ export class RegistrarDetalladoComponent implements OnInit {
 
     });
   }
-
   getDetallesPorIdServicio(idServicio) {
     this.service.listarServicioPorIdServicioDetalle(idServicio).subscribe((response) => {
       console.log(response);
@@ -232,11 +231,7 @@ export class RegistrarDetalladoComponent implements OnInit {
         console.log(response);
       });
   }
-  deleteUnServicio(idServicio, idDetalle) {
-    this.service.deleteUnServicio(idServicio, idDetalle).subscribe(response => {
-      console.log(response);
-    });
-  }
+
 
   registrarServicio() {
     console.log(this.idSer, this.idPre);
@@ -271,22 +266,6 @@ export class RegistrarDetalladoComponent implements OnInit {
       );
   }
 
-  eliminarUnServicioParcial(idServicio) {
-    this.service
-      .listarServicioPorIdServicioDetalle(idServicio)
-      .subscribe(response => {
-        console.log("response eliminarUnServicioParcial", response);
-        if (response.length === 0) {
-          console.log('response vacio');
-          this.getServicios();
-          return;
-        } else {
-          var idDetalleServicio = response[0].idServicioDetalle;
-
-          this.deleteUnServicio(idServicio, idDetalleServicio);
-        }
-      });
-  }
   crearModalAgregarDetalleAServicio(content) {
     this.modalService
       .open(content, { ariaLabelledBy: "modal-agregar-detalle-a-servicio" })

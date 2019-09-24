@@ -12,7 +12,7 @@
                 border: none;         font-size: 16px;
     margin-right: 12px;
 "> <i class="far fa-file-excel"></i> </button>
-                </div>
+            </div>
             <div class="card shadow">
                 <div novalidate="" class="ng-untouched ng-pristine ng-valid">
                     <h6 class="heading-small text-muted mb-4 ml-lg-4 mt-4">Filtrar</h6>
@@ -24,13 +24,17 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-username">Fecha Inicio:</label>
-                                            <input [(ngModel)]="fechaDesde" class="form-control form-control-alternative" id="input-username" placeholder="Nombre" type="date">
+                                            <input [(ngModel)]="fechaDesde"
+                                                class="form-control form-control-alternative" id="input-username"
+                                                placeholder="Nombre" type="date">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-username">Fecha Fin:</label>
-                                            <input [(ngModel)]="fechaHasta" class="form-control form-control-alternative" id="input-username" placeholder="Apellido" type="date" value="lucky.jesse">
+                                            <input [(ngModel)]="fechaHasta"
+                                                class="form-control form-control-alternative" id="input-username"
+                                                placeholder="Apellido" type="date" value="lucky.jesse">
                                         </div>
                                     </div>
                                 </div>
@@ -39,14 +43,14 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-username">Cliente:</label>
                                             <select name="" id="" [(ngModel)]="filter.cliente"
-                                            class="form-control form-control-alternative">
-                                            <option value="0">--------</option>
-                                            <option value="{{pac.idPersona}}" *ngFor="let pac of pacientes">
-                                                {{pac.nombre}} {{pac.apellido}}</option>
-                                        </select>
+                                                class="form-control form-control-alternative">
+                                                <option value="0">--------</option>
+                                                <option value="{{pac.idPersona}}" *ngFor="let pac of pacientes">
+                                                    {{pac.nombre}} {{pac.apellido}}</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6"> 
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-username">Empleado: </label>
                                             <select name="" id="" [(ngModel)]="filter.empleado"
@@ -59,75 +63,86 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label class="form-control-label" for="input-username">Presentación Producto:</label>
-                                                <select name="" id="" [(ngModel)]="filter.cliente"
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">Presentación
+                                                Producto:</label>
+                                            <select name="" id="" [(ngModel)]="filter.cliente"
                                                 class="form-control form-control-alternative">
                                                 <option value="0">--------</option>
                                                 <option value="{{pac.idPersona}}" *ngFor="let pac of pacientes">
                                                     {{pac.nombre}} {{pac.apellido}}</option>
                                             </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6"> 
-                                          
                                         </div>
                                     </div>
+                                    <div class="col-lg-6">
+
+                                    </div>
+                                </div>
 
                             </div>
                             <div class="botonera">
-                                <button (click)="limpiar()" type="button" class="btn btn-light mb-3 mr-3">Limpiar</button>
-                                <button (click)="addFilter()" type="button" class="btn btn-primary mb-3 mr-3">Filtrar</button>
+                                <button (click)="limpiar()" type="button"
+                                    class="btn btn-light mb-3 mr-3">Limpiar</button>
+                                <button (click)="addFilter()" type="button"
+                                    class="btn btn-primary mb-3 mr-3">Filtrar</button>
                             </div>
                             <hr class="my-4">
                         </div>
 
                         <hr class="my-4">
                     </div>
-                    <div class="table-responsive d-none" >
+                    <div class="table-responsive d-none">
                         <table class="table table-responsive" id="table-registrar-xlsx">
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">Fisioterapeuta</th>
                                     <th scope="col">Cliente</th>
-                                    <th scope="col">Presupuesto</th>
-                                    <th scope="col">Sub Categoria</th>
-                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Precio unitario</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Precio total</th>
+                                    <th scope="col">Presentación Producto</th>
+                                    <th scope="col">Fecha y Hora</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let ser of services">
                                     <td>
-                                            {{ser.idServicio}}
+                                        {{ser.idServicio.idServicio}}
                                     </td>
                                     <td>
-                                            {{ser.idEmpleado.nombre}} {{ser.idEmpleado.apellido}}
+                                        {{ser.idEmpleado.nombre}} {{ser.idEmpleado.apellido}}
                                     </td>
                                     <td>
-                                            {{ser.idFichaClinica.idCliente.nombre}} {{ser.idFichaClinica.idCliente.apellido}}
+                                        {{ser.idServicio.idFichaClinica.idCliente.nombre}}
+                                        {{ser.idServicio.idFichaClinica.idCliente.apellido}}
                                     </td>
                                     <td>
-                                            {{ser.presupuesto}}
+                                        {{ser.cantidad}}
                                     </td>
                                     <td>
-                                            {{ser.idFichaClinica.idTipoProducto.descripcion}}
+                                        {{ser.cantidad}}
                                     </td>
                                     <td>
-                                            {{ser.fechaHora}}
+                                        {{ser.cantidad}}
                                     </td>
-
+                                    <td>
+                                        {{ser.idPresentacionProducto.nombre}}
+                                    </td>
+                                    <td>
+                                        {{ser.idServicio.fechaHora}}
+                                    </td>
                                 </tr>
 
                             </tbody>
                         </table>
                     </div>
                     <div class="table-responsive" id="table-registrar-pdf">
-                        <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort> 
+                        <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
                             <ng-container matColumnDef="id">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> ID Servicio </mat-header-cell>
-                                <mat-cell *matCellDef="let servicio"> {{servicio.idServicio}} </mat-cell>
+                                <mat-cell *matCellDef="let servicio"> {{servicio.idServicio.idServicio}} </mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="fisioterapeuta">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Fisioterapeuta </mat-header-cell>
@@ -135,28 +150,26 @@
                             </ng-container>
                             <ng-container matColumnDef="cliente">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </mat-header-cell>
-                                <mat-cell *matCellDef="let servicio"> {{servicio.idFichaClinica.idCliente.nombre}} {{servicio.idFichaClinica.idCliente.apellido}} </mat-cell>
+                                <mat-cell *matCellDef="let servicio">  {{servicio.idServicio.idFichaClinica.idCliente.nombre}}
+                                    {{servicio.idServicio.idFichaClinica.idCliente.apellido}} </mat-cell>
                             </ng-container>
-                            <ng-container matColumnDef="presupuesto">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Presupuesto </mat-header-cell>
-                                <mat-cell *matCellDef="let servicio"> {{servicio.presupuesto}} </mat-cell>
+                            <ng-container matColumnDef="precioUnitario">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Precio unitario </mat-header-cell>
+                                <mat-cell *matCellDef="let servicio"> {{servicio.cantidad}}</mat-cell>
                             </ng-container>
-                            <ng-container matColumnDef="subcategoria">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Sub categoría </mat-header-cell>
-                                <mat-cell *matCellDef="let servicio"> {{servicio.idFichaClinica.idTipoProducto.descripcion}} </mat-cell>
+                            <ng-container matColumnDef="cantidad">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </mat-header-cell>
+                                <mat-cell *matCellDef="let servicio">
+                                    {{servicio.cantidad}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="precioTotal">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Precio Total </mat-header-cell>
+                                <mat-cell *matCellDef="let servicio">
+                                    {{servicio.cantidad}} </mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="fechaHora">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha y Hora </mat-header-cell>
-                                <mat-cell *matCellDef="let servicio"> {{servicio.fechaHora}} </mat-cell>
-                            </ng-container>
-                            <ng-container matColumnDef="opciones">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>  </mat-header-cell>
-                                <mat-cell *matCellDef="let servicio" style="    padding: 0px 15px;"> 
-                                    <button title="Eliminar servicio" class="btn btn-primary btn-sm mb-1" (click)="eliminarUnServicioParcial(servicio.idServicio)" type="button"><i class="fas fa-trash"></i></button>
-                                    <button title="Detalles servicio" class="btn btn-primary btn-sm mb-1" (click)="crearModalDetallesDeServicio(detalles, servicio.idServicio)" type="button"><i class="fas fa-eye"></i></button>
-                                    <button title="Servicio Detallado" class="btn btn-primary btn-sm mb-1" (click)="crearModalDetallesServicioDetallado(detallesDetallado, servicio.idServicio)" type="button"><i class="fas fa-arrow-alt-circle-right"></i></button>
-                              
-                                     </mat-cell>
+                                <mat-cell *matCellDef="let servicio"> {{servicio.idServicio.fechaHora}} </mat-cell>
                             </ng-container>
                             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
@@ -180,7 +193,8 @@
             <div class="modal-body">
                 <div class="form-group" style="margin: 0px 15px 15px 15px;">
                     <label for="observacion" class="col-form-label">Observacion</label>
-                    <input name="observacion" id="id_observacion" cols="30" class="form-control" rows="4" [(ngModel)]="observacion">
+                    <input name="observacion" id="id_observacion" cols="30" class="form-control" rows="4"
+                        [(ngModel)]="observacion">
                 </div>
             </div>
             <div class="modal-footer">
@@ -239,13 +253,17 @@
             <div class="modal-body">
                 <div class="form-group" style="margin: 0px 15px 15px 15px;">
                     <label for="IdServicio" class="col-form-label">Id Servicio</label>
-                    <input name="Servicio" placeholder="{{idSer}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                    <input name="Servicio" placeholder="{{idSer}}" disabled="disabled" id="id_servicio" cols="30"
+                        class="form-control" rows="4">
                     <label for="observacion" class="col-form-label">Observacion</label>
-                    <input name="Observacion" placeholder="{{observacion}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                    <input name="Observacion" placeholder="{{observacion}}" disabled="disabled" id="id_servicio"
+                        cols="30" class="form-control" rows="4">
                     <label for="Estado" class="col-form-label">Estado</label>
-                    <input name="Estado" placeholder="{{estado}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                    <input name="Estado" placeholder="{{estado}}" disabled="disabled" id="id_servicio" cols="30"
+                        class="form-control" rows="4">
                     <label for="Presupuesto" class="col-form-label">Presupuesto</label>
-                    <input name="Presupuesto" placeholder="{{presupuesto}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                    <input name="Presupuesto" placeholder="{{presupuesto}}" disabled="disabled" id="id_servicio"
+                        cols="30" class="form-control" rows="4">
                 </div>
             </div>
         </ng-template>
@@ -260,11 +278,14 @@
             <div class="modal-body">
                 <div class="form-group" style="margin: 0px 15px 15px 15px;">
                     <label for="IdServicio" class="col-form-label">Id Servicio</label>
-                    <input name="Servicio" placeholder="{{idSer}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                    <input name="Servicio" placeholder="{{idSer}}" disabled="disabled" id="id_servicio" cols="30"
+                        class="form-control" rows="4">
                     <label for="Motivo Consulta" class="col-form-label">Motivo Consulta</label>
-                    <input name="motivoConsulta" placeholder="{{motivoConsulta}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                    <input name="motivoConsulta" placeholder="{{motivoConsulta}}" disabled="disabled" id="id_servicio"
+                        cols="30" class="form-control" rows="4">
                     <label for="Descripcion" class="col-form-label">Descripcion</label>
-                    <input name="descripcion" placeholder="{{descripcionGeneral}}" disabled="disabled" id="id_servicio" cols="30" class="form-control" rows="4">
+                    <input name="descripcion" placeholder="{{descripcionGeneral}}" disabled="disabled" id="id_servicio"
+                        cols="30" class="form-control" rows="4">
                 </div>
             </div>
         </ng-template>
