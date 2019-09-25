@@ -23,6 +23,7 @@ export class FichasService {
   }
 
   filtrarFichas(urlFiltro): Observable<any> {
+    console.log(this.url + urlFiltro)
     return this.http
       .get<any[]>(this.url + urlFiltro)
       .pipe(catchError(handleError("codigoMensaje", {})));
@@ -41,7 +42,7 @@ export class FichasService {
         idPersona:data.idCliente.idPersona
       },
       idTipoProducto:{
-        idTipoProducto: data.idTipoProducto
+        idTipoProducto: data.idTipoProducto.idTipoProducto
       }
     };
     return this.http
@@ -65,13 +66,9 @@ export class FichasService {
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
 
-  agregarArchivo(idficha,file): Observable<any> {
-    const formData: FormData = new FormData();
-    formData.append('file', file);
-    formData.append('nombre', file.name);
-    formData.append('idFichaClinica', idficha);
+  agregarArchivo(element): Observable<any> {
     return this.http
-      .post<any[]>(this.urlArchivo+"/archivo", formData,{
+      .post<any[]>(this.urlArchivo+"/archivo", element,{
         headers: {
           "Content-Type": "application/json",
           "usuario":"ana"

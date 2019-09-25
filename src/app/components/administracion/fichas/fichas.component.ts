@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { ReservasService } from "src/app/services/reservas.service";
 import { PacientesService } from "src/app/services/pacientes.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
+import { CategoriasServices } from "src/app/services/categorias.service";
+import { SubcategoriasService } from "src/app/services/subcategorias.service";
 import { Paciente } from "src/app/models/paciente";
 import { FichasService } from "src/app/services/fichas.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
@@ -14,21 +16,25 @@ import * as $ from "jquery";
   styleUrls: ['./fichas.component.scss']
 })
 export class FichasComponent implements OnInit {
-  fichas; any=[];
+  fichas: any = [];
+  archivos: any = [];
   doctores: any = [];
   clientes: any = [];
   productos: any = [];
   paciente: string = "";
+  categorias: any =[];
   doctor: string = "";
   isDoctor: boolean=false;
   isCliente: boolean=false;
   idFichaClinica: number;
+  files: FileList;
   file: File = null;
   motivoConsulta: string="";
   diagnostico: string="";
   observacion: string="";
   idEmpleado: number;
   idCliente: number;
+  idCategoria: number;
   idTipoProducto: number;
   loading: boolean;
   itemsTotalPagina: any = 5;
@@ -51,6 +57,8 @@ export class FichasComponent implements OnInit {
   constructor(
     private fichaService: FichasService,
     private reservaService: ReservasService,
+    private categoriaService: CategoriasServices,
+    private subcategoriasService: SubcategoriasService,
     private empleadoService: EmpleadosService,
     private pacienteService: PacientesService,
     private modalService: NgbModal,
@@ -59,6 +67,7 @@ export class FichasComponent implements OnInit {
 
   ngOnInit() {
     this.addFilter();
+    this.listarCategorias();
   }
 
   pageChanged(event) {
@@ -105,6 +114,46 @@ export class FichasComponent implements OnInit {
           this.fichas.push(a);
         });
         this.setCantPorPagina(result.totalDatos);
+      }
+    });
+  }
+
+  listarCategorias(){
+    this.loading = true;
+    this.categorias = [];
+    this.categoriaService.listarCategorias().subscribe(result => {
+      this.loading = false;
+      console.log(result.lista);
+      if (result) {
+        result.lista.forEach(a => {
+          this.categorias.push(a);
+        });
+      }
+    });
+  }
+  listarSubcategoria(){
+    this.productos = [];
+    this.subcategoriasService.listarAllSubcategorias().subscribe(result => {
+      this.loading = false;
+      console.log(result.lista);
+      if (result) {
+        result.lista.forEach(a => {
+          this.productos.push(a);
+        });
+      }
+    });
+  }
+  listarProducto(id){
+    console.log("idSubC:",id)
+    this.loading = true;
+    this.productos = [];
+    this.subcategoriasService.listarSubcategorias(id).subscribe(result => {
+      this.loading = false;
+      console.log(result.lista);
+      if (result) {
+        result.lista.forEach(a => {
+          this.productos.push(a);
+        });
       }
     });
   }
@@ -160,11 +209,42 @@ export class FichasComponent implements OnInit {
     console.log(data)
     this.fichaService.crear(data).subscribe(result => {
       console.log(result,result.lista)
+      this.idFichaClinica=result.idFichaClinica;
+      if(this.file){
+        this.subirFile();
+      }
       this.fichas = [];
       this.addFilter();
     });
   }
 
+  setFiles(files: FileList){
+      this.file = files.item(0);
+  }
+
+  subirFile(){
+    const uploadData = new FormData();
+    uploadData.append('file', this.file);
+    uploadData.append('nombre', this.file.name);
+    uploadData.append('idFichaClinica', this.idFichaClinica + '');
+
+    this.fichaService.agregarArchivo(uploadData).subscribe(data => {
+      // do something, if upload success
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  getArchivos(){
+    this.archivos = []; 
+    this.fichaService.obtenerArchivo(this.idFichaClinica).subscribe(data => {
+      data.forEach(a => {
+        this.archivos.push(a);
+      });
+    }, error => {
+      console.log(error);
+    });
+  }
   addFilter() {
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
@@ -172,7 +252,7 @@ export class FichasComponent implements OnInit {
     let yyyy = today.getFullYear();
     var data = {};
 
-    data["fechaDesdeCadena"]=data["fechaHastaCadena"]=yyyy+mm+dd;
+    //data["fechaDesdeCadena"]=data["fechaHastaCadena"]=yyyy+mm+dd;
     if ((<HTMLInputElement>document.getElementById("id_fisioterapeuta")).value != "") {
       data["idEmpleado"] = {
         idPersona:this.idEmpleado
@@ -191,7 +271,7 @@ export class FichasComponent implements OnInit {
     }
     if(this.filter.idTipoProducto){
       data["idTipoProducto"] = {
-        idTipoProducto:this.idTipoProducto
+        idTipoProducto:this.filter.idTipoProducto
       };
     }
     this.urlFiltro = "?ejemplo=" + JSON.stringify(data);
@@ -207,7 +287,6 @@ export class FichasComponent implements OnInit {
       this.fichas = [];
       if (result) {
         result.lista.forEach(a => {
-          console.log(a);
           this.fichas.push(a);
         });
         this.setCantPorPagina(result.totalDatos);
@@ -264,8 +343,6 @@ export class FichasComponent implements OnInit {
     this.doctor = "";
     (<HTMLInputElement>document.getElementById("id_fisioterapeuta")).value = "";
     (<HTMLInputElement>document.getElementById("id_cliente")).value = "";
-    (<HTMLInputElement>document.getElementById("id_categoria")).value = "";
-    (<HTMLInputElement>document.getElementById("id_tipoProducto")).value = "";
     this.addFilter();
   }
 
