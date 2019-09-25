@@ -14,6 +14,7 @@ import { ReservasComponent } from "src/app/components/administracion/reservas/re
 import { GestionEmpleadoComponent } from "src/app/components/administracion/gestion-empleado/gestion-empleado.component";
 import { ServiciosComponent } from "src/app/components/administracion/servicios/servicios.component";
 import { RegistrarComponent } from '../../components/administracion/registrar/registrar.component';
+import { FichasComponent } from '../../components/administracion/fichas/fichas.component';
 import { RegistrarDetalladoComponent } from "src/app/components/administracion/registrar-detallado/registrar-detallado.component";
 import { ComisionesComponent } from "../../components/administracion/comisiones/comisiones.component";
 
@@ -31,6 +32,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: "subcategorias", component: SubcategoriasComponent },
   { path: "subcategorias/:id/ver", component: VerSubcategoriasComponent },
   { path: "reservas", component: ReservasComponent },
+  { path: "fichas", component: FichasComponent },
   { path: "registro", component: RegistrarComponent },
   { path: "servicios-detallado", component: RegistrarDetalladoComponent },
   { path: "comisiones", component: ComisionesComponent }

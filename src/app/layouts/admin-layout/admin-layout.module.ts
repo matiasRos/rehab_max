@@ -24,6 +24,7 @@ import { SubcategoriasComponent } from "src/app/components/administracion/subcat
 import { VerSubcategoriasComponent } from "src/app/components/administracion/ver-subcategorias/ver-subcategorias.component";
 import { PacientesComponent } from "src/app/components/administracion/pacientes/pacientes.component";
 import { ReservasComponent } from "src/app/components/administracion/reservas/reservas.component";
+import { FichasComponent } from "src/app/components/administracion/fichas/fichas.component";
 import { EmpleadosComponent } from "src/app/components/administracion/empleados/empleados.component";
 import { GestionEmpleadoComponent } from "src/app/components/administracion/gestion-empleado/gestion-empleado.component";
 import { CardsComponent } from "src/app/pages/cards/cards.component";
@@ -65,6 +66,7 @@ import { ComisionesComponent } from "src/app/components/administracion/comisione
     CardsComponent,
     ServiciosComponent,
     ReservasComponent,
+    FichasComponent,
     RegistrarComponent,
     RegistrarDetalladoComponent,
     ComisionesComponent
