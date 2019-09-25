@@ -92,8 +92,8 @@
 
                         <hr class="my-4">
                     </div>
-                    <div class="table-responsive d-none">
-                        <table class="table table-responsive" id="table-registrar-xlsx">
+                    <div class="table-responsive d-none" id="table-registrar-xlsx">
+                        <table class="table table-responsive">
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">ID</th>
@@ -119,16 +119,16 @@
                                         {{ser.idServicio.idFichaClinica.idCliente.apellido}}
                                     </td>
                                     <td>
-                                        {{ser.cantidad}}
+                                        {{ser.idServicio.presupuesto}}
                                     </td>
                                     <td>
                                         {{ser.cantidad}}
                                     </td>
                                     <td>
-                                        {{ser.cantidad}}
+                                        {{producto(ser.idServicio.presupuesto,ser.cantidad)}} 
                                     </td>
                                     <td>
-                                        {{ser.idPresentacionProducto.nombre}}
+                                        {{ser.idPresentacionProducto.descripcionGeneral}}
                                     </td>
                                     <td>
                                         {{ser.idServicio.fechaHora}}
@@ -155,7 +155,7 @@
                             </ng-container>
                             <ng-container matColumnDef="precioUnitario">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Precio unitario </mat-header-cell>
-                                <mat-cell *matCellDef="let servicio"> {{servicio.cantidad}}</mat-cell>
+                                <mat-cell *matCellDef="let servicio"> {{servicio.idServicio.presupuesto}}</mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="cantidad">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </mat-header-cell>
@@ -165,7 +165,12 @@
                             <ng-container matColumnDef="precioTotal">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Precio Total </mat-header-cell>
                                 <mat-cell *matCellDef="let servicio">
-                                    {{servicio.cantidad}} </mat-cell>
+                                    {{producto(servicio.idServicio.presupuesto,servicio.cantidad)}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="presentacionProducto">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Presentacion producto </mat-header-cell>
+                                <mat-cell *matCellDef="let servicio">
+                                    {{servicio.idPresentacionProducto.descripcionGeneral}}</mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="fechaHora">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha y Hora </mat-header-cell>

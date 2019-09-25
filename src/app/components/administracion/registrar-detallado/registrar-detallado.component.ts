@@ -48,6 +48,7 @@ export class RegistrarDetalladoComponent implements OnInit {
     "precioUnitario",
     "cantidad",
     "precioTotal",
+    "presentacionProducto",
     "fechaHora"
   ];
 
@@ -129,7 +130,7 @@ export class RegistrarDetalladoComponent implements OnInit {
     this.service.listarServiciosDetallados().subscribe(result => {
      if(result.lista){
         this.dataSource = new MatTableDataSource(result.lista);
-        this.services= [... result.lista]
+        this.services= [...result.lista]
      }   
     });
   }
@@ -178,6 +179,7 @@ export class RegistrarDetalladoComponent implements OnInit {
       this.services = [];
       if (result) {
         if(result.lista){
+          console.log("ACTUALIZA LISTA",result.lista)
           this.dataSource = new MatTableDataSource(result.lista);
           this.services= [... result.lista];
        }
@@ -269,7 +271,10 @@ export class RegistrarDetalladoComponent implements OnInit {
         }
       );
   }
+  producto(uno,dos){
 
+    return uno*dos;
+  }
   crearModalAgregarDetalleAServicio(content) {
     this.modalService
       .open(content, { ariaLabelledBy: "modal-agregar-detalle-a-servicio" })
