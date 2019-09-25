@@ -1,6 +1,9 @@
 <div class="container-fluid mt--7">
     <div class="row">
         <div class="col">
+            <div class="botonera">
+                <button (click)="crearModal(crear)" type="button" class="btn btn-primary mb-3">Agregar Comision</button>
+            </div>
             <div class="card shadow">
                 <div novalidate="" class="ng-untouched ng-pristine ng-valid">
                     <h6 class="heading-small text-muted mb-4 ml-lg-4 mt-4">Filtros</h6>
@@ -50,9 +53,19 @@
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Local</mat-header-cell>
                                 <mat-cell *matCellDef="let com"> {{com.idLocal.nombre}} </mat-cell>
                             </ng-container>
+                            <ng-container matColumnDef="porcentaje">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Comision </mat-header-cell>
+                                <mat-cell *matCellDef="let com"> {{com.porcentajeComision}} </mat-cell>
+                            </ng-container>
                             <ng-container matColumnDef="presentacion_producto">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Pres. Prod. </mat-header-cell>
                                 <mat-cell *matCellDef="let com"> {{com.idPresentacionProducto.descripcion}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="acciones">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Acciones</mat-header-cell>
+                                <mat-cell *matCellDef="let com">
+                                    <button title="Modificar comision" class="btn btn-primary btn-sm mb-1" (click)="crearModal1(crear1, com)" type="button"><i class="fas fa-edit"></i></button>
+                                </mat-cell>
                             </ng-container>
 
                             <mat-header-row *matHeaderRowDef="displayedColumns "></mat-header-row>
@@ -68,4 +81,72 @@
             </div>
         </div>
     </div>
+    <ng-template #crear let-modal>
+        <div class="modal-header ">
+            <h4 class="modal-title " id="modal-basic-title ">Agregar Comision</h4>
+            <button type="button " class="close " aria-label="Close " (click)="modal.dismiss( 'Cross click') ">
+        <span aria-hidden="true ">&times;</span>
+      </button>
+        </div>
+        <div class="modal-body ">
+            <label class="col-form-label">Presentacion Producto</label>
+            <select [(ngModel)]="idPP" class="form-control form-control-alternative" required>
+                    <option value="{{pp.idPresentacionProducto}}" *ngFor="let pp of presprod">
+                        {{pp.descripcion}}</option>
+                </select>
+            <label class="col-form-label">Fisioterapeuta</label>
+            <select [(ngModel)]="emp" class="form-control form-control-alternative">
+                    <option value="{{pp.idPersona}}" *ngFor="let pp of empleados">
+                        {{pp.nombre}}</option>
+                </select>
+            <div class="form-group ">
+                <label for="apellido" class="col-form-label ">Comision</label>
+                <input name="apellido" id="id_apellido " type="number" min="0" max="100" cols="30 " class="form-control " rows="4 " [(ngModel)]="comision" required>
+            </div>
+            <div style="text-align: center">
+                <i class="fas fa-warning text-danger"></i>
+                <span class="text-danger" *ngIf="errormostrar">Ocurrió un error</span>
+            </div>
+
+        </div>
+        <div class="modal-footer ">
+
+            <button type="button " class="btn btn-primary " (click)="modal.close( 'Save click') "><i class="fas fa-save "></i> guardar
+                </button>
+            <button type="button " class="btn btn-secondary " (click)="modal.dismiss( 'Cross click') "><i class="fas fa-times "></i>
+        cancelar</button>
+        </div>
+    </ng-template>
+    <ng-template #crear1 let-modal>
+        <div class="modal-header ">
+            <h4 class="modal-title " id="modal-basic-title ">Modificar Comision</h4>
+            <button type="button " class="close " aria-label="Close " (click)="modal.dismiss( 'Cross click') ">
+            <span aria-hidden="true ">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body ">
+            <label class="col-form-label">Presentacion Producto</label>
+            <select [(ngModel)]="editCom.idPresentacionProducto.idPresentacionProducto" class="form-control form-control-alternative" required>
+                <option value="{{pp.idPresentacionProducto}}" *ngFor="let pp of presprod">
+                    {{pp.descripcion}}
+                </option>
+            </select>
+            <label class="col-form-label">Fisioterapeuta</label>
+            <select [(ngModel)]="emp2" class="form-control form-control-alternative">
+                <option value="{{pp.idPersona}}" *ngFor="let pp of empleados">
+                    {{pp.nombre}}
+                </option>
+            </select>
+            <div class="form-group ">
+                <label for="apellido" class="col-form-label ">Comision</label>
+                <input name="apellido" id="id_apellido " cols="30 " class="form-control " rows="4 " [(ngModel)]="editCom.porcentajeComision" required>
+            </div>
+        </div>
+        <div class="modal-footer ">
+            <button type="button " class="btn btn-primary " (click)="modal.close( 'Save click') "><i class="fas fa-save "></i>
+            guardar</button>
+            <button type="button " class="btn btn-secondary " (click)="modal.dismiss( 'Cross click') "><i class="fas fa-times "></i>
+            cancelar</button>
+        </div>
+    </ng-template>
 </div>

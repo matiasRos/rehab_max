@@ -64,15 +64,16 @@ export class EmpleadosService {
   }
 
   listarHorariosFechaDisponible(data): Observable<any> {
-    let body = { 
-      idEmpleado: { 
-        idPersona: data 
+    let body = {
+      idEmpleado: {
+        idPersona: data
       }
     };
-      let datos = JSON.stringify(body);
+    let datos = JSON.stringify(body);
 
     return this.http
-      .get<any[]>(this.urlHorario + "?ejemplo=" + datos).pipe(catchError(handleError("codigoMensaje", {})));
+      .get<any[]>(this.urlHorario + "?ejemplo=" + datos)
+      .pipe(catchError(handleError("codigoMensaje", {})));
   }
 
   nuevaExcepcion(data): Observable<any> {
@@ -124,12 +125,12 @@ export class EmpleadosService {
       .pipe(catchError(handleError("codigoMensaje", {})));
   }
 
-
-  listarHorariosDisponiblesEmpleado(empleado,fecha): Observable<any> {
+  listarHorariosDisponiblesEmpleado(empleado, fecha): Observable<any> {
     return this.http
       .get<any[]>(
-        `${this.urlPersona}/${empleado}/agenda?fecha=${fecha}&disponible=S` 
-      ).pipe(catchError(handleError("codigoMensaje", {})));
+        `${this.urlPersona}/${empleado}/agenda?fecha=${fecha}&disponible=S`
+      )
+      .pipe(catchError(handleError("codigoMensaje", {})));
   }
 
   listarComisiones(): Observable<any> {
@@ -159,6 +160,43 @@ export class EmpleadosService {
     console.log(datos);
 
     return this.http
-      .get<any[]>(this.urlComision + "?ejemplo=" + datos).pipe(catchError(handleError("codigoMensaje", {})));
+      .get<any[]>(this.urlComision + "?ejemplo=" + datos)
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
+
+  crearComision(data): Observable<any> {
+    let body = {
+      idPresentacionProducto: {
+        idPresentacionProducto: data.idPresentacionProducto
+      },
+      idEmpleado: { idPersona: data.idEmpleado },
+      porcentajeComision: data.comision
+    };
+
+    return this.http
+      .post<any[]>(this.urlComision, body, {
+        headers: {
+          "Content-Type": "application/json",
+          usuario: "gustavo"
+        }
+      })
+      .pipe(catchError(handleError("codigoMensaje", {})));
+  }
+
+  modifComision(data): Observable<any> {
+    let body = {
+      idComisionEmpleado: data.idComision,
+      idPresentacionProducto: {
+        idPresentacionProducto: data.idPresentacionProducto
+      },
+      idEmpleado: {
+        idPersona: data.idEmpleado
+      },
+      porcentajeComision: data.comision
+    };
+
+    return this.http
+      .put<any[]>(this.urlComision, body)
+      .pipe(catchError(handleError("codigoMensaje", {})));
   }
 }
